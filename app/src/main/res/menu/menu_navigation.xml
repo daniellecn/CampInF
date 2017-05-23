@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layoutDirection="rtl"
+    android:gravity="end"
+    android:layout_gravity="end">
+    <item android:title="הפרטים שלי" >
+        <menu android:layoutDirection="rtl"
+            android:gravity="end"
+            android:layout_gravity="end">
+            <group android:checkableBehavior="single"
+                android:layout_gravity="end"
+                android:gravity="end">
+            <item
+                android:id="@+id/prof_location"
+                android:icon="@drawable/ic_location_on_black"
+                android:tint="@color/button_grey"
+                android:title=""/>
+            <item
+                android:id="@+id/prof_age"
+                android:icon="@drawable/user"
+                android:tint="@color/button_grey"
+                android:title="" />
+            <item
+                android:id="@+id/prof_fav_area"
+                android:icon="@drawable/ic_favorite"
+                android:tint="@color/button_grey"
+                android:title="" />
+            <item
+                android:id="@+id/prof_car"
+                android:icon="@drawable/car"
+                android:tint="@color/button_grey"
+                android:title="" />
+            </group>
+        </menu>
+
+    </item>
+    <item android:title="פעולות">
+        <menu>
+            <item
+                android:id="@+id/nav_edit_profile"
+                android:title="הגדרות משתמש"
+                android:icon="@drawable/settings"/>
+        </menu>
+    </item>
+
+</menu>
