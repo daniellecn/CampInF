@@ -49,28 +49,28 @@
             android:orientation="vertical"
             android:paddingLeft="@dimen/article_keylines"
             android:paddingRight="@dimen/md_keylines"
-            android:paddingTop="@dimen/md_keylines">
+            android:paddingTop="@dimen/md_keylines"
+            android:weightSum="1">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/colorAccent"
+                android:layout_marginBottom="@dimen/md_keylines"
                 android:text="בחירת תאריך"
+                android:textColor="?attr/colorAccent"
                 android:textSize="@dimen/article_titles"
-                android:layout_marginBottom="@dimen/md_keylines" />
+                android:textStyle="bold"/>
+
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/ltxtOptDate1"
                 android:layout_width="276dp"
                 android:layout_height="84dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="35dp"
-
                 android:gravity="right"
                 android:textAlignment="gravity"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtTripTitle"
-                tools:layout_editor_absoluteY="85dp"
-                tools:layout_editor_absoluteX="92dp">
+                tools:layout_editor_absoluteX="92dp"
+                tools:layout_editor_absoluteY="85dp">
 
                 <EditText
                     android:id="@+id/txtlOptDate1"
@@ -80,19 +80,19 @@
                     android:hint="אופציה ראשונה"
                     android:inputType="date"
                     android:textAlignment="gravity"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textInputLayout"
                 android:layout_width="276dp"
                 android:layout_height="86dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginTop="7dp"
                 android:gravity="right"
                 android:textAlignment="gravity"
-                app:layout_constraintTop_toBottomOf="@+id/ltxtOptDate1"
-                android:layout_marginRight="16dp"
-                app:layout_constraintRight_toRightOf="parent">
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ltxtOptDate1">
 
                 <EditText
                     android:id="@+id/txtOptDate2"
@@ -107,21 +107,20 @@
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/textInputLayout"
                     app:layout_constraintTop_toTopOf="@+id/textInputLayout"
-                    tools:layout_editor_absoluteX="98dp" />
+                    tools:layout_editor_absoluteX="98dp"/>
             </android.support.design.widget.TextInputLayout>
 
-            <Spinner
-                android:id="@+id/spnChooseArea"
-                android:layout_width="274dp"
-                android:layout_height="52dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="18dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
-                tools:layout_editor_absoluteX="94dp"
-                tools:layout_editor_absoluteY="289dp" />
 
-            <Button
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/md_keylines"
+                android:text="בחירת יעד"
+                android:textColor="?attr/colorAccent"
+                android:textSize="@dimen/article_titles"
+                android:textStyle="bold"/>
+
+            <!-- <Button
                 android:id="@+id/btnAddFriends"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="wrap_content"
@@ -138,8 +137,33 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/btnAddFriends"
                 android:textColorLink="@android:color/holo_green_light"
-                android:textSize="20dp" />
+                android:textSize="20dp"/>-->
+            <Spinner
+                android:id="@+id/spnChooseArea"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="18dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+                tools:layout_editor_absoluteX="94dp"
+                tools:layout_editor_absoluteY="289dp"/>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
 
+    </android.support.v4.widget.NestedScrollView>
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/main_content_create_trip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_create_trip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|bottom"
+            android:layout_marginBottom="@dimen/md_keylines"
+            android:layout_marginLeft="@dimen/md_keylines"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/friends"/>
+    </android.support.design.widget.CoordinatorLayout>
 </android.support.design.widget.CoordinatorLayout>

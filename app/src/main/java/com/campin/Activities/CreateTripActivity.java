@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
@@ -51,6 +52,7 @@ public class CreateTripActivity extends AppCompatActivity implements OnClickList
     private DatePickerDialog optDatePickerDialog1;
     private DatePickerDialog optDatePickerDialog2;
     private Spinner _spnChooseArea;
+    private FloatingActionButton fab;
     private Button _btnAddFriends;
     private TextView _tvFriends;
 
@@ -107,156 +109,24 @@ public class CreateTripActivity extends AppCompatActivity implements OnClickList
 
         _spnChooseArea = (Spinner) findViewById(R.id.spnChooseArea);
 
-        _btnAddFriends = (Button) findViewById(R.id.btnAddFriends);
+        // Adding Floating Action Button to bottom right of main view
+        fab = (FloatingActionButton) findViewById(R.id.fab_create_trip);
 
-        _tvFriends = (TextView) findViewById(R.id.tv);
+        //_btnAddFriends = (Button) findViewById(R.id.btnAddFriends);
+
+       // _tvFriends = (TextView) findViewById(R.id.tv);
 
         //_ctvInviteFriends = (CheckedTextView) findViewById(R.id.ctvIviteFriends);
     }
 
     private void inviteFriends()
     {
-        final ArrayList<ColorVO> colorList = new ArrayList<ColorVO>();
-
-
-
-        _btnAddFriends.setOnClickListener(new View.OnClickListener() {
+        // Adding Floating Action Button to bottom right of main view
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                //Intent intCreateTrip = new Intent(CreateTrip.this, AddFriends.class);
-                //startActivity(intCreateTrip);
-
-
-                // Build an AlertDialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(CreateTripActivity.this);
-
-
-
-                // String array for alert dialog multi choice items
-                final String[] colors = new String[]{
-                        "Igor",
-                        "Danielle",
-                        "Noam",
-                        "Adi",
-                        "Liel"
-                };
-
-
-
-                // Convert the color array to list
-                final List<String> colorsList = Arrays.asList(colors);
-
-                // Set multiple choice items for alert dialog
-                /*
-                    AlertDialog.Builder setMultiChoiceItems(CharSequence[] items, boolean[]
-                    checkedItems, DialogInterface.OnMultiChoiceClickListener listener)
-                        Set a list of items to be displayed in the dialog as the content,
-                        you will be notified of the selected item via the supplied listener.
-                 */
-                /*
-                    DialogInterface.OnMultiChoiceClickListener
-                    public abstract void onClick (DialogInterface dialog, int which, boolean isChecked)
-
-                        This method will be invoked when an item in the dialog is clicked.
-
-                        Parameters
-                        dialog The dialog where the selection was made.
-                        which The position of the item in the list that was clicked.
-                        isChecked True if the click checked the item, else false.
-                 */
-
-                // make a list to hold state of every color
-                for (int i = 0; i < colors.length; i++)
-                {
-                    ColorVO colorVO = new ColorVO();
-                    colorVO.setName(colors[i]);
-                    colorVO.setSelected(checkedColors[i]);
-                    colorList.add(colorVO);
-                }
-
-                builder.setMultiChoiceItems(colors, checkedColors, new DialogInterface.OnMultiChoiceClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked)
-                    {
-
-                        // Update the current focused item's checked status
-                        checkedColors[which] = isChecked;
-
-                        // Get the current focused item
-                        String currentItem = colorsList.get(which);
-
-                        // Notify the current action
-                        Toast.makeText(getApplicationContext(),
-                                currentItem + " " + isChecked, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-
-                // Specify the dialog is not cancelable
-                builder.setCancelable(false);
-
-                // Set a title for alert dialog
-                builder.setTitle("Who Come's ?");
-
-                // Set the positive/yes button click listener
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        // Do something when click positive button
-                        //_tvFriends.setText("Who Come's ? \n");
-
-                        // make a list to hold state of every color
-                        for (int i = 0; i < colors.length; i++)
-                        {
-                            ColorVO colorVO = new ColorVO();
-                            colorVO.setName(colors[i]);
-                            colorVO.setSelected(checkedColors[i]);
-                            colorList.add(colorVO);
-                        }
-
-
-
-                        /*
-                        for (int i = 0; i<checkedColors.length; i++)
-                        {
-                            boolean checked = checkedColors[i];
-                            if (checked)
-                            {
-                                _tvFriends.setText(_tvFriends.getText() + colorsList.get(i) + "\n");
-                            }
-                        }*/
-
-                        // colorList.clear();
-
-                    }
-                });
-
-                // Set the negative/no button click listener
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Do something when click the negative button
-                        colorList.clear();
-                    }
-                });
-
-                // Set the neutral/cancel button click listener
-                builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Do something when click the neutral button
-                        colorList.clear();
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                // Display the alert dialog on interface
-                dialog.show();
+            public void onClick(View v) {
+                final Intent intent = new Intent(v.getContext(), AddFriendsActivity.class);
+                startActivity(intent);
             }
         });
     }

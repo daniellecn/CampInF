@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.campin.R;
 import com.campin.Utils.CustomAdapter;
+import com.campin.Utils.User;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,8 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        User.getInstance().setShowFriends(false);
+        
         if (getWindow().getDecorView().getLayoutDirection() == View.LAYOUT_DIRECTION_LTR){
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         }
@@ -54,12 +57,12 @@ public class SignupActivity extends AppCompatActivity {
         areas.add(1,"דרום");
         areas.add(2,"מרכז");
         areas.add(3,"ירושלים");
-        areas.add(3,"טראמפ");
+        areas.add(4,"טראמפ");
 
         // initiate a ListView
         ListView listView = (ListView) findViewById(R.id.listView);
         // set the adapter to fill the data in ListView
-        CustomAdapter customAdapter = new CustomAdapter(this, areas);
+        CustomAdapter customAdapter = new CustomAdapter(this, areas, null);
         listView.setAdapter(customAdapter);
 
     }

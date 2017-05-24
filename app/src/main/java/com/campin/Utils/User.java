@@ -1,5 +1,7 @@
 package com.campin.Utils;
 
+import org.json.JSONArray;
+
 import java.io.Serializable;
 
 /**
@@ -17,6 +19,7 @@ public class User implements Serializable {
     private String location = "";
     private String friends = "";
     private byte[] byteArray;
+    private boolean isShowFriends = false;
 
 
     public static User getInstance()
@@ -91,5 +94,13 @@ public class User implements Serializable {
 
     public void setByteArray(byte[] byteArray) {
         this.byteArray = byteArray;
+    }
+
+    public boolean isShowFriends() {
+        return isShowFriends;
+    }
+
+    public void setShowFriends(boolean showFriends) {
+        isShowFriends = showFriends;
     }
 }

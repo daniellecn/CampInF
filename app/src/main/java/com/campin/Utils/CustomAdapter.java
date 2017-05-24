@@ -1,26 +1,37 @@
 package com.campin.Utils;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 
+import com.bumptech.glide.util.Util;
+import com.campin.Activities.LoginActivity;
 import com.campin.R;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class CustomAdapter extends BaseAdapter {
     ArrayList<String> _names;
+    ArrayList<String> _id;
     Activity context;
     String value;
 
-    public CustomAdapter(Activity context, ArrayList<String> names) {
+    public CustomAdapter(Activity context, ArrayList<String> names, ArrayList<String> id) {
         super();
         this.context = context;
         this._names = new ArrayList<String>();
-        _names = names;
+        this._names = names;
+        this._id = new ArrayList<String>();
+        this._id = id;
     }
 
     private class ViewHolder {
@@ -31,8 +42,14 @@ public class CustomAdapter extends BaseAdapter {
         return _names.size();
     }
 
+    @Override
     public String getItem(int position) {
         return _names.get(position);
+    }
+
+
+    public String getIdItem(int position) {
+        return _id.get(position);
     }
 
     public long getItemId(int position) {
@@ -57,6 +74,15 @@ public class CustomAdapter extends BaseAdapter {
 
         String name = getItem(position);
         holder.txtView.setText(name);
+
+        if (User.getInstance().isShowFriends())
+        {
+            String currId = getIdItem(position);
+            Bitmap bitmap = LoginActivity.getFacebookProfilePicture(getIdItem(position));
+            Drawable d = new BitmapDrawable(context.getResources(), Utils.getCroppedBitmap(bitmap));
+            holder.txtView.setCompoundDrawablesWithIntrinsicBounds(null,null,d,null);
+            holder.txtView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+        }
         holder.txtView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

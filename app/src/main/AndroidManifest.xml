@@ -80,7 +80,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity"/>
+                android:value=".Activities.CreateTripActivity"/>
         </activity>
         <activity
             android:name=".Activities.SignupActivity"

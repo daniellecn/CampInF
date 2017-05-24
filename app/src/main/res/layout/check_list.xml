@@ -7,7 +7,7 @@
     <CheckedTextView
         android:id="@+id/simpleCheckedTextView"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         android:checked="false"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"

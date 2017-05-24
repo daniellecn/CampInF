@@ -1,16 +1,62 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    tools:context=".Activities.MainActivity">
+    android:fitsSystemWindows="true">
 
-    <ListView
-        android:id="@+id/lsvFriendList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:foregroundGravity="right"
-        android:padding="@dimen/cardview_compat_inset_shadow" />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_add_friends"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_collapseMode="pin"
+        app:theme="@style/ToolBarStyle"
+        app:popupTheme="@style/ToolBarStyle"/>
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="72dp"
+        android:weightSum="1">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorAccent"
+            android:text="עם מי נטייל ?"
+            android:textStyle="bold"
+            android:textSize="@dimen/article_titles"
+            android:layout_marginBottom="@dimen/md_keylines" />
+
+        <ListView
+            android:id="@+id/lsvFriendList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foregroundGravity="right"
+            android:padding="@dimen/cardview_compat_inset_shadow"
+            android:layout_below="@+id/toolbar_add_friends"/>
+    </LinearLayout>
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/main_content_create_trip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_add_friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|bottom"
+            android:layout_marginBottom="@dimen/md_keylines"
+            android:layout_marginLeft="@dimen/md_keylines"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/compas"/>
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.design.widget.CoordinatorLayout>
 
