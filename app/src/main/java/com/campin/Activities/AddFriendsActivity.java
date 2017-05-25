@@ -1,27 +1,31 @@
 package com.campin.Activities;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.campin.R;
-import com.campin.Utils.CustomAdapter;
+import com.campin.Adapters.CustomAdapter;
+import com.campin.Utils.Trip;
 import com.campin.Utils.User;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class AddFriendsActivity extends AppCompatActivity {
 
-    String value;
-    String[] superStarNames = {"John Cena", "Randy Orton", "Triple H", "Roman Reign", "Sheamus"};
     ArrayList<String> friends_names = new ArrayList<String>();
     ArrayList<String> friends_id = new ArrayList<String>();
+    Trip newTrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,11 +33,22 @@ public class AddFriendsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
 
+        TextView firstDate = (TextView) findViewById(R.id.firstOptionDate);
+        firstDate.setText(getIntent().getStringExtra("firstDate"));
+        TextView secDate = (TextView) findViewById(R.id.secOptionDate);
+        secDate.setText(getIntent().getStringExtra("secDate"));
+
+        TextView tripHead = (TextView) findViewById(R.id.trip_detail_head);
+        tripHead.setText("פרטי הטיול ל" + getIntent().getStringExtra("area"));
+
+        newTrip = new Trip
+                (getIntent().getStringExtra("firstDate").toString(),getIntent().getStringExtra("secDate").toString(),
+                        getIntent().getStringExtra("area").toString());
         if (getWindow().getDecorView().getLayoutDirection() == View.LAYOUT_DIRECTION_LTR){
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         }
         // initiate a ListView
-        ListView listView = (ListView) findViewById(R.id.lsvFriendList);
+        final ListView listView = (ListView) findViewById(R.id.lsvFriendList);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_add_friends);
         setSupportActionBar(toolbar);
 
@@ -43,8 +58,21 @@ public class AddFriendsActivity extends AppCompatActivity {
         setUserFriends();
 
         // set the adapter to fill the data in ListView
-        CustomAdapter customAdapter = new CustomAdapter(this, friends_names,friends_id);
+        final CustomAdapter customAdapter = new CustomAdapter(this, friends_names,friends_id);
         listView.setAdapter(customAdapter);
+
+        // Adding Floating Action Button to bottom right of main view
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_add_friends);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Trip newTrip = new Trip();
+                newTrip.setFriends(customAdapter._friends);
+                showSuccessDialog();
+               // final Intent intent = new Intent(v.getContext(), MainActivity.class);
+               // startActivity(intent);
+            }
+        });
     }
 
     private void setUserFriends()
@@ -71,5 +99,27 @@ public class AddFriendsActivity extends AppCompatActivity {
         {
             e.printStackTrace();
         }
+    }
+
+    private void showSuccessDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(AddFriendsActivity.this
+                ,R.style.AppTheme_Dark_Dialog);
+        AlertDialog dialog;
+        builder.setTitle("הטיול ל" + newTrip.getArea() + " נוצר בהצלחה");
+        builder.setIcon(R.drawable.checked);
+
+        String positiveText = getString(android.R.string.ok);
+        builder.setPositiveButton(positiveText,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+
+        dialog = builder.create();
+        // display dialog
+        dialog.show();
     }
 }

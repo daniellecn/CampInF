@@ -1,7 +1,6 @@
 package com.campin.Activities;
 
 import android.app.ProgressDialog;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,7 +13,7 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.campin.R;
-import com.campin.Utils.CustomAdapter;
+import com.campin.Adapters.CustomAdapter;
 import com.campin.Utils.User;
 
 import java.util.ArrayList;

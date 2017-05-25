@@ -15,6 +15,7 @@
         app:theme="@style/ToolBarStyle"
         app:popupTheme="@style/ToolBarStyle"/>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,6 +25,84 @@
         android:paddingTop="72dp"
         android:weightSum="1">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorAccent"
+            android:text="פרטי הטיול"
+            android:textStyle="bold"
+            android:id="@+id/trip_detail_head"
+            android:textSize="@dimen/article_titles"
+            android:layout_marginBottom="@dimen/md_keylines" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="right|center_horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/firstOptionImage"
+            android:gravity="right"
+            android:background="@android:drawable/ic_menu_my_calendar" />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="תאריך ראשון:   "
+                android:gravity="right"
+                android:textColor="?attr/colorAccent"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/firstOptionDate"
+                android:gravity="left" />
+    </LinearLayout>
+
+            <include
+                layout="@layout/item_divider"
+                android:visibility="visible"
+                />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="right|center_horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/secOptionImage"
+            android:gravity="left"
+            android:background="@android:drawable/ic_menu_my_calendar" />
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="תאריך שני:        "
+            android:gravity="right"
+            android:textColor="?attr/colorAccent"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/secOptionDate"
+            android:gravity="left" />
+
+    </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -32,6 +111,7 @@
             android:text="עם מי נטייל ?"
             android:textStyle="bold"
             android:textSize="@dimen/article_titles"
+            android:layout_marginTop="@dimen/md_keylines"
             android:layout_marginBottom="@dimen/md_keylines" />
 
         <ListView
@@ -42,6 +122,7 @@
             android:padding="@dimen/cardview_compat_inset_shadow"
             android:layout_below="@+id/toolbar_add_friends"/>
     </LinearLayout>
+
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/main_content_create_trip"
         android:layout_width="match_parent"

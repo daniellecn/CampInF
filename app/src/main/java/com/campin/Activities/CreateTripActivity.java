@@ -126,6 +126,9 @@ public class CreateTripActivity extends AppCompatActivity implements OnClickList
             @Override
             public void onClick(View v) {
                 final Intent intent = new Intent(v.getContext(), AddFriendsActivity.class);
+                intent.putExtra("firstDate", _txtOptDate1.getText().toString());
+                intent.putExtra("secDate", _txtOptDate2.getText().toString());
+                intent.putExtra("area", _spnChooseArea.getSelectedItem().toString());
                 startActivity(intent);
             }
         });

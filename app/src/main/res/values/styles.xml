@@ -24,8 +24,8 @@
 
     <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
         <item name="colorAccent">@color/white</item>
-        <item name="android:textColorPrimary">@color/iron</item>
-        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:background">@color/colorBack</item>
     </style>
 
     <style name="ToolBarStyle" parent="Theme.AppCompat">

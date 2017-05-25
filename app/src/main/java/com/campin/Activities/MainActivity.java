@@ -166,8 +166,8 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new CardContentFragment(), "טיולים לבחירה");
-        adapter.addFragment(new ListContentFragment(), "טיולים בתכנון");
-        //adapter.addFragment(new TileContentFragment(), "Tile");
+        //adapter.addFragment(new ListContentFragment(), "טיולים בתכנון");
+        adapter.addFragment(new TileContentFragment(), "Tile");
         viewPager.setAdapter(adapter);
     }
 
@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
         if (exit) {
             moveTaskToBack(true); // finish activity
         } else {
-            Toast.makeText(this, "Press Back again to Exit.",
+            Toast.makeText(this, "לחץ שוב כדי לצאת",
                     Toast.LENGTH_SHORT).show();
             exit = true;
             new Handler().postDelayed(new Runnable() {
