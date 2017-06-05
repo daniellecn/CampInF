@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "978214507008",
+    "firebase_url": "https://campin-ab707.firebaseio.com",
+    "project_id": "campin-ab707",
+    "storage_bucket": "campin-ab707.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:978214507008:android:aa1ed0066da173c3",
+        "android_client_info": {
+          "package_name": "com.campin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "978214507008-1hn20ne2pdja0b7oolqcehl76nd6dm34.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_-Ga8bNaA9_MpIsygAtaTRQC-mDQNgWI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
