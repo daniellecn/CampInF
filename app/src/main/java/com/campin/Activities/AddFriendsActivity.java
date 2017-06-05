@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.campin.R;
 import com.campin.Adapters.CustomAdapter;
+import com.campin.Utils.PlannedTrip;
 import com.campin.Utils.Trip;
 import com.campin.Utils.User;
 
@@ -25,7 +26,7 @@ public class AddFriendsActivity extends AppCompatActivity {
 
     ArrayList<String> friends_names = new ArrayList<String>();
     ArrayList<String> friends_id = new ArrayList<String>();
-    Trip newTrip;
+    PlannedTrip newPlannedTrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,9 +42,11 @@ public class AddFriendsActivity extends AppCompatActivity {
         TextView tripHead = (TextView) findViewById(R.id.trip_detail_head);
         tripHead.setText("פרטי הטיול ל" + getIntent().getStringExtra("area"));
 
-        newTrip = new Trip
-                (getIntent().getStringExtra("firstDate").toString(),getIntent().getStringExtra("secDate").toString(),
-                        getIntent().getStringExtra("area").toString());
+        Trip t = new Trip(null,getIntent().getStringExtra("area"));
+
+        newPlannedTrip = new PlannedTrip
+                (t ,User.getInstance().getUserId(),
+                        getIntent().getStringExtra("firstDate").toString(),getIntent().getStringExtra("secDate").toString());
         if (getWindow().getDecorView().getLayoutDirection() == View.LAYOUT_DIRECTION_LTR){
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         }
@@ -67,7 +70,7 @@ public class AddFriendsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Trip newTrip = new Trip();
-                newTrip.setFriends(customAdapter._friends);
+                newPlannedTrip.setFriendInTrip(customAdapter._friends);
                 showSuccessDialog();
                // final Intent intent = new Intent(v.getContext(), MainActivity.class);
                // startActivity(intent);
@@ -91,9 +94,6 @@ public class AddFriendsActivity extends AppCompatActivity {
                 friends_names.add(friend.getString("name"));
                 friends_id.add(friend.getString("id"));
             }
-
-            friends_names.add(User.getInstance().getFullName());
-            friends_id.add(User.getInstance().getUserId());
         }
         catch (Exception e)
         {
@@ -105,7 +105,7 @@ public class AddFriendsActivity extends AppCompatActivity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(AddFriendsActivity.this
                 ,R.style.AppTheme_Dark_Dialog);
         AlertDialog dialog;
-        builder.setTitle("הטיול ל" + newTrip.getArea() + " נוצר בהצלחה");
+        builder.setTitle("הטיול ל" + newPlannedTrip.getTrip().getArea() + " נוצר בהצלחה");
         builder.setIcon(R.drawable.checked);
 
         String positiveText = getString(android.R.string.ok);

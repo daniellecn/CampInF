@@ -50,6 +50,7 @@ import com.campin.Fragments.TileContentFragment;
 import com.campin.R;
 import com.campin.Utils.CircleTransform;
 import com.campin.Utils.User;
+import com.facebook.login.LoginManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new CardContentFragment(), "טיולים לבחירה");
         //adapter.addFragment(new ListContentFragment(), "טיולים בתכנון");
-        adapter.addFragment(new TileContentFragment(), "Tile");
+        adapter.addFragment(new TileContentFragment(), "טיולים בתכנון");
         viewPager.setAdapter(adapter);
     }
 
@@ -258,6 +259,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (exit) {
+            LoginManager.getInstance().logOut();
             moveTaskToBack(true); // finish activity
         } else {
             Toast.makeText(this, "לחץ שוב כדי לצאת",

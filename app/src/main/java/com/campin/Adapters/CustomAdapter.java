@@ -17,6 +17,7 @@ import com.campin.Activities.LoginActivity;
 import com.campin.R;
 import com.campin.Utils.User;
 import com.campin.Utils.Utils;
+import com.facebook.login.LoginManager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -97,11 +98,17 @@ public class CustomAdapter extends BaseAdapter {
                     value = "un-Checked";
                     holder.txtView.setCheckMarkDrawable(null);
                     holder.txtView.setChecked(false);
-                    _friends.remove(holder.txtView.getTag().toString());
+                    if (User.getInstance().isShowFriends() == true) {
+                        _friends.remove(holder.txtView.getTag().toString());
+                    }
                 } else {
                     // set cheek mark drawable and set checked property to true
                     value = "Checked";
-                    _friends.add(holder.txtView.getTag().toString());
+
+                    if (User.getInstance().isShowFriends() == true) {
+                        _friends.add(holder.txtView.getTag().toString());
+                    }
+
                     holder.txtView.setCheckMarkDrawable(R.drawable.checked);
                     holder.txtView.setChecked(true);
                 }
