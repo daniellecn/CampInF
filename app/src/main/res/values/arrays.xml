@@ -16,22 +16,20 @@
   -->
 <resources>
     <string-array name="places">
-        <item>Palais Garnie</item>
-        <item>Piazza del Duomo</item>
-        <item>Manhattan</item>
-        <item>Senso-ji</item>
-        <item>Sultan Ahmed Mosque</item>
-        <item>Table Mountain</item>
+        <item>ים אל ים</item>
+        <item>נחל הבשור</item>
+        <item>עין אפק</item>
+        <item>הר תבור</item>
+        <item>שמורת חוף השרון</item>
+        <item>נחל קנה</item>
     </string-array>
     <string-array name="place_desc">
-        <item>The Palais Garnier which locates in Paris was built from 1861 for
-        the Paris Opera.
-        </item>
-        <item>Piazza del Duomo the cathedral which locates in Florence.</item>
-        <item>Manhattan is the district in New York City</item>
-        <item>Senso-ji is the Shrine locates in Asakusa Tokyo</item>
-        <item>Sultan Ahmed Mosque is mosque locates in Istabul, Turkey</item>
-        <item>Table Mountain is mountain and park locates in Cape Town, South Africa.</item>
+        <item>אחד המסעות היפים בארץ הוא המסע מהים התיכון ועד הכנרת.</item>
+        <item>נחל הבשור הוא מהגדולים שבנחלי הארץ היורדים אל הים התיכון.</item>
+        <item>שמורת עין אפק היא פינת חמד רטובה במישור חוף הגליל, שאינה מוכרת לרבים.</item>
+        <item>השבילים בפסגת ההר לוקחים אותנו לטיול מעגלי עם תצפית מרהיבה לכל רוחות השמיים, וגם אפשרות למסע הרפתקני יותר במורדותיו הצפוניים. </item>
+        <item>בשמורת חוף השרון עובר טיול קליל וקצר, שמתאים לכל המשפחה ולכל עונה.</item>
+        <item>מטיילים הפוקדים את המקום נהנים מרחצה במעיינות המפכים בהר, מטבע עוצר נשימה ומצל הבוסתנים.</item>
     </string-array>
     <string-array name="place_details">
         <item>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do

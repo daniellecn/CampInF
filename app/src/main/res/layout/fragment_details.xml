@@ -210,7 +210,7 @@
                                 android:rating="4"
                                 android:isIndicator="true"
                                 android:progressTint="@color/rating"
-                                style="@android:style/Widget.Material.RatingBar.Small"
+                                style="@android:style/Widget.Material.Light.RatingBar.Small"
                                 android:layout_alignParentLeft="true"/>
 
                             <TextView

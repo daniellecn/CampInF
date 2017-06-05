@@ -39,9 +39,9 @@
     <string name="title_activity_signup">SignUpActivity</string>
 
     <!-- Details Strings -->
-    <string name="Somewhere">איפושהו</string>
-    <string name="Sometime">מתישהו</string>
-    <string name="Somewho">מישהו</string>
+    <string name="Somewhere">גליל עליון</string>
+    <string name="Sometime">אביב</string>
+    <string name="Somewho">6 חברים</string>
     <string name="trip_details">פרטי הטיול</string>
     <string name="trip_equipment">ציוד נדרש</string>
     <string name="trip_comments">תגובות</string>

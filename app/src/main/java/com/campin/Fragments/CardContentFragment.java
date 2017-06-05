@@ -74,34 +74,34 @@ public class CardContentFragment extends Fragment {
                 }
             });
 
-            // Adding Snackbar to Action Button inside card
-            Button button = (Button)itemView.findViewById(R.id.action_button);
-            button.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    Snackbar.make(v, "Action is pressed",
-                            Snackbar.LENGTH_LONG).show();
-                }
-            });
+//            // Adding Snackbar to Action Button inside card
+//            Button button = (Button)itemView.findViewById(R.id.action_button);
+//            button.setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View v) {
+//                    Snackbar.make(v, "Action is pressed",
+//                            Snackbar.LENGTH_LONG).show();
+//                }
+//            });
 
-            ImageButton favoriteImageButton =
-                    (ImageButton) itemView.findViewById(R.id.favorite_button);
-            favoriteImageButton.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    Snackbar.make(v, "Added to Favorite",
-                            Snackbar.LENGTH_LONG).show();
-                }
-            });
-
-            ImageButton shareImageButton = (ImageButton) itemView.findViewById(R.id.share_button);
-            shareImageButton.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    Snackbar.make(v, "Share article",
-                            Snackbar.LENGTH_LONG).show();
-                }
-            });
+//            ImageButton favoriteImageButton =
+//                    (ImageButton) itemView.findViewById(R.id.favorite_button);
+//            favoriteImageButton.setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View v) {
+//                    Snackbar.make(v, "Added to Favorite",
+//                            Snackbar.LENGTH_LONG).show();
+//                }
+//            });
+//
+//            ImageButton shareImageButton = (ImageButton) itemView.findViewById(R.id.share_button);
+//            shareImageButton.setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View v) {
+//                    Snackbar.make(v, "Share article",
+//                            Snackbar.LENGTH_LONG).show();
+//                }
+//            });
         }
     }
 
