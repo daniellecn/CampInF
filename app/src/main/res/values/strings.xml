@@ -1,4 +1,3 @@
-
 <resources>
     <string name="app_name">"CampIn"</string>
     <string name="action_settings">Settings</string>
@@ -38,4 +37,30 @@
     <string name="title_activity_create_trip">CreateTripActivity</string>
     <string name="title_activity_add_friends">AddFriendsActivity</string>
     <string name="title_activity_signup">SignUpActivity</string>
+
+    <!-- Details Strings -->
+    <string name="Somewhere">איפושהו</string>
+    <string name="Sometime">מתישהו</string>
+    <string name="Somewho">מישהו</string>
+    <string name="trip_details">פרטי הטיול</string>
+    <string name="trip_equipment">ציוד נדרש</string>
+    <string name="trip_comments">תגובות</string>
+
+    <string name="trip_details_content">אורך המסלול בנחל עיון הוא כ-2 ק"מ והוא מתאים למשפחות. לשמורה שתי כניסות: צפונית ודרומית. המסלול המומלץ מתחיל בכניסה הצפונית ומסתיים בדרומית – כלומר הוא אינו מעגלי ומחייב הגעה בשני רכבים. בסופי שבוע ובחגים מופעל בשמורה שאטל שמקפיץ את המטיילים בחינם בין שתי הכניסות (בכל חצי שעה בין 9:30-16:30). בימים אחרים ניתן להיעזר בטרמפים או לטייל במסלול הלוך-חזור.
+אם זמנכם קצר, תוכלו להסתפק במסלול קווי קצר מהכניסה הדרומית עד מפל התנור ובחזרה.</string>
+
+    <string-array name="trip_equipments_content">
+        <item name="shoes">נעלי הליכה</item>
+        <item name="waterShoes">נעליים למים</item>
+        <item name="clothes">בגדים להחלפה</item>
+        <item name="water">3 ליטר מים</item>
+    </string-array>
+
+    <string name="det_reagent">אלזה מארנדל</string>
+    <string name="det_comment">היה טיול מדהים! קשה ומאתגר אבל נופים מהממים!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 </resources>

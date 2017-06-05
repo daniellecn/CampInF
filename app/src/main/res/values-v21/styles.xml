@@ -19,4 +19,34 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="TitleStyle" parent="@android:style/TextAppearance.Material.Medium">-->
+        <item name="android:typeface">monospace</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingRight">@dimen/tile_padding</item>
+        <item name="android:paddingLeft">@dimen/tile_padding</item>
+        <!--<item name="android:paddingTop">@dimen/tile_padding</item>-->
+        <!--<item name="android:paddingBottom">@dimen/tile_padding</item>-->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ContentStyle">
+        <!--parent="@android:style/TextAppearance.Small">-->
+        <item name="android:typeface">monospace</item>
+        <!--<item name="android:textStyle">bold</item>-->
+        <item name="android:paddingRight">@dimen/tile_padding</item>
+        <item name="android:paddingLeft">@dimen/tile_padding</item>
+        <!--<item name="android:paddingTop">@dimen/tile_padding</item>-->
+        <!--<item name="android:paddingBottom">@dimen/tile_padding</item>-->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TripRowStyle">
+        <item name="android:background">@color/whiteSmoke</item>
+        <item name="android:layout_margin">@dimen/details_row_marging</item>
+        <item name="android:paddingTop">@dimen/md_keylines</item>
+        <!--<item name="android:paddingBottom">@dimen/md_keylines</item>-->
+    </style>
 </resources>
