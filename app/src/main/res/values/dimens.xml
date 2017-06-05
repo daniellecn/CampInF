@@ -40,4 +40,7 @@
 
     <dimen name="profile_width">75dp</dimen>
     <dimen name="profile_height">75dp</dimen>
+
+    <dimen name="details_bar">25dp</dimen>
+    <dimen name="details_row_marging">2dp</dimen>
 </resources>
