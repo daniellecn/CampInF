@@ -2,6 +2,7 @@ package com.campin.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by noam on 03/06/2017.
@@ -87,5 +88,15 @@ public class PlannedTrip {
 
     public void setTripId(int tripId) {
         TripId = tripId;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id", getTripId());
+        result.put("creator", getCreatorId());
+        result.put("firstOption", getFirstOption());
+        result.put("secOption", getSecOption());
+        result.put("friends", getFriendInTrip());
+        return result;
     }
 }

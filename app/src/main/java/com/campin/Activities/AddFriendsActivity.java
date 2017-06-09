@@ -10,7 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.campin.DB.Model;
 import com.campin.R;
 import com.campin.Adapters.CustomAdapter;
 import com.campin.Utils.PlannedTrip;
@@ -102,7 +104,7 @@ public class AddFriendsActivity extends AppCompatActivity {
     }
 
     private void showSuccessDialog() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(AddFriendsActivity.this
+       /* final AlertDialog.Builder builder = new AlertDialog.Builder(AddFriendsActivity.this
                 ,R.style.AppTheme_Dark_Dialog);
         AlertDialog dialog;
         builder.setTitle("הטיול ל" + newPlannedTrip.getTrip().getArea() + " נוצר בהצלחה");
@@ -120,6 +122,30 @@ public class AddFriendsActivity extends AppCompatActivity {
 
         dialog = builder.create();
         // display dialog
-        dialog.show();
+        dialog.show();*/
+
+        // adding to the db
+
+        Model.instance().addPlannedTrip(newPlannedTrip, new Model.SuccessListener() {
+            @Override
+            public void onResult(boolean result) {
+                if (result) {
+                    // Display message
+                    Toast.makeText(getApplicationContext(),
+                            "התעדכן בהצלחה",
+                            Toast.LENGTH_SHORT).show();
+
+                    // Return to the list activity
+                    Intent intent = new Intent(AddFriendsActivity.this,
+                            MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    // Display message
+                    Toast.makeText(getApplicationContext(),
+                           "התרחשה שגיאה",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
