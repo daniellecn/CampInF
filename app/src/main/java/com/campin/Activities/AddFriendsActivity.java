@@ -104,7 +104,7 @@ public class AddFriendsActivity extends AppCompatActivity {
     }
 
     private void showSuccessDialog() {
-       /* final AlertDialog.Builder builder = new AlertDialog.Builder(AddFriendsActivity.this
+        final AlertDialog.Builder builder = new AlertDialog.Builder(AddFriendsActivity.this
                 ,R.style.AppTheme_Dark_Dialog);
         AlertDialog dialog;
         builder.setTitle("הטיול ל" + newPlannedTrip.getTrip().getArea() + " נוצר בהצלחה");
@@ -122,7 +122,7 @@ public class AddFriendsActivity extends AppCompatActivity {
 
         dialog = builder.create();
         // display dialog
-        dialog.show();*/
+        dialog.show();
 
         // adding to the db
 

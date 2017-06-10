@@ -1,11 +1,13 @@
 package com.campin.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.campin.DB.AppContext;
+import com.campin.DB.Model;
 import com.campin.R;
 import com.campin.Utils.User;
 import com.facebook.AccessToken;
@@ -29,6 +33,13 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,12 +60,14 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     LoginButton _fcbkLoginButton;
     private static User usr;
+    private FirebaseAuth mAuth;
+    private boolean isUserLoggedIn = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
+        mAuth = FirebaseAuth.getInstance();
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
@@ -74,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
+        progressDialog.setMessage("מתחבר...");
         progressDialog.show();
 
 
@@ -84,7 +97,10 @@ public class LoginActivity extends AppCompatActivity {
                         // On complete call either onLoginSuccess or onLoginFailed
                         if (isLoggedIn())
                         {
+                            isUserLoggedIn = true;
+                            handleFacebookAccessToken(AccessToken.getCurrentAccessToken());
                             getFacebookDetails(AccessToken.getCurrentAccessToken());
+
                         }
                         else
                         {
@@ -92,10 +108,52 @@ public class LoginActivity extends AppCompatActivity {
                             getLoginDetails(_fcbkLoginButton);
 
                         }
-                        // onLoginSuccess();
                         // onLoginFailed();
                     }
+
+
                 }, 3000);
+    }
+
+    private void isSignUp() {
+
+        final Intent[] intent = new Intent[1];
+
+        final boolean[] isLoggedIn = {false};
+        /*** Validation ***/
+        Model.instance().isUserExist(User.getInstance().getUserId(), new Model.SuccessListener() {
+            @Override
+            public void onResult(boolean result) {
+                if (result) {
+                    isLoggedIn[0] =true;
+                    User.isSignUp = true;
+
+                    // Get the user details.
+                    Model.instance().getUserById(User.getInstance().getUserId(), new Model.GetUserByIdListener()
+                    {
+
+                        @Override
+                        public void onComplete(User user) {
+                            User.getInstance().setPreferedAreas(user.getPreferedAreas());
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+
+
+                }
+                else
+                {
+                    Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
 
@@ -153,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
     /*
      * Register a callback function with LoginButton to respond to the login result.
      */
-    protected void getLoginDetails(LoginButton login_button) {
+    protected void getLoginDetails(final LoginButton login_button) {
 
         // Callback registration
         login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -165,6 +223,7 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.setIndeterminate(true);
                 progressDialog.setMessage("Authenticating...");
                 progressDialog.show();
+                handleFacebookAccessToken(login_result.getAccessToken());
                 getFacebookDetails(login_result.getAccessToken());
             }
 
@@ -181,11 +240,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    protected void getFacebookDetails(AccessToken accessToken)
+    protected void getFacebookDetails(final AccessToken accessToken)
     {
-
-        final Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-
         new GraphRequest(
                 accessToken,
                 "/me/friends",
@@ -250,8 +306,9 @@ public class LoginActivity extends AppCompatActivity {
                         byte[] byteArray = stream.toByteArray();
                         usr.setByteArray(byteArray);
 
-                        intent.putExtra("user", usr);
-                        startActivity(intent);
+                        isSignUp();
+
+                        //intent.putExtra("user", usr);
                     }
                 });
         Bundle parameters = new Bundle();
@@ -259,5 +316,28 @@ public class LoginActivity extends AppCompatActivity {
         request.setParameters(parameters);
         request.executeAsync();
 
+    }
+
+
+    private void handleFacebookAccessToken(AccessToken token) {
+        Log.d(TAG, "handleFacebookAccessToken:" + token);
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }

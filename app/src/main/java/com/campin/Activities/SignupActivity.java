@@ -1,6 +1,8 @@
 package com.campin.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +14,8 @@ import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import com.campin.DB.Model;
 import com.campin.R;
 import com.campin.Adapters.CustomAdapter;
 import com.campin.Utils.User;
@@ -21,11 +25,9 @@ import java.util.ArrayList;
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
     String value;
+    CustomAdapter customAdapter;
     ArrayList<String> areas = new ArrayList<String>();
 
-   /* @InjectView(R.id.input_name) EditText _nameText;
-    @InjectView(R.id.input_email) EditText _emailText;
-    @InjectView(R.id.input_password) EditText _passwordText;*/
     @InjectView(R.id.btn_signup) Button _signupButton;
 
     @Override
@@ -56,13 +58,18 @@ public class SignupActivity extends AppCompatActivity {
         areas.add(1,"דרום");
         areas.add(2,"מרכז");
         areas.add(3,"ירושלים");
-        areas.add(4,"טראמפ");
 
         // initiate a ListView
         ListView listView = (ListView) findViewById(R.id.listView);
         // set the adapter to fill the data in ListView
-        CustomAdapter customAdapter = new CustomAdapter(this, areas, null);
+        customAdapter = new CustomAdapter(this, areas, null);
         listView.setAdapter(customAdapter);
+
+        // Checking if there are prefered areas.
+        if (!User.getInstance().getPreferedAreas().isEmpty())
+        {
+            customAdapter._preferedAreas = User.getInstance().getPreferedAreas();
+        }
 
     }
 
@@ -81,9 +88,26 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("מעדכן נתונים...");
         progressDialog.show();
+        User.getInstance().setPreferedAreas(customAdapter._preferedAreas);
 
+        Model.instance().signUp(User.getInstance(), new Model.SuccessListener() {
+            @Override
+            public void onResult(boolean result) {
+                if (result) {
+                    Model.instance().setConnectedUser(User.getInstance());
+                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    Context context = getApplicationContext();
+                    CharSequence text = "התרחשה שגיאה בהרשמה";
+                    int duration = Toast.LENGTH_SHORT;
 
-        // TODO: Implement your own signup logic here.
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+            }
+        });
+
 
         new android.os.Handler().postDelayed(
                 new Runnable() {

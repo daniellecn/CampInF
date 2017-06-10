@@ -3,6 +3,9 @@ package com.campin.Utils;
 import org.json.JSONArray;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by noam on 22/05/2017.
@@ -11,6 +14,7 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     private static User _user = null;
+    public static  boolean isSignUp = false;
     private String email = "";
     private String birthday = "";
     private String userId = "";
@@ -18,8 +22,10 @@ public class User implements Serializable {
     private String urlCover = "";
     private String location = "";
     private String friends = "";
+    private ArrayList<String> preferedAreas = new ArrayList<String>();
     private byte[] byteArray;
     private boolean isShowFriends = false;
+    private boolean isCar = false;
 
 
     public static User getInstance()
@@ -102,5 +108,30 @@ public class User implements Serializable {
 
     public void setShowFriends(boolean showFriends) {
         isShowFriends = showFriends;
+    }
+
+    public ArrayList<String> getPreferedAreas() {
+        return preferedAreas;
+    }
+
+    public void setPreferedAreas(ArrayList<String> preferedAreas) {
+        this.preferedAreas = preferedAreas;
+    }
+
+    public boolean isCar() {
+        return isCar;
+    }
+
+    public void setCar(boolean car) {
+        isCar = car;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("id", getUserId());
+        result.put("name", getFullName());
+        result.put("isCar", isCar());
+        result.put("preferedAreas", getPreferedAreas());
+        return result;
     }
 }

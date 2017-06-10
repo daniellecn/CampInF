@@ -27,6 +27,7 @@ public class CustomAdapter extends BaseAdapter {
     ArrayList<String> _names;
     ArrayList<String> _id;
     public ArrayList<String> _friends;
+    public static ArrayList<String> _preferedAreas = new ArrayList<String>();
     Activity context;
     String value;
 
@@ -90,6 +91,15 @@ public class CustomAdapter extends BaseAdapter {
             holder.txtView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
             _friends = new ArrayList<String>();
         }
+        else
+        {
+            if (User.getInstance().getPreferedAreas().contains(name))
+            {
+                holder.txtView.setCheckMarkDrawable(R.drawable.checked);
+                holder.txtView.setChecked(true);
+            }
+        }
+
         holder.txtView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,12 +111,19 @@ public class CustomAdapter extends BaseAdapter {
                     if (User.getInstance().isShowFriends() == true) {
                         _friends.remove(holder.txtView.getTag().toString());
                     }
+                    else {
+                        _preferedAreas.remove(holder.txtView.getText().toString());
+                    }
                 } else {
                     // set cheek mark drawable and set checked property to true
                     value = "Checked";
 
                     if (User.getInstance().isShowFriends() == true) {
                         _friends.add(holder.txtView.getTag().toString());
+                    }
+                    else
+                    {
+                        _preferedAreas.add(holder.txtView.getText().toString());
                     }
 
                     holder.txtView.setCheckMarkDrawable(R.drawable.checked);

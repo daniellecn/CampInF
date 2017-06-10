@@ -70,13 +70,13 @@ public class Model {
         public void onCancel();
     }
 
-    public interface GetAllDessertsAsynchListener{
-        void onComplete(List<PlannedTrip> plannedTripList);
+    public interface GetPlannedTripListener{
+        void onComplete(PlannedTrip plannedTrip);
         public void onCancel();
     }
 
-    public interface GetPlannedTripListener{
-        void onComplete(PlannedTrip plannedTrip);
+    public interface GetUserByIdListener{
+        void onComplete(User user);
         public void onCancel();
     }
 
@@ -113,61 +113,13 @@ public class Model {
         remote.addPlannedTrip(plannedTrip, listener);
     }
 
-    public void getAllPlannedTripAsynch(final GetAllDessertsAsynchListener listener){
-        // Get last update date
-        final double lastUpdateDate = PlannedTripSql.getLastUpdateDate(local.getReadbleDB());
-
-        // Get all desserts records that where updated since last update date
-        /*remote.getDessertsFromDate(lastUpdateDate, new GetAllPlannedTripListener() {
-            @Override
-            public void onComplete(List<PlannedTrip> plannedTripList, int currentMaxKey) {
-                // If there are new desserts in firebase
-                if (plannedTripList != null && plannedTripList.size() > 0){
-
-                    // Update the local db
-                    double recentUpdate = lastUpdateDate;
-                    for (PlannedTrip plannedTrip : plannedTripList){
-                        // If new dessert
-                        if (local.getPlannedTripById(plannedTrip.getTripId()) == null){
-                            PlannedTripSql.addTrip(local.getWritableDB(), plannedTrip);
-                        }
-                        // If this update
-                        else{
-                            PlannedTripSql.updateDessert(local.getWritableDB(), plannedTrip);
-                        }
-
-                        if (plannedTrip.getLastUpdated() > recentUpdate){
-                            recentUpdate = plannedTrip.getLastUpdated();
-                        }
-                    }
-
-                    // Update the last update date
-                    DessertSql.setLastUpdateDate(local.getWritableDB(), recentUpdate);
-
-                    // Update the current key
-                    if (getCurrentKey() <= currentMaxKey){
-                        setCurrentKey(currentMaxKey + 1);
-                    }
-                }
-
-                // Return all Desserts from the updated local db
-                List<PlannedTrip> result = PlannedTripSql.getAllDesserts(local.getReadbleDB());
-                listener.onComplete(result);
-            }
-
-            @Override
-            public void onCancel() {
-                listener.onCancel();
-            }
-        });*/
-    }
 
     public PlannedTrip getDessertById(int id){
         return local.getPlannedTripById(id);
     }
 
-    public void isUserNameExist(String userName, Model.SuccessListener listener){
-        remote.isUserNameExist(userName, listener);
+    public void isUserExist(String userId, Model.SuccessListener listener){
+        remote.isUserExist(userId, listener);
     }
 
     public void isUserMailExist(String userMail, Model.SuccessListener listener){
@@ -176,5 +128,9 @@ public class Model {
 
     public List<PlannedTrip> getBySearch(String query){
         return local.getBySearch(query);
+    }
+
+    public User getUserById(String id, Model.GetUserByIdListener listener){
+        return remote.getUserById(id,listener);
     }
 }

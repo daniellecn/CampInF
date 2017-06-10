@@ -38,6 +38,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -96,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
         txtName = (TextView) navHeader.findViewById(R.id.name);
         txtMail = (TextView) navHeader.findViewById(R.id.website);
 
+
+        User.isSignUp = true;
         // Adding menu icon to Toolbar
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
@@ -155,7 +158,22 @@ public class MainActivity extends AppCompatActivity {
         nav_age.setTitle("24");
 
         MenuItem nav_favorite_area = menu.findItem(R.id.prof_fav_area);
-        nav_favorite_area.setTitle("צפון, דרום, מרכז");
+
+        ArrayList<String> prefferedAreas = _usr.getPreferedAreas();
+
+        String prefered = "";
+        int count = prefferedAreas.size();
+        for (String area : prefferedAreas)
+        {
+            prefered += area;
+
+            if (count != 1)
+            {
+               prefered += ", " ;
+            }
+            count --;
+        }
+        nav_favorite_area.setTitle(prefered);
 
         MenuItem nav_car = menu.findItem(R.id.prof_car);
         nav_car.setTitle("כן");

@@ -97,6 +97,7 @@ public class PlannedTrip {
         result.put("firstOption", getFirstOption());
         result.put("secOption", getSecOption());
         result.put("friends", getFriendInTrip());
+        result.put("isCompleted", isCompleted());
         return result;
     }
 }
