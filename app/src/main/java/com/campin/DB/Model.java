@@ -2,7 +2,7 @@ package com.campin.DB;
 
 import com.campin.Utils.PlannedTrip;
 import com.campin.Utils.User;
-
+import com.campin.Utils.Trip;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -80,6 +80,11 @@ public class Model {
         public void onCancel();
     }
 
+    public interface GetTripByIdListener{
+        void onComplete(Trip trip);
+        public void onCancel();
+    }
+
     public static void setCurrentKey(int currentKey) {
         Model.currentKey = currentKey;
     }
@@ -132,5 +137,9 @@ public class Model {
 
     public User getUserById(String id, Model.GetUserByIdListener listener){
         return remote.getUserById(id,listener);
+    }
+
+    public Trip getTripById(String id, Model.GetTripByIdListener listener){
+        return remote.getTripById(id,listener);
     }
 }

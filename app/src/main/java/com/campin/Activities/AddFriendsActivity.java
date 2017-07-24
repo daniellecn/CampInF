@@ -18,6 +18,9 @@ import com.campin.Adapters.CustomAdapter;
 import com.campin.Utils.PlannedTrip;
 import com.campin.Utils.Trip;
 import com.campin.Utils.User;
+import com.google.firebase.appindexing.Action;
+import com.google.firebase.appindexing.FirebaseUserActions;
+import com.google.firebase.appindexing.builders.Actions;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,7 +47,7 @@ public class AddFriendsActivity extends AppCompatActivity {
         TextView tripHead = (TextView) findViewById(R.id.trip_detail_head);
         tripHead.setText("פרטי הטיול ל" + getIntent().getStringExtra("area"));
 
-        Trip t = new Trip(null,getIntent().getStringExtra("area"));
+        Trip t = new Trip();
 
         newPlannedTrip = new PlannedTrip
                 (t ,User.getInstance().getUserId(),
@@ -147,5 +150,31 @@ public class AddFriendsActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        return Actions.newView("AddFriends", "http://[ENTER-YOUR-URL-HERE]");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        FirebaseUserActions.getInstance().start(getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        FirebaseUserActions.getInstance().end(getIndexApiAction());
+        super.onStop();
     }
 }

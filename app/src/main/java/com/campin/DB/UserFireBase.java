@@ -13,7 +13,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class UserFireBase {
 
-    public static void userLogIn(final User user, final Model.LogInListener listener) {
+    public static void userLogIn(final User user, final Model.LogInListener listener)
+    {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("users").child(String.valueOf(user.getUserId()));
 

@@ -36,7 +36,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.campin.Activities.DetailActivity;
+import com.campin.Activities.LoginActivity;
+import com.campin.Activities.MainActivity;
+import com.campin.DB.Model;
 import com.campin.R;
+import com.campin.Utils.Trip;
+import com.campin.Utils.User;
 
 /**
  * Provides UI for the view with Cards.
@@ -116,7 +121,27 @@ public class CardContentFragment extends Fragment {
         private final String[] mPlaceDesc;
         private final Drawable[] mPlacePictures;
 
-        public ContentAdapter(Context context) {
+        public ContentAdapter(Context context)
+        {
+
+            // TODO: just for debug to delete!!!!
+            Model.instance().getTripById("1", new Model.GetTripByIdListener()
+            {
+                @Override
+                public void onComplete(Trip trip)
+                {
+
+
+                }
+
+                @Override
+                public void onCancel()
+                {
+
+                }
+            });
+
+
             Resources resources = context.getResources();
             mPlaces = resources.getStringArray(R.array.places);
             mPlaceDesc = resources.getStringArray(R.array.place_desc);

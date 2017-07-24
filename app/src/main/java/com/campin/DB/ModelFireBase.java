@@ -2,6 +2,8 @@ package com.campin.DB;
 
 import com.campin.Utils.PlannedTrip;
 import com.campin.Utils.User;
+import com.campin.Utils.Trip;
+
 
 /**
  * Created by noam on 03/06/2017.
@@ -50,4 +52,11 @@ public class ModelFireBase {
 
         return  currUser;
     }
+
+    public Trip getTripById(String id, final Model.GetTripByIdListener listener) {
+        Trip currTrip  = TripFireBase.getTripById(id, listener);
+
+        return  currTrip;
+    }
+
 }
