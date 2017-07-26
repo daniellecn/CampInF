@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.campin.Utils.PlannedTrip;
+import com.campin.Utils.Trip;
 
 import java.util.List;
 
@@ -12,10 +13,10 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by noam on 03/06/2017.
+ * Updated by Danielle on 25/07/2017
  */
 
 public class ModelSql {
-    AppContext appContext = new AppContext();
     private SQLiteOpenHelper helper;
     private int version = 7;
 
@@ -30,6 +31,14 @@ public class ModelSql {
 
     public SQLiteDatabase getReadbleDB() {
         return helper.getReadableDatabase();
+    }
+
+    public void addTrip(Trip trip){
+        TripSql.addTrip(helper.getWritableDatabase(), trip);
+    }
+
+    public Trip getTripById(int id){
+        return TripSql.getTripByID(helper.getReadableDatabase(), id);
     }
 
     public void addPlannedTrip(PlannedTrip trip) {
@@ -62,13 +71,15 @@ public class ModelSql {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            PlannedTripSql.create(db);
+            TripSql.createTable(db);
+            //PlannedTripSql.create(db);
             LastUpdateSql.create(db);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-            PlannedTripSql.dropTable(db);
+            TripSql.dropTable(db);
+            //PlannedTripSql.dropTable(db);
             LastUpdateSql.drop(db);
             onCreate(db);
         }

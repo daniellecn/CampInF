@@ -125,7 +125,7 @@ public class CardContentFragment extends Fragment {
         {
 
             // TODO: just for debug to delete!!!!
-            Model.instance().getTripById("1", new Model.GetTripByIdListener()
+            Model.instance().getTripById("1", new Model.GetTripListener()
             {
                 @Override
                 public void onComplete(Trip trip)

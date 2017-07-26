@@ -8,20 +8,20 @@ import java.util.List;
 
 /**
  * Created by noam on 03/06/2017.
+ * Updated by Danielle on 25/07/2017
  */
 
 public class Model {
 
     private static Model instance;
-
-
-    private List<PlannedTrip> plannedTripData = new LinkedList<PlannedTrip>();
-
     private ModelFireBase remote;
     private ModelSql local;
 
-    private static int currentKey;
+    private List<Trip> tripsData = new LinkedList<Trip>();
+    private List<PlannedTrip> plannedTripData = new LinkedList<PlannedTrip>();
 
+    private static int currentKeyPlanned;
+    private static int currentKeyTrips;
     private static User connectedUser;
 
     public static Model instance(){
@@ -37,6 +37,10 @@ public class Model {
 
         remote = new ModelFireBase();
         local = new ModelSql();
+    }
+
+    public List<Trip> getTripsData() {
+        return tripsData;
     }
 
     public User getConnectedUser() {
@@ -70,6 +74,11 @@ public class Model {
         public void onCancel();
     }
 
+    public interface GetAllTripsListener{
+        void onComplete(List<Trip> tripsList, int currentMaxKey);
+        void onCancel();
+    }
+
     public interface GetPlannedTripListener{
         void onComplete(PlannedTrip plannedTrip);
         public void onCancel();
@@ -80,17 +89,25 @@ public class Model {
         public void onCancel();
     }
 
-    public interface GetTripByIdListener{
+    public interface GetTripListener{
         void onComplete(Trip trip);
         public void onCancel();
     }
 
-    public static void setCurrentKey(int currentKey) {
-        Model.currentKey = currentKey;
+    public static void setCurrentKeyPlanned(int currentKey) {
+        Model.currentKeyPlanned = currentKey;
     }
 
-    public static int getCurrentKey() {
-        return currentKey;
+    public static int getCurrentKeyPlanned() {
+        return currentKeyPlanned;
+    }
+
+    public static int getCurrentKeyTrips() {
+        return currentKeyTrips;
+    }
+
+    public static void setCurrentKeyTrips(int currentKeyTrips) {
+        Model.currentKeyTrips = currentKeyTrips;
     }
 
     public List<PlannedTrip> getPlannedTripData() {
@@ -105,13 +122,17 @@ public class Model {
         remote.userSignUp(user, listener);
     }
 
+    public void addTrip(Trip trip, SuccessListener listener){
+        remote.addTrip(trip, listener);
+    }
+
     public void addPlannedTrip(final PlannedTrip plannedTrip, final SuccessListener listener){
 
             // Save the dessert to firebase database
             remote.addPlannedTrip(plannedTrip, listener);
 
             // Update the key
-            setCurrentKey(getCurrentKey() + 1);
+            setCurrentKeyPlanned(getCurrentKeyPlanned() + 1);
     }
 
     public void updateDessert(PlannedTrip plannedTrip, Model.SuccessListener listener){
@@ -139,7 +160,55 @@ public class Model {
         return remote.getUserById(id,listener);
     }
 
-    public Trip getTripById(String id, Model.GetTripByIdListener listener){
-        return remote.getTripById(id,listener);
+    public Trip getTripById(String id, Model.GetTripListener listener){
+        return null; //remote.getTripById(id,listener);
+    }
+
+    public void getAllTripAsynch(final GetAllTripsListener listener) {
+        // Get last update date
+        final double lastUpdateDate = TripSql.getLastUpdateDate(local.getReadbleDB());
+
+        // Get all trips records that where updated since last update date
+        remote.getTripsFromDate(lastUpdateDate, new GetAllTripsListener() {
+            @Override
+            public void onComplete(List<Trip> tripsList, int currentMaxKey) {
+                if (tripsList != null && tripsList.size() > 0) {
+
+                    // Update the local db
+                    double recentUpdate = lastUpdateDate;
+                    for (Trip trip : tripsList) {
+                        // If new trip
+                        if (local.getTripById(trip.getTripID()) == null) {
+                            TripSql.addTrip(local.getWritableDB(), trip);
+                        }
+                        //If this update
+                        else {
+                            //TripSql.updateTrip(local.getWritableDB(), trip);
+                        }
+
+                        if (trip.getLastUpdated() > recentUpdate) {
+                            recentUpdate = trip.getLastUpdated();
+                        }
+                    }
+
+                    // Update the last update date
+                    TripSql.setLastUpdateDate(local.getWritableDB(), recentUpdate);
+
+                    // Update the current key
+                    if (getCurrentKeyTrips() <= currentMaxKey) {
+                        setCurrentKeyTrips(currentMaxKey + 1);
+                    }
+                }
+
+                // Return all Desserts from the updated local db
+                List<Trip> result = TripSql.getAllTrips(local.getReadbleDB());
+                listener.onComplete(result, currentMaxKey);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
     }
 }
