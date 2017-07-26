@@ -22,7 +22,7 @@ public class ModelSql {
 
     public ModelSql() {
         helper = new Helper(getApplicationContext());
-        helper.onUpgrade(getWritableDB(), 7, 7);
+        //helper.onUpgrade(getWritableDB(), 7, 7);
     }
 
     public SQLiteDatabase getWritableDB() {
@@ -39,6 +39,10 @@ public class ModelSql {
 
     public Trip getTripById(int id){
         return TripSql.getTripByID(helper.getReadableDatabase(), id);
+    }
+
+    public List<Trip> getAllTrips(){
+        return TripSql.getAllTrips(helper.getReadableDatabase());
     }
 
     public void addPlannedTrip(PlannedTrip trip) {

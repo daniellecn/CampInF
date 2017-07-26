@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.campin.DB.AppContext;
 import com.campin.DB.Model;
 import com.campin.R;
+import com.campin.Utils.Trip;
+import com.campin.Utils.TripComments;
 import com.campin.Utils.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -52,6 +54,10 @@ import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+import static android.R.attr.onClick;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -75,6 +81,28 @@ public class LoginActivity extends AppCompatActivity {
         _fcbkLoginButton = (LoginButton) findViewById(R.id.fcbk_login);
         _fcbkLoginButton.setReadPermissions(Arrays.asList(
                 "public_profile", "email", "user_birthday", "user_friends", "user_location, user_hometown"));
+
+//        List<String> seasons = new LinkedList<String>();
+//        seasons.add("season1");
+//        seasons.add("season2");
+//        List<Integer> types = new LinkedList<Integer>();
+//        types.add(1);
+//        types.add(2);
+//        List<String> equipment = new LinkedList<String>();
+//        equipment.add("equipment1");
+//        equipment.add("equipment2");
+//        List<TripComments> comments = new LinkedList<TripComments>();
+//        TripComments comment = new TripComments(1, "comment1", 1.5);
+//        comments.add(comment);
+//        comment = new TripComments(2, "comment2", 0.9);
+//        comments.add(comment);
+//
+//        Trip trip = new Trip(1, "Danielle", 1, seasons, types, equipment, comments, 5, "Details");
+//        Model.instance().addTrip(trip, new Model.SuccessListener() {
+//            @Override
+//            public void onResult(boolean result) {
+//            }
+//        });
 
         login();
     }

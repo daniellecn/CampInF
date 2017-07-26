@@ -157,7 +157,6 @@ public class TripSql {
         }
     }
 
-
     public static Trip getTripByID(SQLiteDatabase db, int id) {
         // Set the selection parameters
         String[] selectArg = {String.valueOf(id)};
@@ -195,16 +194,41 @@ public class TripSql {
 
     public static List<Trip> getAllTrips(SQLiteDatabase db) {
         List<Trip> tripsList = null;
+        String[] arg = new String[1];
+        Trip trip;
 
-        // Get all the desserts
         Cursor tripsCursor = db.query(TRIPS_TABLE, null, null, null, null, null, null);
-        Cursor seasonCursor = db.query(TRIP_SEASONS_TABLE, null, null, null, null, null, null);
-        Cursor equipmentCursor = db.query(TRIP_EQUIPMENT_TABLE, null, null, null, null, null, null);
-        Cursor commentCursor = db.query(TRIP_COMMENTS_TABLE, null, null, null, null, null, null);
 
-        // Create the list
-        //return getDessertListFromCourse(cursor);
-        return null;
+        // If there is trips
+        if (tripsCursor.moveToFirst()){
+            // Defined indexes
+            int idIndex = tripsCursor.getColumnIndex(TRIP_ID);
+            int nameIndex = tripsCursor.getColumnIndex(NAME);
+            int areaIndex = tripsCursor.getColumnIndex(AREA);
+            int friendsIndex = tripsCursor.getColumnIndex(FRIENDS);
+            int detailsIndex = tripsCursor.getColumnIndex(DETAILS);
+
+            // Select argument
+            arg[0] = tripsCursor.getString(idIndex);
+
+            do {
+                // Create trip object
+                trip = new Trip(
+                        tripsCursor.getInt(idIndex),
+                        tripsCursor.getString(nameIndex),
+                        tripsCursor.getInt(areaIndex),
+                        getSeasonsOfTripId(db, arg),
+                        getTypesOfTripId(db, arg),
+                        getEquipmentOfTripId(db, arg),
+                        getCommentsOfTripId(db, arg),
+                        tripsCursor.getInt(friendsIndex),
+                        tripsCursor.getString(detailsIndex)
+                );
+                tripsList.add(trip);
+            }while (tripsCursor.moveToNext());
+        }
+
+        return tripsList;
     }
 
     private static List<String> getSeasonsOfTripId(SQLiteDatabase db, String[] selectArg){
