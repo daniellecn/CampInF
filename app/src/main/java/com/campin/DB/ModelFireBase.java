@@ -1,6 +1,11 @@
 package com.campin.DB;
 
+import android.graphics.PorterDuff;
+
+import com.campin.Utils.Area;
 import com.campin.Utils.PlannedTrip;
+import com.campin.Utils.TripLevel;
+import com.campin.Utils.TripType;
 import com.campin.Utils.User;
 import com.campin.Utils.Trip;
 import com.google.firebase.database.DataSnapshot;
@@ -74,12 +79,87 @@ public class ModelFireBase {
         });
     }
 
+    public void addTripLevel(TripLevel level, final Model.SuccessListener listener){
+        DatabaseReference myRef = database.getReference("TripLevel").child(String.valueOf(level.getCode()));
+        myRef.setValue(level.toMap());
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onResult(true);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onResult(false);
+            }
+        });
+    }
+
+    public void addTripType(TripType type, final Model.SuccessListener listener){
+        DatabaseReference myRef = database.getReference("TripTypes").child(String.valueOf(type.getCode()));
+        myRef.setValue(type.toMap());
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onResult(true);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onResult(false);
+            }
+        });
+    }
+
+    public void addArea(Area area, final Model.SuccessListener listener){
+        DatabaseReference myRef = database.getReference("AreaCode").child(String.valueOf(area.getCode()));
+        myRef.setValue(area.toMap());
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onResult(true);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onResult(false);
+            }
+        });
+    }
+
     public void getTripById(String id, final Model.GetTripListener listener) {
         TripFireBase.getTripById(id, listener);
     }
 
+    public void getTripLevelByCode(int code, final Model.GetTripLevelListener listener){
+        TripLevelFireBase.getTripLevelByCode(code, listener);
+    }
+
+    public void getTripTypeByCode(int code, final Model.GetTripTypeListener listener){
+        TripTypeFireBase.getTripTypeByCode(code, listener);
+    }
+
+    public void getAreaByCode(int code, final Model.GetAreaListener listener){
+        AreaFireBase.getAreaByCode(code, listener);
+    }
+
     public void getTripsFromDate(double lastUpdateDate, final Model.GetAllTripsListener listener){
         TripFireBase.getTripsFromDate(lastUpdateDate, listener);
+    }
+
+    public void getTripLevelsFromDate(double lastUpdateDate, final Model.GetAllTripLevelsListener listener){
+        TripLevelFireBase.getTripLevelFromDate(lastUpdateDate, listener);
+    }
+
+    public void getTripTypeFromDate(double lastUpdateDate, final Model.GetAllTripTypesListener listener){
+        TripTypeFireBase.getTripTypeFromDate(lastUpdateDate, listener);
+    }
+
+    public void getAreaFromDate(double lastUpdateDate, final Model.GetAllAreaListener listener){
+        AreaFireBase.getAreaFromDate(lastUpdateDate, listener);
     }
 
 }

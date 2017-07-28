@@ -1,35 +1,26 @@
 package com.campin.DB;
 
-import android.net.sip.SipAudioCall;
-
-import com.campin.Utils.PlannedTrip;
-import com.campin.Utils.Trip;
-import com.campin.Utils.TripComments;
-import com.campin.Utils.User;
+import com.campin.Utils.TripType;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StreamDownloadTask;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
- * Created by Igor on 7/24/2017.
- * Updated by Danielle on 25/7/2017
+ * Created by Danielle Cohen on 28/07/2017.
  */
 
-public class TripFireBase
-{
+public class TripTypeFireBase {
     private static FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    public static void addTrip(Trip newTrip, final Model.SuccessListener listener){
-        DatabaseReference myRef = database.getReference("Trips").child(String.valueOf(newTrip.getId()));
-        myRef.setValue(newTrip.toMap());
+    public static void addTripType(TripType newTripType, final Model.SuccessListener listener){
+        DatabaseReference myRef = database.getReference("TripTypes").child(String.valueOf(newTripType.getCode()));
+        myRef.setValue(newTripType.toMap());
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -42,17 +33,17 @@ public class TripFireBase
         });
     }
 
-    public static void getTripById(String id, final Model.GetTripListener listener)
+    public static void getTripTypeByCode(int id, final Model.GetTripTypeListener listener)
     {
-        DatabaseReference myRef = database.getReference("Trips").child(id);
+        DatabaseReference myRef = database.getReference("TripType").child(String.valueOf(id));
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener()
         {
             @Override
             public void onDataChange(DataSnapshot snapshot)
             {
-                Trip trip = snapshot.getValue(Trip.class);
-                listener.onComplete(trip);
+                TripType tripType = snapshot.getValue(TripType.class);
+                listener.onComplete(tripType);
             }
 
             @Override
@@ -63,29 +54,29 @@ public class TripFireBase
         });
     }
 
-    public static void getTripsFromDate(double lastUpdateDate, final Model.GetAllTripsListener listener) {
+    public static void getTripTypeFromDate(double lastUpdateDate, final Model.GetAllTripTypesListener listener) {
         final int[] maxKey = {-1};
 
         // Get all the desserts from the last update
-        final DatabaseReference myRef = database.getReference("Trips");
+        final DatabaseReference myRef = database.getReference("TripTypes");
         Query query = myRef.orderByChild("lastUpdated").startAt(lastUpdateDate);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final List<Trip> tripsList = new LinkedList<Trip>();
+                final List<TripType> tripTypeList = new LinkedList<TripType>();
 
                 // Create the desserts list
                 for (DataSnapshot dstSnapshot : dataSnapshot.getChildren()) {
-                    Trip trip = dstSnapshot.getValue(Trip.class);
+                    TripType tripType = dstSnapshot.getValue(TripType.class);
 
-                    if (maxKey[0] < trip.getId()) {
-                        maxKey[0] = trip.getId();
+                    if (maxKey[0] < tripType.getCode()) {
+                        maxKey[0] = tripType.getCode();
                     }
 
-                    tripsList.add(trip);
+                    tripTypeList.add(tripType);
                 }
-                listener.onComplete(tripsList, maxKey[0]);
+                listener.onComplete(tripTypeList, maxKey[0]);
             }
 
             @Override

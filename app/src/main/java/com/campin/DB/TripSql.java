@@ -292,4 +292,8 @@ public class TripSql {
 
         return commentsOfTrip;
     }
+
+    public static void updateTrip(SQLiteDatabase db, Trip trip) {
+        // TODO
+    }
 }

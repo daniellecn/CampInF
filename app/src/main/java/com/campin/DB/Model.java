@@ -2,7 +2,10 @@ package com.campin.DB;
 
 import android.graphics.Bitmap;
 
+import com.campin.Utils.Area;
 import com.campin.Utils.PlannedTrip;
+import com.campin.Utils.TripLevel;
+import com.campin.Utils.TripType;
 import com.campin.Utils.User;
 import com.campin.Utils.Trip;
 import java.util.LinkedList;
@@ -24,6 +27,9 @@ public class Model {
 
     private static int currentKeyPlanned;
     private static int currentKeyTrips;
+    private static int currentKeyTripLevel;
+    private static int currentKeyTripType;
+    private static int currentKeyArea;
     private static User connectedUser;
 
     public static Model instance(){
@@ -70,7 +76,6 @@ public class Model {
         public void complete(String url);
     }
 
-
     public interface GetAllPlannedTripListener{
         void onComplete(List<PlannedTrip> plannedTripList, int currentMaxKey);
         public void onCancel();
@@ -78,6 +83,21 @@ public class Model {
 
     public interface GetAllTripsListener{
         void onComplete(List<Trip> tripsList, int currentMaxKey);
+        void onCancel();
+    }
+
+    public interface GetAllTripLevelsListener{
+        void onComplete(List<TripLevel> tripsList, int currentMaxKey);
+        void onCancel();
+    }
+
+    public interface GetAllTripTypesListener{
+        void onComplete(List<TripType> tripsList, int currentMaxKey);
+        void onCancel();
+    }
+
+    public interface GetAllAreaListener{
+        void onComplete(List<Area> areaList, int currentMaxKey);
         void onCancel();
     }
 
@@ -93,6 +113,21 @@ public class Model {
 
     public interface GetTripListener{
         void onComplete(Trip trip);
+        public void onCancel();
+    }
+
+    public interface GetTripLevelListener{
+        void onComplete(TripLevel tripLevel);
+        public void onCancel();
+    }
+
+    public interface GetTripTypeListener{
+        void onComplete(TripType tripLevel);
+        public void onCancel();
+    }
+
+    public interface GetAreaListener{
+        void onComplete(Area area);
         public void onCancel();
     }
 
@@ -113,8 +148,32 @@ public class Model {
         return currentKeyTrips;
     }
 
+    public static int getCurrentKeyTripLevel() {
+        return currentKeyTripLevel;
+    }
+
+    public static void setCurrentKeyTripLevel(int currentKeyTripLevel) {
+        Model.currentKeyTripLevel = currentKeyTripLevel;
+    }
+
     public static void setCurrentKeyTrips(int currentKeyTrips) {
         Model.currentKeyTrips = currentKeyTrips;
+    }
+
+    public static int getCurrentKeyTripType() {
+        return currentKeyTripType;
+    }
+
+    public static void setCurrentKeyTripType(int currentKeyTripType) {
+        Model.currentKeyTripType = currentKeyTripType;
+    }
+
+    public static int getCurrentKeyArea() {
+        return currentKeyArea;
+    }
+
+    public static void setCurrentKeyArea(int currentKeyArea) {
+        Model.currentKeyArea = currentKeyArea;
     }
 
     public List<PlannedTrip> getPlannedTripData() {
@@ -164,15 +223,6 @@ public class Model {
 
             // Update the key
             setCurrentKeyPlanned(getCurrentKeyPlanned() + 1);
-    }
-
-    public void updateDessert(PlannedTrip plannedTrip, Model.SuccessListener listener){
-        remote.addPlannedTrip(plannedTrip, listener);
-    }
-
-
-    public PlannedTrip getDessertById(int id){
-        return local.getPlannedTripById(id);
     }
 
     public void isUserExist(String userId, Model.SuccessListener listener){
@@ -241,6 +291,7 @@ public class Model {
                         }
                         //If this update
                         else {
+                            // TODO
                             //TripSql.updateTrip(local.getWritableDB(), trip);
                         }
 
@@ -260,6 +311,174 @@ public class Model {
 
                 // Return all Desserts from the updated local db
                 List<Trip> result = TripSql.getAllTrips(local.getReadableDB());
+                listener.onComplete(result, currentMaxKey);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+    }
+
+    public void addTripLevel(final TripLevel level, final SuccessListener listener){
+        remote.addTripLevel(level, listener);
+    }
+
+    public TripLevel getTripLevelByCode(int code){
+        return local.getTripLevelByCode(code);
+    }
+
+    public void getAllTripLevelsAsynch(final GetAllTripLevelsListener listener) {
+        // Get last update date
+        final double lastUpdateDate = TripLevelSql.getLastUpdateDate(local.getReadableDB());
+
+        // Get all trips records that where updated since last update date
+        remote.getTripLevelsFromDate(lastUpdateDate, new GetAllTripLevelsListener() {
+            @Override
+            public void onComplete(List<TripLevel> tripLevelsList, int currentMaxKey) {
+                if (tripLevelsList != null && tripLevelsList.size() > 0) {
+
+                    // Update the local db
+                    double recentUpdate = lastUpdateDate;
+                    for (TripLevel tripLevel : tripLevelsList) {
+                        // If new trip
+                        if (local.getTripLevelByCode(tripLevel.getCode()) == null) {
+                            TripLevelSql.addTripLevel(local.getWritableDB(), tripLevel);
+                        }
+                        //If this update
+                        else {
+                            TripLevelSql.updateTripLevel(local.getWritableDB(), tripLevel);
+                        }
+
+                        if (tripLevel.getLastUpdated() > recentUpdate) {
+                            recentUpdate = tripLevel.getLastUpdated();
+                        }
+                    }
+
+                    // Update the last update date
+                    TripLevelSql.setLastUpdateDate(local.getWritableDB(), recentUpdate);
+
+                    // Update the current key
+                    if (getCurrentKeyTripLevel() <= currentMaxKey) {
+                        setCurrentKeyTripLevel(currentMaxKey + 1);
+                    }
+                }
+
+                // Return all Desserts from the updated local db
+                List<TripLevel> result = TripLevelSql.getAllTripLevels(local.getReadableDB());
+                listener.onComplete(result, currentMaxKey);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+    }
+
+    public void addTripType(final TripType type, final SuccessListener listener){
+        remote.addTripType(type, listener);
+    }
+
+    public TripType getTripTypeByCode(int code){
+        return local.getTripTypeByCode(code);
+    }
+
+    public void getAllTripTypesAsynch(final GetAllTripTypesListener listener) {
+        // Get last update date
+        final double lastUpdateDate = TripTypeSql.getLastUpdateDate(local.getReadableDB());
+
+        // Get all trips records that where updated since last update date
+        remote.getTripTypeFromDate(lastUpdateDate, new GetAllTripTypesListener() {
+            @Override
+            public void onComplete(List<TripType> tripTypesList, int currentMaxKey) {
+                if (tripTypesList != null && tripTypesList.size() > 0) {
+
+                    // Update the local db
+                    double recentUpdate = lastUpdateDate;
+                    for (TripType tripType : tripTypesList) {
+                        // If new trip
+                        if (local.getTripTypeByCode(tripType.getCode()) == null) {
+                            TripTypeSql.addTripType(local.getWritableDB(), tripType);
+                        }
+                        //If this update
+                        else {
+                            TripTypeSql.updateTripType(local.getWritableDB(), tripType);
+                        }
+
+                        if (tripType.getLastUpdated() > recentUpdate) {
+                            recentUpdate = tripType.getLastUpdated();
+                        }
+                    }
+
+                    // Update the last update date
+                    TripTypeSql.setLastUpdateDate(local.getWritableDB(), recentUpdate);
+
+                    // Update the current key
+                    if (getCurrentKeyTripType() <= currentMaxKey) {
+                        setCurrentKeyTripType(currentMaxKey + 1);
+                    }
+                }
+
+                // Return all Desserts from the updated local db
+                List<TripType> result = TripTypeSql.getAllTripTypes(local.getReadableDB());
+                listener.onComplete(result, currentMaxKey);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+    }
+
+    public void addArea(final Area area, final SuccessListener listener){
+        remote.addArea(area, listener);
+    }
+
+    public Area getAreaByCode(int code){
+        return local.getAreaByCode(code);
+    }
+
+    public void getAllAreaAsynch(final GetAllAreaListener listener){
+        // Get last update date
+        final double lastUpdateDate = AreaSql.getLastUpdateDate(local.getReadableDB());
+
+        // Get all trips records that where updated since last update date
+        remote.getAreaFromDate(lastUpdateDate, new GetAllAreaListener() {
+            @Override
+            public void onComplete(List<Area> areaList, int currentMaxKey) {
+                if (areaList != null && areaList.size() > 0) {
+
+                    // Update the local db
+                    double recentUpdate = lastUpdateDate;
+                    for (Area area : areaList) {
+                        // If new trip
+                        if (local.getAreaByCode(area.getCode()) == null) {
+                            AreaSql.addArea(local.getWritableDB(), area);
+                        }
+                        //If this update
+                        else {
+                            AreaSql.updateArea(local.getWritableDB(), area);
+                        }
+
+                        if (area.getLastUpdated() > recentUpdate) {
+                            recentUpdate = area.getLastUpdated();
+                        }
+                    }
+
+                    // Update the last update date
+                    AreaSql.setLastUpdateDate(local.getWritableDB(), recentUpdate);
+
+                    // Update the current key
+                    if (getCurrentKeyArea() <= currentMaxKey) {
+                        setCurrentKeyArea(currentMaxKey + 1);
+                    }
+                }
+
+                // Return all Desserts from the updated local db
+                List<Area> result = AreaSql.getAllAreas(local.getReadableDB());
                 listener.onComplete(result, currentMaxKey);
             }
 

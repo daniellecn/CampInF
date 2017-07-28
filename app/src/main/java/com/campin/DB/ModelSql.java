@@ -4,8 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.campin.Utils.Area;
 import com.campin.Utils.PlannedTrip;
 import com.campin.Utils.Trip;
+import com.campin.Utils.TripLevel;
+import com.campin.Utils.TripType;
 
 import java.util.List;
 
@@ -38,12 +41,48 @@ public class ModelSql {
         TripSql.addTrip(helper.getWritableDatabase(), trip);
     }
 
+    public void addTripLevel(TripLevel level){
+        TripLevelSql.addTripLevel(helper.getWritableDatabase(), level);
+    }
+
+    public void addTripType(TripType type){
+        TripTypeSql.addTripType(helper.getWritableDatabase(), type);
+    }
+
+    public void addArea(Area area){
+        AreaSql.addArea(helper.getWritableDatabase(), area);
+    }
+
     public Trip getTripById(int id){
         return TripSql.getTripByID(helper.getReadableDatabase(), id);
     }
 
+    public TripLevel getTripLevelByCode(int code){
+        return TripLevelSql.getTripLevelByCode(helper.getReadableDatabase(),code);
+    }
+
+    public TripType getTripTypeByCode(int code){
+        return TripTypeSql.getTripTypeByCode(helper.getReadableDatabase(), code);
+    }
+
+    public Area getAreaByCode(int code){
+        return AreaSql.getAreaByCode(helper.getReadableDatabase(), code);
+    }
+
     public List<Trip> getAllTrips(){
         return TripSql.getAllTrips(helper.getReadableDatabase());
+    }
+
+    public List<TripLevel> getAllTripLevels(){
+        return TripLevelSql.getAllTripLevels(helper.getReadableDatabase());
+    }
+
+    public List<TripType> getAllTripType(){
+        return TripTypeSql.getAllTripTypes(helper.getReadableDatabase());
+    }
+
+    public List<Area> getAllArea(){
+        return AreaSql.getAllAreas(helper.getReadableDatabase());
     }
 
     public void addPlannedTrip(PlannedTrip trip) {
@@ -57,11 +96,6 @@ public class ModelSql {
     public PlannedTrip getPlannedTripById(int id) {
         return PlannedTripSql.getDessertById(helper.getReadableDatabase(), String.valueOf(id));
     }
-
-    public List<PlannedTrip> getAllDesserts() {
-        return PlannedTripSql.getAllPlannedTrip(helper.getReadableDatabase());
-    }
-
 
     public List<PlannedTrip> getBySearch(String query) {
         return PlannedTripSql.getDessertsBySearch(helper.getReadableDatabase(), query);
