@@ -20,9 +20,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,32 +45,66 @@ import com.campin.R;
 import com.campin.Utils.Trip;
 import com.campin.Utils.User;
 
+import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Provides UI for the view with Cards.
  */
 public class CardContentFragment extends Fragment {
+    List<Trip> tripListData;
+    ContentAdapter adapter;
+
+    public CardContentFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
-        ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
+        adapter = new ContentAdapter(recyclerView.getContext());
+
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        loadTripListData();
+
         return recyclerView;
     }
+
+    private void loadTripListData(){
+        Model.instance().getAllTripAsynch(new Model.GetAllTripsListener() {
+            @Override
+            public void onComplete(List<Trip> tripsList, int currentMaxKey) {
+                tripListData = tripsList;
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancel() {
+                // Display message
+                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.errorOccure),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;
         public TextView name;
         public TextView description;
+
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.item_card, parent, false));
-            picture = (ImageView) itemView.findViewById(R.id.card_image);
-            name = (TextView) itemView.findViewById(R.id.card_title);
+
+            picture     = (ImageView) itemView.findViewById(R.id.card_image);
+            name        = (TextView) itemView.findViewById(R.id.card_title);
             description = (TextView) itemView.findViewById(R.id.card_text);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -78,65 +114,18 @@ public class CardContentFragment extends Fragment {
                     context.startActivity(intent);
                 }
             });
-
-//            // Adding Snackbar to Action Button inside card
-//            Button button = (Button)itemView.findViewById(R.id.action_button);
-//            button.setOnClickListener(new View.OnClickListener(){
-//                @Override
-//                public void onClick(View v) {
-//                    Snackbar.make(v, "Action is pressed",
-//                            Snackbar.LENGTH_LONG).show();
-//                }
-//            });
-
-//            ImageButton favoriteImageButton =
-//                    (ImageButton) itemView.findViewById(R.id.favorite_button);
-//            favoriteImageButton.setOnClickListener(new View.OnClickListener(){
-//                @Override
-//                public void onClick(View v) {
-//                    Snackbar.make(v, "Added to Favorite",
-//                            Snackbar.LENGTH_LONG).show();
-//                }
-//            });
-//
-//            ImageButton shareImageButton = (ImageButton) itemView.findViewById(R.id.share_button);
-//            shareImageButton.setOnClickListener(new View.OnClickListener(){
-//                @Override
-//                public void onClick(View v) {
-//                    Snackbar.make(v, "Share article",
-//                            Snackbar.LENGTH_LONG).show();
-//                }
-//            });
         }
     }
 
     /**
      * Adapter to display recycler view.
      */
-    public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+    public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of Card in RecyclerView.
         private static final int LENGTH = 18;
 
-        private final String[] mPlaces;
-        private final String[] mPlaceDesc;
-        private final Drawable[] mPlacePictures;
-
         public ContentAdapter(Context context)
         {
-
-            // TODO: just for debug to delete!!!!
-            Model.instance().getTripById(1);
-
-
-            Resources resources = context.getResources();
-            mPlaces = resources.getStringArray(R.array.places);
-            mPlaceDesc = resources.getStringArray(R.array.place_desc);
-            TypedArray a = resources.obtainTypedArray(R.array.places_picture);
-            mPlacePictures = new Drawable[a.length()];
-            for (int i = 0; i < mPlacePictures.length; i++) {
-                mPlacePictures[i] = a.getDrawable(i);
-            }
-            a.recycle();
         }
 
         @Override
@@ -145,10 +134,22 @@ public class CardContentFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
-            holder.name.setText(mPlaces[position % mPlaces.length]);
-            holder.description.setText(mPlaceDesc[position % mPlaceDesc.length]);
+        public void onBindViewHolder(final ViewHolder holder, int position) {
+            if (tripListData != null) {
+//                Model.instance().getTripImage(tripListData.get(position), 0, new Model.GetImageListener() {
+//                    @Override
+//                    public void onSuccess(Bitmap image) {
+//                        holder.picture.setImageBitmap(image);
+//                    }
+//
+//                    @Override
+//                    public void onFail() {
+//                    }
+//                });
+
+                holder.name.setText(tripListData.get(position).getName());
+                holder.description.setText(tripListData.get(position).getDetails());
+            }
         }
 
         @Override

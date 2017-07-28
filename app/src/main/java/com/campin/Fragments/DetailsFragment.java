@@ -44,10 +44,6 @@ public class DetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_details, container, false);
 
         equipmensList = getResources().getStringArray(R.array.trip_equipments_content);
-//        eqpmAdapter = new EquipmenstAdapter();
-//        final ListView eqpmList = (ListView) view.findViewById(R.id.det_eqmp_list);
-//        eqpmList.setAdapter(eqpmAdapter);
-
 
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);

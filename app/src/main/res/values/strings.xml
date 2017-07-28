@@ -3,6 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="item_title">Palais Garnier</string>
     <string name="create_trip_title">יצירת טיול חדש</string>
+    <string name="errorOccure">התרחשה שגיאה, אנא נסה שנית</string>
     <string name="item_desc">The Palais Garnier which locates in Paris was built from 1861 for
         the Paris Opera.
     </string>

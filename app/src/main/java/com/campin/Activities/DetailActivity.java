@@ -44,22 +44,6 @@ public class DetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-//        DetailsFragment detailsFragment = new DetailsFragment();
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.add(R.id.det_listFragment, detailsFragment);
-//        transaction.commit();
-
-        // Set Collapsing Toolbar layout to the screen
-
-//        String[] placeDetails = resources.getStringArray(R.array.place_details);
-//        TextView placeDetail = (TextView) findViewById(R.id.place_detail);
-//        placeDetail.setText(placeDetails[postion % placeDetails.length]);
-//
-//        String[] placeLocations = resources.getStringArray(R.array.place_locations);
-//        TextView placeLocation =  (TextView) findViewById(R.id.place_location);
-//        placeLocation.setText(placeLocations[postion % placeLocations.length]);
-//
     }
 
 

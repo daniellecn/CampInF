@@ -309,14 +309,14 @@ public class Model {
                     }
                 }
 
-                // Return all Desserts from the updated local db
+                // Return all trips from the updated local db
                 List<Trip> result = TripSql.getAllTrips(local.getReadableDB());
                 listener.onComplete(result, currentMaxKey);
             }
 
             @Override
             public void onCancel() {
-
+                int a = 3;
             }
         });
     }

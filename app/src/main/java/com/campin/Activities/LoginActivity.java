@@ -68,39 +68,6 @@ public class LoginActivity extends AppCompatActivity {
         _fcbkLoginButton.setReadPermissions(Arrays.asList(
                 "public_profile", "email", "user_birthday", "user_friends", "user_location, user_hometown"));
 
-//        List<String> seasons = new LinkedList<String>();
-//        seasons.add("season1");
-//        seasons.add("season2");
-//        List<Integer> types = new LinkedList<Integer>();
-//        types.add(1);
-//        types.add(2);
-//        List<String> equipment = new LinkedList<String>();
-//        equipment.add("equipment1");
-//        equipment.add("equipment2");
-//        List<TripComments> comments = new LinkedList<TripComments>();
-//        TripComments comment = new TripComments(1, "comment1", 1.5);
-//        comments.add(comment);
-//        comment = new TripComments(2, "comment2", 0.9);
-//        comments.add(comment);
-//
-//        Trip trip = new Trip(1, "Danielle", 1, seasons, types, equipment, comments, 5, "Details");
-//        Model.instance().addTrip(trip, new Model.SuccessListener() {
-//            @Override
-//            public void onResult(boolean result) {
-//            }
-//        });
-
-        Model.instance().getAllTripAsynch(new Model.GetAllTripsListener() {
-            @Override
-            public void onComplete(List<Trip> tripsList, int currentMaxKey) {
-                int a = currentMaxKey;
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-        });
         login();
     }
 

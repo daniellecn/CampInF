@@ -9,6 +9,7 @@ import com.campin.Utils.Trip;
 import com.campin.Utils.TripComments;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -201,7 +202,7 @@ public class TripSql {
     }
 
     public static List<Trip> getAllTrips(SQLiteDatabase db) {
-        List<Trip> tripsList = null;
+        List<Trip> tripsList = new LinkedList<Trip>();
         String[] arg = new String[1];
         Trip trip;
 
