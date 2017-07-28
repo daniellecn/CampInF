@@ -22,14 +22,15 @@ public class ModelSql {
 
     public ModelSql() {
         helper = new Helper(getApplicationContext());
-        //helper.onUpgrade(getWritableDB(), 7, 7);
+        helper.onUpgrade(getWritableDB(), 7, 7);
+        //helper.onCreate(getReadableDB());
     }
 
     public SQLiteDatabase getWritableDB() {
         return helper.getWritableDatabase();
     }
 
-    public SQLiteDatabase getReadbleDB() {
+    public SQLiteDatabase getReadableDB() {
         return helper.getReadableDatabase();
     }
 
@@ -67,7 +68,6 @@ public class ModelSql {
     }
 
     class Helper extends SQLiteOpenHelper {
-
 
         public Helper(Context context) {
             super(context, "database.db", null, version);

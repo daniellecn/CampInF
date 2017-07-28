@@ -1,29 +1,19 @@
 package com.campin.Activities;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.campin.DB.AppContext;
 import com.campin.DB.Model;
 import com.campin.R;
 import com.campin.Utils.Trip;
-import com.campin.Utils.TripComments;
 import com.campin.Utils.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -50,14 +40,10 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-
-import static android.R.attr.onClick;
 
 public class LoginActivity extends AppCompatActivity {
 

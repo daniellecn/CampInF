@@ -224,7 +224,7 @@ public class Model {
 
     public void getAllTripAsynch(final GetAllTripsListener listener) {
         // Get last update date
-        final double lastUpdateDate = TripSql.getLastUpdateDate(local.getReadbleDB());
+        final double lastUpdateDate = TripSql.getLastUpdateDate(local.getReadableDB());
 
         // Get all trips records that where updated since last update date
         remote.getTripsFromDate(lastUpdateDate, new GetAllTripsListener() {
@@ -259,7 +259,7 @@ public class Model {
                 }
 
                 // Return all Desserts from the updated local db
-                List<Trip> result = TripSql.getAllTrips(local.getReadbleDB());
+                List<Trip> result = TripSql.getAllTrips(local.getReadableDB());
                 listener.onComplete(result, currentMaxKey);
             }
 

@@ -35,7 +35,7 @@ public class TripSql {
     private static final String TYPE = "TYPE";
 
     // Trip equipment Table
-    private static final String TRIP_EQUIPMENT_TABLE = "TRIP_TYPES";
+    private static final String TRIP_EQUIPMENT_TABLE = "TRIP_EQUIPMENT";
     private static final String EQUIPMENT = "EQUIPMENT";
 
     // Trip comments Table
@@ -51,8 +51,8 @@ public class TripSql {
                 AREA + " NUM," +
                 FRIENDS + " NUM," +
                 DETAILS + " TEXT," +
-                LEVEL + "NUM," +
-                IMAGE_URL + "TEXT);");
+                LEVEL + " NUM," +
+                IMAGE_URL + " TEXT );");
 
         db.execSQL("CREATE TABLE " + TRIP_SEASONS_TABLE + " (" +
                 TRIP_ID + " NUM ," +
@@ -123,7 +123,7 @@ public class TripSql {
 
         for (Integer type : trip.getTypes()){
             values.put(TRIP_ID, trip.getId());
-            values.put(SEASON, type);
+            values.put(TYPE, type);
 
             // Add to local db
             rowId = db.insertWithOnConflict(TRIP_TYPES_TABLE, TRIP_ID, values, SQLiteDatabase.CONFLICT_REPLACE);

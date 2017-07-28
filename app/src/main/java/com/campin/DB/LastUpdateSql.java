@@ -14,7 +14,7 @@ class LastUpdateSql {
     final static String LAST_UPDATE_TABLE_DATE = "date";
 
     static public void create(SQLiteDatabase db) {
-        db.execSQL("create table " + LAST_UPDATE_TABLE + " (" +
+        db.execSQL("CREATE TABLE " + LAST_UPDATE_TABLE + " (" +
                 LAST_UPDATE_TABLE_TNAME + " TEXT PRIMARY KEY," +
                 LAST_UPDATE_TABLE_DATE + " NUMERIC);");
     }
