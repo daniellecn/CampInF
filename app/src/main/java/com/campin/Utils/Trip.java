@@ -28,13 +28,15 @@ public class Trip
     private int friendsNum;
     private String details;
     private int level;
+    private String imageUrl;
     private double lastUpdated;
 
     public Trip(){
     }
 
     public Trip(int id, String name, int area, List<String> seasons, List<Integer> types,
-                List<String> equipment, List<TripComments> comments, int friendsNum, String details, int level) {
+                List<String> equipment, List<TripComments> comments, int friendsNum, String details,
+                int level, String imageUrl) {
         this.id = id;
         this.name = name;
         this.area = area;
@@ -45,15 +47,17 @@ public class Trip
         this.friendsNum = friendsNum;
         this.details = details;
         this.level = level;
+        this.imageUrl = imageUrl;
     }
 
-    public Trip(int id, String name, int area, int friendsNum, String details, int level) {
+    public Trip(int id, String name, int area, int friendsNum, String details, int level, String imageUrl) {
         this.id = id;
         this.name = name;
         this.area = area;
         this.friendsNum = friendsNum;
         this.details = details;
         this.level = level;
+        this.imageUrl = imageUrl;
     }
 
     public int getId() {
@@ -136,6 +140,14 @@ public class Trip
         this.level = level;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public double getLastUpdated() {
         return lastUpdated;
     }
@@ -157,6 +169,7 @@ public class Trip
         result.put("friendsNum", getFriendsNum());
         result.put("details", getDetails());
         result.put("level", getLevel());
+        result.put("imageUrl", getImageUrl());
         result.put("lastUpdated", ServerValue.TIMESTAMP);
         return result;
     }

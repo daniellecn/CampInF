@@ -1,5 +1,7 @@
 package com.campin.DB;
 
+import android.graphics.Bitmap;
+
 import com.campin.Utils.PlannedTrip;
 import com.campin.Utils.User;
 import com.campin.Utils.Trip;
@@ -94,6 +96,11 @@ public class Model {
         public void onCancel();
     }
 
+    public interface GetImageListener{
+        public void onSuccess(Bitmap image);
+        public void onFail();
+    }
+
     public static void setCurrentKeyPlanned(int currentKey) {
         Model.currentKeyPlanned = currentKey;
     }
@@ -122,8 +129,32 @@ public class Model {
         remote.userSignUp(user, listener);
     }
 
-    public void addTrip(Trip trip, SuccessListener listener){
-        remote.addTrip(trip, listener);
+    public void addTrip(final Trip trip, Bitmap tripImage, final SuccessListener listener){
+        // Save the image on the SD-CARD
+        if (tripImage != null){
+            ImageLocal.saveLocalImage(tripImage, String.valueOf(trip.getId()));
+
+            // Upload image to firebase storage
+            ImageFirebase.saveRemoteImage(tripImage, String.valueOf(trip.getId()), new SaveImageListener() {
+                @Override
+                public void fail() {
+                    listener.onResult(false);
+                }
+
+                @Override
+                public void complete(String url) {
+                    trip.setImageUrl(url);
+                    remote.addTrip(trip, listener);
+
+                    listener.onResult(true);
+                }
+            });
+        }
+        // Save without image
+        else {
+            remote.addTrip(trip, listener);
+        }
+        setCurrentKeyTrips(getCurrentKeyTrips() + 1);
     }
 
     public void addPlannedTrip(final PlannedTrip plannedTrip, final SuccessListener listener){
@@ -160,8 +191,35 @@ public class Model {
         return remote.getUserById(id,listener);
     }
 
-    public Trip getTripById(String id, Model.GetTripListener listener){
-        return null; //remote.getTripById(id,listener);
+    public Trip getTripById(int id){
+         return local.getTripById(id);
+    }
+
+    public void getTripImage(final Trip trip, int size, final Model.GetImageListener listener){
+        Bitmap tripImage;
+
+        // Get local image
+        tripImage = ImageLocal.loadLocalImage(String.valueOf(trip.getId()), size);
+
+        if (tripImage != null) {
+            listener.onSuccess(tripImage);
+        }
+        // If there is not a local image
+        else {
+            ImageFirebase.loadRemoteImage(trip.getImageUrl(), new GetImageListener() {
+                @Override
+                public void onSuccess(Bitmap image) {
+                    // Save the image local
+                    ImageLocal.saveLocalImage(image, String.valueOf(trip.getId()));
+                    listener.onSuccess(image);
+                }
+
+                @Override
+                public void onFail() {
+                    listener.onFail();
+                }
+            });
+        }
     }
 
     public void getAllTripAsynch(final GetAllTripsListener listener) {

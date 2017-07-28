@@ -24,6 +24,7 @@ public class TripSql {
     private static final String FRIENDS = "FRIENDS";
     private static final String DETAILS = "DETAILS";
     private static final String LEVEL = "LEVEL";
+    private static final String IMAGE_URL = "IMAGE_URL";
 
     // Trip seasons Table
     private static final String TRIP_SEASONS_TABLE = "TRIP_SEASONS";
@@ -50,7 +51,8 @@ public class TripSql {
                 AREA + " NUM," +
                 FRIENDS + " NUM," +
                 DETAILS + " TEXT," +
-                LEVEL + "NUM);");
+                LEVEL + "NUM," +
+                IMAGE_URL + "TEXT);");
 
         db.execSQL("CREATE TABLE " + TRIP_SEASONS_TABLE + " (" +
                 TRIP_ID + " NUM ," +
@@ -93,6 +95,8 @@ public class TripSql {
         values.put(AREA, trip.getArea());
         values.put(FRIENDS, trip.getFriendsNum());
         values.put(DETAILS, trip.getDetails());
+        values.put(LEVEL, trip.getLevel());
+        values.put(IMAGE_URL, trip.getImageUrl());
 
         // Add to local db
         rowId = db.insertWithOnConflict(TRIPS_TABLE, TRIP_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -177,7 +181,8 @@ public class TripSql {
                     cursor.getInt(cursor.getColumnIndex(AREA)),
                     cursor.getInt(cursor.getColumnIndex(FRIENDS)),
                     cursor.getString(cursor.getColumnIndex(DETAILS)),
-                    cursor.getInt(cursor.getColumnIndex(LEVEL)));
+                    cursor.getInt(cursor.getColumnIndex(LEVEL)),
+                    cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
 
             trip.setSeasons(getSeasonsOfTripId(db, selectArg));
             trip.setTypes(getTypesOfTripId(db, selectArg));
@@ -211,6 +216,7 @@ public class TripSql {
             int friendsIndex = tripsCursor.getColumnIndex(FRIENDS);
             int detailsIndex = tripsCursor.getColumnIndex(DETAILS);
             int levelIndex = tripsCursor.getColumnIndex(LEVEL);
+            int imageUrlIndex = tripsCursor.getColumnIndex(IMAGE_URL);
 
             // Select argument
             arg[0] = tripsCursor.getString(idIndex);
@@ -227,7 +233,8 @@ public class TripSql {
                         getCommentsOfTripId(db, arg),
                         tripsCursor.getInt(friendsIndex),
                         tripsCursor.getString(detailsIndex),
-                        tripsCursor.getInt(levelIndex)
+                        tripsCursor.getInt(levelIndex),
+                        tripsCursor.getString(imageUrlIndex)
                 );
                 tripsList.add(trip);
             }while (tripsCursor.moveToNext());
