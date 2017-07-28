@@ -110,7 +110,7 @@ public class AddFriendsActivity extends AppCompatActivity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(AddFriendsActivity.this
                 ,R.style.AppTheme_Dark_Dialog);
         AlertDialog dialog;
-        builder.setTitle("הטיול ל" + newPlannedTrip.getTrip().getAreaID() + " נוצר בהצלחה");
+        builder.setTitle("הטיול ל" + newPlannedTrip.getTrip().getArea() + " נוצר בהצלחה");
         builder.setIcon(R.drawable.checked);
 
         String positiveText = getString(android.R.string.ok);

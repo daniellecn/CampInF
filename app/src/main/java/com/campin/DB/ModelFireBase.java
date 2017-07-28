@@ -58,7 +58,7 @@ public class ModelFireBase {
     }
 
     public void addTrip(Trip trip, final Model.SuccessListener listener){
-        DatabaseReference myRef = database.getReference("Trips").child(String.valueOf(trip.getTripID()));
+        DatabaseReference myRef = database.getReference("Trips").child(String.valueOf(trip.getId()));
         myRef.setValue(trip.toMap());
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {

@@ -178,7 +178,7 @@ public class Model {
                     double recentUpdate = lastUpdateDate;
                     for (Trip trip : tripsList) {
                         // If new trip
-                        if (local.getTripById(trip.getTripID()) == null) {
+                        if (local.getTripById(trip.getId()) == null) {
                             TripSql.addTrip(local.getWritableDB(), trip);
                         }
                         //If this update

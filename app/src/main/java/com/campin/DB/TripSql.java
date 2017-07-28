@@ -88,9 +88,9 @@ public class TripSql {
         long rowId;
 
         // Set Trip table values
-        values.put(TRIP_ID, trip.getTripID());
-        values.put(NAME, trip.getTripName());
-        values.put(AREA, trip.getAreaID());
+        values.put(TRIP_ID, trip.getId());
+        values.put(NAME, trip.getName());
+        values.put(AREA, trip.getArea());
         values.put(FRIENDS, trip.getFriendsNum());
         values.put(DETAILS, trip.getDetails());
 
@@ -103,8 +103,8 @@ public class TripSql {
         // Set trip seasons table
         values.clear();
 
-        for (String season : trip.getTripSeasons()){
-            values.put(TRIP_ID, trip.getTripID());
+        for (String season : trip.getSeasons()){
+            values.put(TRIP_ID, trip.getId());
             values.put(SEASON, season);
 
             // Add to local db
@@ -117,8 +117,8 @@ public class TripSql {
         // Set trip types table
         values.clear();
 
-        for (Integer type : trip.getTripTypes()){
-            values.put(TRIP_ID, trip.getTripID());
+        for (Integer type : trip.getTypes()){
+            values.put(TRIP_ID, trip.getId());
             values.put(SEASON, type);
 
             // Add to local db
@@ -131,8 +131,8 @@ public class TripSql {
         // Set trip equipment table
         values.clear();
 
-        for (String type : trip.getTripEquipment()){
-            values.put(TRIP_ID, trip.getTripID());
+        for (String type : trip.getEquipment()){
+            values.put(TRIP_ID, trip.getId());
             values.put(EQUIPMENT, type);
 
             // Add to local db
@@ -145,8 +145,8 @@ public class TripSql {
         // Set trip comments table
         values.clear();
 
-        for (TripComments comment : trip.getTripComments()){
-            values.put(TRIP_ID, trip.getTripID());
+        for (TripComments comment : trip.getComments()){
+            values.put(TRIP_ID, trip.getId());
             values.put(COMMENT_ID, comment.get_commentId());
             values.put(COMMENT, comment.get_tripComment());
             values.put(SCORE, comment.get_commentScore());
@@ -179,10 +179,10 @@ public class TripSql {
                     cursor.getString(cursor.getColumnIndex(DETAILS)),
                     cursor.getInt(cursor.getColumnIndex(LEVEL)));
 
-            trip.setTripSeasons(getSeasonsOfTripId(db, selectArg));
-            trip.setTripTypes(getTypesOfTripId(db, selectArg));
-            trip.setTripEquipment(getEquipmentOfTripId(db, selectArg));
-            trip.setTripComments(getCommentsOfTripId(db, selectArg));
+            trip.setSeasons(getSeasonsOfTripId(db, selectArg));
+            trip.setTypes(getTypesOfTripId(db, selectArg));
+            trip.setEquipment(getEquipmentOfTripId(db, selectArg));
+            trip.setComments(getCommentsOfTripId(db, selectArg));
         }
         return trip;
     }

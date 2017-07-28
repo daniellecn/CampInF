@@ -28,7 +28,7 @@ public class TripFireBase
     private static FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     public static void addTrip(Trip newTrip, final Model.SuccessListener listener){
-        DatabaseReference myRef = database.getReference("Trips").child(String.valueOf(newTrip.getTripID()));
+        DatabaseReference myRef = database.getReference("Trips").child(String.valueOf(newTrip.getId()));
         myRef.setValue(newTrip.toMap());
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -79,7 +79,6 @@ public class TripFireBase
                 for (DataSnapshot dstSnapshot : dataSnapshot.getChildren()) {
                     Trip trip = dstSnapshot.getValue(Trip.class);
 
-
 //                    List<String> test = (List<String>) dstSnapshot.child("seasons");
 //                    trip.setTripSeasons((List<String>) dstSnapshot.child("seasons"));
 //                    trip.setTripTypes((List<Integer>) myRef.child("types"));
@@ -87,8 +86,8 @@ public class TripFireBase
 //                    trip.setTripComments((List<TripComments>) myRef.child("comments"));
 
 
-                    if (maxKey[0] < trip.getTripID()) {
-                        maxKey[0] = trip.getTripID();
+                    if (maxKey[0] < trip.getId()) {
+                        maxKey[0] = trip.getId();
                     }
 
                     tripsList.add(trip);
