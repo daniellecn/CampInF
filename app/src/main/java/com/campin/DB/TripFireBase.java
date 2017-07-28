@@ -4,6 +4,7 @@ import android.net.sip.SipAudioCall;
 
 import com.campin.Utils.PlannedTrip;
 import com.campin.Utils.Trip;
+import com.campin.Utils.TripComments;
 import com.campin.Utils.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -11,9 +12,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StreamDownloadTask;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by Igor on 7/24/2017.
@@ -64,7 +67,7 @@ public class TripFireBase
         final int[] maxKey = {-1};
 
         // Get all the desserts from the last update
-        DatabaseReference myRef = database.getReference("Trips");
+        final DatabaseReference myRef = database.getReference("Trips");
         Query query = myRef.orderByChild("lastUpdated").startAt(lastUpdateDate);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -75,6 +78,14 @@ public class TripFireBase
                 // Create the desserts list
                 for (DataSnapshot dstSnapshot : dataSnapshot.getChildren()) {
                     Trip trip = dstSnapshot.getValue(Trip.class);
+
+
+//                    List<String> test = (List<String>) dstSnapshot.child("seasons");
+//                    trip.setTripSeasons((List<String>) dstSnapshot.child("seasons"));
+//                    trip.setTripTypes((List<Integer>) myRef.child("types"));
+//                    trip.setTripEquipment((List<String>) myRef.child("equipment"));
+//                    trip.setTripComments((List<TripComments>) myRef.child("comments"));
+
 
                     if (maxKey[0] < trip.getTripID()) {
                         maxKey[0] = trip.getTripID();

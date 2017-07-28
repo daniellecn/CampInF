@@ -104,6 +104,17 @@ public class LoginActivity extends AppCompatActivity {
 //            }
 //        });
 
+        Model.instance().getAllTripAsynch(new Model.GetAllTripsListener() {
+            @Override
+            public void onComplete(List<Trip> tripsList, int currentMaxKey) {
+                int a = currentMaxKey;
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
         login();
     }
 

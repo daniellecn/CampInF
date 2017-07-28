@@ -23,6 +23,7 @@ public class TripSql {
     private static final String AREA = "AREA";
     private static final String FRIENDS = "FRIENDS";
     private static final String DETAILS = "DETAILS";
+    private static final String LEVEL = "LEVEL";
 
     // Trip seasons Table
     private static final String TRIP_SEASONS_TABLE = "TRIP_SEASONS";
@@ -46,9 +47,10 @@ public class TripSql {
         db.execSQL("CREATE TABLE " + TRIPS_TABLE + " (" +
                 TRIP_ID + " NUM PRIMARY KEY," +
                 NAME + " TEXT," +
-                AREA + " TEXT," +
-                FRIENDS + " TEXT," +
-                DETAILS + " TEXT );");
+                AREA + " NUM," +
+                FRIENDS + " NUM," +
+                DETAILS + " TEXT," +
+                LEVEL + "NUM);");
 
         db.execSQL("CREATE TABLE " + TRIP_SEASONS_TABLE + " (" +
                 TRIP_ID + " NUM ," +
@@ -57,12 +59,12 @@ public class TripSql {
 
         db.execSQL("CREATE TABLE " + TRIP_TYPES_TABLE + " (" +
                 TRIP_ID + " NUM ," +
-                TYPE + " TEXT, PRIMARY KEY ( " +
+                TYPE + " NUM, PRIMARY KEY ( " +
                 TRIP_ID + ", " + TYPE + " ) );");
 
         db.execSQL("CREATE TABLE " + TRIP_EQUIPMENT_TABLE + " (" +
                 TRIP_ID + " NUM ," +
-                TYPE + " TEXT, PRIMARY KEY ( " +
+                EQUIPMENT + " TEXT, PRIMARY KEY ( " +
                 TRIP_ID + ", " + EQUIPMENT + " ) );");
 
         db.execSQL("CREATE TABLE " + TRIP_COMMENTS_TABLE + " (" +
@@ -174,7 +176,8 @@ public class TripSql {
                     cursor.getString(cursor.getColumnIndex(NAME)),
                     cursor.getInt(cursor.getColumnIndex(AREA)),
                     cursor.getInt(cursor.getColumnIndex(FRIENDS)),
-                    cursor.getString(cursor.getColumnIndex(DETAILS)));
+                    cursor.getString(cursor.getColumnIndex(DETAILS)),
+                    cursor.getInt(cursor.getColumnIndex(LEVEL)));
 
             trip.setTripSeasons(getSeasonsOfTripId(db, selectArg));
             trip.setTripTypes(getTypesOfTripId(db, selectArg));
@@ -207,6 +210,7 @@ public class TripSql {
             int areaIndex = tripsCursor.getColumnIndex(AREA);
             int friendsIndex = tripsCursor.getColumnIndex(FRIENDS);
             int detailsIndex = tripsCursor.getColumnIndex(DETAILS);
+            int levelIndex = tripsCursor.getColumnIndex(LEVEL);
 
             // Select argument
             arg[0] = tripsCursor.getString(idIndex);
@@ -222,7 +226,8 @@ public class TripSql {
                         getEquipmentOfTripId(db, arg),
                         getCommentsOfTripId(db, arg),
                         tripsCursor.getInt(friendsIndex),
-                        tripsCursor.getString(detailsIndex)
+                        tripsCursor.getString(detailsIndex),
+                        tripsCursor.getInt(levelIndex)
                 );
                 tripsList.add(trip);
             }while (tripsCursor.moveToNext());

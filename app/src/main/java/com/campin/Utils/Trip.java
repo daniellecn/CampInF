@@ -18,122 +18,134 @@ import java.util.Map;
 
 public class Trip
 {
-    private int _tripID;
-    private String _tripName;
-    private int _areaID;
-    private List<String> _tripSeasons;
-    private List<Integer> _tripTypes;
-    private List<String> _tripEquipment;
-    private List<TripComments> _tripComments;
-    private int _friendsNum;
-    private String _details;
-
-    private double _lastUpdated;
+    private int tripID;
+    private String tripName;
+    private int areaID;
+    private List<String> tripSeasons;
+    private List<Integer> tripTypes;
+    private List<String> tripEquipment;
+    private List<TripComments> tripComments;
+    private int friendsNum;
+    private String details;
+    private int level;
+    private double lastUpdated;
 
     public Trip(){
     }
 
-    public Trip(int _tripID, String _tripName, int _areaID, List<String> _tripSeasons,
-                List<Integer> _tripTypes, List<String> _tripEquipment, List<TripComments> _tripComments,
-                int _friendsNum, String _details) {
-        this._tripID = _tripID;
-        this._tripName = _tripName;
-        this._areaID = _areaID;
-        this._tripSeasons = _tripSeasons;
-        this._tripTypes = _tripTypes;
-        this._tripEquipment = _tripEquipment;
-        this._tripComments = _tripComments;
-        this._friendsNum = _friendsNum;
-        this._details = _details;
+    public Trip(int tripID, String tripName, int areaID, List<String> tripSeasons,
+                List<Integer> tripTypes, List<String> tripEquipment, List<TripComments> tripComments,
+                int friendsNum, String details, int level) {
+        this.tripID = tripID;
+        this.tripName = tripName;
+        this.areaID = areaID;
+        this.tripSeasons = tripSeasons;
+        this.tripTypes = tripTypes;
+        this.tripEquipment = tripEquipment;
+        this.tripComments = tripComments;
+        this.friendsNum = friendsNum;
+        this.details = details;
+        this.level = level;
     }
 
-    public Trip(int _tripID, String _tripName, int _areaID, int _friendsNum, String _details) {
-        this._tripID = _tripID;
-        this._tripName = _tripName;
-        this._areaID = _areaID;
-        this._friendsNum = _friendsNum;
-        this._details = _details;
+
+    public Trip(int tripID, String tripName, int areaID, int friendsNum, String details, int level) {
+        this.tripID = tripID;
+        this.tripName = tripName;
+        this.areaID = areaID;
+        this.friendsNum = friendsNum;
+        this.details = details;
+        this.level = level;
     }
 
     public int getTripID() {
-        return _tripID;
+        return tripID;
     }
 
-    public void setTripID(int _tripID) {
-        this._tripID = _tripID;
+    public void setTripID(int tripID) {
+        this.tripID = tripID;
     }
 
     public String getTripName() {
-        return _tripName;
+        return tripName;
     }
 
-    public void setTripName(String _tripName) {
-        this._tripName = _tripName;
+    public void setTripName(String tripName) {
+        this.tripName = tripName;
     }
 
     public int getAreaID() {
-        return _areaID;
+        return areaID;
     }
 
-    public void setAreaID(int _areaID) {
-        this._areaID = _areaID;
+    public void setAreaID(int areaID) {
+        this.areaID = areaID;
     }
 
     public List<String> getTripSeasons() {
-        return _tripSeasons;
+        return tripSeasons;
     }
 
-    public void setTripSeasons(List<String> _tripSeasons) {
-        this._tripSeasons = _tripSeasons;
+    public void setTripSeasons(List<String> tripSeasons) {
+        this.tripSeasons = tripSeasons;
     }
 
     public List<Integer> getTripTypes() {
-        return _tripTypes;
+        return tripTypes;
     }
 
-    public void setTripTypes(List<Integer> _tripTypes) {
-        this._tripTypes = _tripTypes;
+    public void setTripTypes(List<Integer> tripTypes) {
+        this.tripTypes = tripTypes;
     }
 
     public List<String> getTripEquipment() {
-        return _tripEquipment;
+        return tripEquipment;
     }
 
-    public void setTripEquipment(List<String> _tripEquipment) {
-        this._tripEquipment = _tripEquipment;
+    public void setTripEquipment(List<String> tripEquipment) {
+        this.tripEquipment = tripEquipment;
     }
 
     public List<TripComments> getTripComments() {
-        return _tripComments;
+        return tripComments;
     }
 
-    public void setTripComments(List<TripComments> _tripComments) {
-        this._tripComments = _tripComments;
+    public void setTripComments(List<TripComments> tripComments) {
+        this.tripComments = tripComments;
     }
 
     public int getFriendsNum() {
-        return _friendsNum;
+        return friendsNum;
     }
 
-    public void setFriendsNum(int _friendsNum) {
-        this._friendsNum = _friendsNum;
+    public void setFriendsNum(int friendsNum) {
+        this.friendsNum = friendsNum;
     }
 
     public String getDetails() {
-        return _details;
+        return details;
     }
 
-    public void setDetails(String _details) {
-        this._details = _details;
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public double getLastUpdated() {
-        return _lastUpdated;
+        return lastUpdated;
     }
 
-    public void setLastUpdated(double _lastUpdated) {
-        this._lastUpdated = _lastUpdated;
+    public void setLastUpdated(double lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
@@ -146,115 +158,8 @@ public class Trip
         result.put("comments", getTripComments());
         result.put("friends", getFriendsNum());
         result.put("details", getDetails());
+        result.put("level", getLevel());
         result.put("lastUpdated", ServerValue.TIMESTAMP);
         return result;
     }
-
-
-//    private String _tripName;
-//    private String _area = "";
-//    private int _tripLevel;
-//    private int _tripID;
-//    private int _tripCode;
-//    private List<String> _tripType;
-//    private List<String> _tripSeason;
-//    private List<String> _tripEquipment;
-//    private List<TripComments> _TripComments;
-//
-//    public Trip()
-//    {
-//    }
-//
-//    public Trip(String tripName, String area, int tripLevel, int tripID)
-//    {
-//        _tripName = tripName;
-//        _area =area;
-//        _tripLevel = tripLevel;
-//        _tripID = tripID;
-//    }
-//
-//    public int getTripId() {
-//        return _tripID;
-//    }
-//
-//    public void setTripId(int tripId) {
-//        _tripID = tripId;
-//    }
-//
-//    public String getArea() {
-//        return _area;
-//    }
-//
-//    public void setArea(String area) {
-//        this._area = area;
-//    }
-//
-//    public String getTripName() {
-//        return _tripName;
-//    }
-//
-//    public void setTripName(String tripName) {
-//        this._tripName = tripName;
-//    }
-//
-//    public int getLevel() {
-//        return _tripLevel;
-//    }
-//
-//    public void setLevel(int tripLevel) {
-//        this._tripLevel = tripLevel;
-//    }
-//
-//    public int get_tripCode() {
-//        return _tripCode;
-//    }
-//
-//    public void set_tripCode(int _tripCode) {
-//        this._tripCode = _tripCode;
-//    }
-//
-//    public List<String> get_tripType() {
-//        return _tripType;
-//    }
-//
-//    public void set_tripType(List<String> _tripType) {
-//        this._tripType = _tripType;
-//    }
-//
-//    public List<String> get_tripSeason() {
-//        return _tripSeason;
-//    }
-//
-//    public void set_tripSeason(List<String> _tripSeason) {
-//        this._tripSeason = _tripSeason;
-//    }
-//
-//    public List<String> get_tripEquipment() {
-//        return _tripEquipment;
-//    }
-//
-//    public void set_tripEquipment(List<String> _tripEquipment) {
-//        this._tripEquipment = _tripEquipment;
-//    }
-//
-//    public List<TripComments> get_TripCOmments() {
-//        return _TripComments;
-//    }
-//
-//    public void set_TripComments(List<TripComments> _TripCOmments) {
-//        this._TripComments = _TripCOmments;
-//    }
-//
-//
-//    public Map<String, Object> toMap()
-//    {
-//        HashMap<String, Object> result = new HashMap<>();
-//        result.put("id", getTripId());
-//        result.put("area", getArea());
-//        result.put("tripName", getTripName());
-//        result.put("tripLevel", getLevel());
-//
-//        return result;
-//    }
-
 }
