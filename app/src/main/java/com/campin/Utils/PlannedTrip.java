@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class PlannedTrip {
     private Trip trip;
-    private int TripId;
-    private String creatorId = "";
-    private ArrayList<String> friendInTrip;
+    private String id = "";
+    private String creator = "";
+    private ArrayList<String> friends;
     private HashMap<String,String> friendsVoting;
     private boolean isCompleted = false;
     private String firstOption = null;
@@ -21,33 +21,41 @@ public class PlannedTrip {
     public PlannedTrip (Trip t,String creator, String firstDate, String secDeate)
     {
         trip = t;
-        creatorId = creator;
+        this.creator = creator;
         firstOption = firstDate;
         secOption = secDeate;
     }
 
+    public PlannedTrip ()
+    {
+
+    }
+
     public Trip getTrip() {
-        return trip;
+        if (trip != null)
+            return trip;
+        else
+            return  null;
     }
 
     public void setTrip(Trip trip) {
         this.trip = trip;
     }
 
-    public String getCreatorId() {
-        return creatorId;
+    public String getCreator() {
+        return creator;
     }
 
-    public void setCreatorId(String creatorId) {
-        this.creatorId = creatorId;
+    public void setCreator(String creatorId) {
+        this.creator = creatorId;
     }
 
-    public ArrayList<String> getFriendInTrip() {
-        return friendInTrip;
+    public ArrayList<String> getFriends() {
+        return friends;
     }
 
-    public void setFriendInTrip(ArrayList<String> friendInTrip) {
-        this.friendInTrip = friendInTrip;
+    public void setFriends(ArrayList<String> friendInTrip) {
+        this.friends = friendInTrip;
     }
 
     public HashMap<String, String> getFriendsVoting() {
@@ -82,21 +90,21 @@ public class PlannedTrip {
         this.secOption = secOption;
     }
 
-    public int getTripId() {
-        return TripId;
+    public String getId() {
+        return id;
     }
 
-    public void setTripId(int tripId) {
-        TripId = tripId;
+    public void setId(String tripId) {
+        id = tripId;
     }
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("id", getTripId());
-        result.put("creator", getCreatorId());
+        result.put("id", getId());
+        result.put("creator", getCreator());
         result.put("firstOption", getFirstOption());
         result.put("secOption", getSecOption());
-        result.put("friends", getFriendInTrip());
+        result.put("friends", getFriends());
         result.put("isCompleted", isCompleted());
         return result;
     }

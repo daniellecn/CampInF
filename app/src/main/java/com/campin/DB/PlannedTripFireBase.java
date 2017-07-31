@@ -1,11 +1,18 @@
 package com.campin.DB;
 
+import android.widget.Toast;
+
 import com.campin.Utils.PlannedTrip;
+import com.campin.Utils.Trip;
+import com.campin.Utils.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by noam on 03/06/2017.
@@ -17,8 +24,13 @@ class PlannedTripFireBase {
 
     public static void addPlannedTrip(PlannedTrip trip, final Model.SuccessListener listener) {
 
+        trip.setId("0");
+       // getTripsUserBelongs(User.getInstance().getUserId(),listener);
+        String tripId = database.getReference().child("plannedTrips").push().getKey();
+
+        //   trip.setTripId(tripId);
         DatabaseReference myRef = database.getReference("plannedTrips").
-                child(String.valueOf(trip.getTripId()));
+                child(tripId);
         myRef.setValue(trip.toMap());
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -32,5 +44,38 @@ class PlannedTripFireBase {
                 listener.onResult(false);
             }
         });
+    }
+
+    public static ArrayList<PlannedTrip> getTripsUserBelongs(final Model.getTripsUserBelongsListener listener) {
+        final int[] maxKey = {-1};
+        final ArrayList<PlannedTrip>  trips = new ArrayList<PlannedTrip>();
+        DatabaseReference r = database.getReference("plannedTrips");
+        r.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+                for (DataSnapshot snap: snapshot.getChildren()) {
+                    final PlannedTrip trip = snap.getValue(PlannedTrip.class);
+
+                    ArrayList<String> friends = trip.getFriends();
+                    if (friends.contains(User.getInstance().getUserId()) ||
+                            trip.getCreator().equals(User.getInstance().getUserId()))
+                    {
+                        trips.add(trip);
+                    }
+                }
+
+                //Log.d("TAG", dessert.getName() + " - " + dessert.getId());
+
+                listener.onComplete(trips, maxKey[0]);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return  trips;
     }
 }

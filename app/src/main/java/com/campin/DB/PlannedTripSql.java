@@ -18,12 +18,15 @@ class PlannedTripSql {
     public static void addTrip(SQLiteDatabase writableDatabase, PlannedTrip trip) {
     }
 
+    public static void getMaxIdPlannedTrip(SQLiteDatabase writableDatabase, PlannedTrip trip) {
+    }
+
     public static void updateDessert(SQLiteDatabase writableDatabase, PlannedTrip trip) {
     }
 
     public static PlannedTrip getDessertById(SQLiteDatabase readableDatabase, String s) {
         return null;
-        
+
     }
 
     public static List<PlannedTrip> getAllPlannedTrip(SQLiteDatabase readableDatabase) {

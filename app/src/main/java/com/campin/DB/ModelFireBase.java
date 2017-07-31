@@ -14,6 +14,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by noam on 03/06/2017.
@@ -50,6 +52,11 @@ public class ModelFireBase {
     public void addPlannedTrip(PlannedTrip trip, Model.SuccessListener listener) {
         // Add the dessert to firebase databace
         PlannedTripFireBase.addPlannedTrip(trip, listener);
+    }
+
+    public ArrayList<PlannedTrip> getTripsUserBelongs(final Model.getTripsUserBelongsListener listener) {
+        // Add the dessert to firebase databace
+        return (PlannedTripFireBase.getTripsUserBelongs(listener));
     }
 
     public void isUserExist(String userId, Model.SuccessListener listener) {

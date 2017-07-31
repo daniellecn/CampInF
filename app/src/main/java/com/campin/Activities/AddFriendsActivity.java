@@ -75,7 +75,7 @@ public class AddFriendsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Trip newTrip = new Trip();
-                newPlannedTrip.setFriendInTrip(customAdapter._friends);
+                newPlannedTrip.setFriends(customAdapter._friends);
                 showSuccessDialog();
                // final Intent intent = new Intent(v.getContext(), MainActivity.class);
                // startActivity(intent);

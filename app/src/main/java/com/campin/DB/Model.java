@@ -8,6 +8,8 @@ import com.campin.Utils.TripLevel;
 import com.campin.Utils.TripType;
 import com.campin.Utils.User;
 import com.campin.Utils.Trip;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,6 +61,7 @@ public class Model {
         Model.connectedUser = connectedUser;
     }
 
+
     public interface LogInListener {
         void onComplete(boolean isLogIn);
     }
@@ -76,8 +79,8 @@ public class Model {
         public void complete(String url);
     }
 
-    public interface GetAllPlannedTripListener{
-        void onComplete(List<PlannedTrip> plannedTripList, int currentMaxKey);
+    public interface getTripsUserBelongsListener{
+        void onComplete(ArrayList<PlannedTrip> plannedTripList, int currentMaxKey);
         public void onCancel();
     }
 
@@ -99,11 +102,6 @@ public class Model {
     public interface GetAllAreaListener{
         void onComplete(List<Area> areaList, int currentMaxKey);
         void onCancel();
-    }
-
-    public interface GetPlannedTripListener{
-        void onComplete(PlannedTrip plannedTrip);
-        public void onCancel();
     }
 
     public interface GetUserByIdListener{
@@ -218,12 +216,20 @@ public class Model {
 
     public void addPlannedTrip(final PlannedTrip plannedTrip, final SuccessListener listener){
 
+
+           //  plannedTrip.setTripId(Integer.parseInt(remote.getMaxIdPlannedTrip(listener)));
             // Save the dessert to firebase database
             remote.addPlannedTrip(plannedTrip, listener);
 
             // Update the key
             setCurrentKeyPlanned(getCurrentKeyPlanned() + 1);
     }
+
+    public ArrayList<PlannedTrip> getTripsUserBelongs(final getTripsUserBelongsListener listener) {
+        // Add the dessert to firebase databace
+        return (remote.getTripsUserBelongs(listener));
+    }
+
 
     public void isUserExist(String userId, Model.SuccessListener listener){
         remote.isUserExist(userId, listener);
@@ -241,8 +247,8 @@ public class Model {
         return remote.getUserById(id,listener);
     }
 
-    public Trip getTripById(int id){
-         return local.getTripById(id);
+    public void getTripById(String id, Model.GetTripListener listener){
+        remote.getTripById(id, listener);
     }
 
     public void getTripImage(final Trip trip, int size, final Model.GetImageListener listener){

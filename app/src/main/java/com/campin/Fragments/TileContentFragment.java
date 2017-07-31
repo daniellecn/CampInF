@@ -20,9 +20,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,15 +32,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.campin.Activities.DetailActivity;
+import com.campin.DB.Model;
 import com.campin.R;
+import com.campin.Utils.PlannedTrip;
+import com.campin.Utils.Trip;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Provides UI for the view with Tile.
  */
 public class TileContentFragment extends Fragment {
 
+    ArrayList<PlannedTrip> tripListData = new ArrayList<PlannedTrip>();
+    TileContentFragment.ContentAdapter adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,14 +60,33 @@ public class TileContentFragment extends Fragment {
                              Bundle savedInstanceState) {
         RecyclerView recyclerView = (RecyclerView) inflater.inflate(
                 R.layout.recycler_view, container, false);
-        ContentAdapter adapter = new ContentAdapter(recyclerView.getContext());
+        adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         // Set padding for Tiles
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
         recyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        loadTripListData();
         return recyclerView;
+    }
+
+    private void loadTripListData(){
+        Model.instance().getTripsUserBelongs(new Model.getTripsUserBelongsListener() {
+
+            @Override
+            public void onComplete(ArrayList<PlannedTrip> plannedTripList, int currentMaxKey) {
+                tripListData = plannedTripList;
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancel() {
+                // Display message
+                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.errorOccure),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -81,21 +111,12 @@ public class TileContentFragment extends Fragment {
     /**
      * Adapter to display recycler view.
      */
-    public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
+    public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of Tiles in RecyclerView.
         private static final int LENGTH = 18;
 
-        private final String[] mPlaces;
-        private final Drawable[] mPlacePictures;
-        public ContentAdapter(Context context) {
-            Resources resources = context.getResources();
-            mPlaces = resources.getStringArray(R.array.places);
-            TypedArray a = resources.obtainTypedArray(R.array.places_picture);
-            mPlacePictures = new Drawable[a.length()];
-            for (int i = 0; i < mPlacePictures.length; i++) {
-                mPlacePictures[i] = a.getDrawable(i);
-            }
-            a.recycle();
+        public ContentAdapter(Context context)
+        {
         }
 
         @Override
@@ -104,14 +125,61 @@ public class TileContentFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
-            holder.name.setText(mPlaces[position % mPlaces.length]);
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
+            if (tripListData != null && tripListData.size() > 0 && tripListData.size() > position) {
+
+                Model.instance().getTripById(tripListData.get(position).getId(),new Model.GetTripListener() {
+
+                    @Override
+                    public void onComplete(Trip t) {
+                        tripListData.get(position).setTrip(t);
+
+                        Model.instance().getTripImage(tripListData.get(position).getTrip(), 0, new Model.GetImageListener() {
+                            @Override
+                            public void onSuccess(Bitmap image) {
+                                holder.picture.setImageBitmap(image);
+                                holder.name.setText(tripListData.get(position).getTrip().getName());
+                            }
+
+                            @Override
+                            public void onFail() {
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+                    }
+                });
+
+
+
+                    // holder.description.setText(tripListData.get(position).getDetails());
+
+            }
+
+
+            //holder.picture.setImageDrawable(mPlacePictures[position % mPlacePictures.length]);
         }
 
         @Override
         public int getItemCount() {
-            return LENGTH;
+            return tripListData.size();
         }
+        /*private final String[] mPlaces;
+        private final Drawable[] mPlacePictures;
+        public ContentAdapter(Context context) {
+            Resources resources = context.getResources();
+
+            mPlaces = resources.getStringArray(R.array.places);
+            TypedArray a = resources.obtainTypedArray(R.array.places_picture);
+            mPlacePictures = new Drawable[a.length()];
+
+
+            for (int i = 0; i < mPlacePictures.length; i++) {
+                mPlacePictures[i] = a.getDrawable(i);
+            }
+            a.recycle();*/
     }
 }

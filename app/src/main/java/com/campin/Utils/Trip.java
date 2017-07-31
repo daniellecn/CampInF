@@ -36,7 +36,8 @@ public class Trip
 
     public Trip(int id, String name, int area, List<String> seasons, List<Integer> types,
                 List<String> equipment, List<TripComments> comments, int friendsNum, String details,
-                int level, String imageUrl) {
+                int level, String imageUrl)
+    {
         this.id = id;
         this.name = name;
         this.area = area;

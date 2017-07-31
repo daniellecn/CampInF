@@ -214,11 +214,11 @@ public class MainActivity extends AppCompatActivity {
         nav_area.setTitle(_usr.getLocation());
 
         MenuItem nav_age = menu.findItem(R.id.prof_age);
-        nav_age.setTitle("24");
+        nav_age.setTitle(_usr.getBirthday());
 
         MenuItem nav_favorite_area = menu.findItem(R.id.prof_fav_area);
 
-        ArrayList<String> prefferedAreas = _usr.getPreferedAreas();
+        ArrayList<String>    prefferedAreas = _usr.getPreferedAreas();
 
         String prefered = "";
         int count = prefferedAreas.size();
