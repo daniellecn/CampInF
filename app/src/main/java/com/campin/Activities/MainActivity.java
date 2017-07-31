@@ -45,11 +45,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.campin.DB.Model;
 import com.campin.Fragments.CardContentFragment;
 import com.campin.Fragments.ListContentFragment;
 import com.campin.Fragments.TileContentFragment;
 import com.campin.R;
+import com.campin.Utils.Area;
 import com.campin.Utils.CircleTransform;
+import com.campin.Utils.Trip;
+import com.campin.Utils.TripLevel;
+import com.campin.Utils.TripType;
 import com.campin.Utils.User;
 import com.facebook.login.LoginManager;
 
@@ -143,6 +148,60 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final Intent intent = new Intent(v.getContext(), CreateTripActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        loadData();
+    }
+
+    private void loadData(){
+        Model.instance().getAllTripAsynch(new Model.GetAllTripsListener() {
+            @Override
+            public void onComplete(List<Trip> tripsList, int currentMaxKey) {
+            }
+
+            @Override
+            public void onCancel() {
+                // Display message
+                // TODO: toast
+//                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.errorOccure),
+//                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        Model.instance().getAllAreaAsynch(new Model.GetAllAreaListener() {
+            @Override
+            public void onComplete(List<Area> areaList, int currentMaxKey) {
+                int a = 2;
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+
+        Model.instance().getAllTripLevelsAsynch(new Model.GetAllTripLevelsListener() {
+            @Override
+            public void onComplete(List<TripLevel> tripsList, int currentMaxKey) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+
+        Model.instance().getAllTripTypesAsynch(new Model.GetAllTripTypesListener() {
+            @Override
+            public void onComplete(List<TripType> tripsList, int currentMaxKey) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
             }
         });
     }

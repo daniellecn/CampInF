@@ -114,7 +114,7 @@ public class ModelFireBase {
     }
 
     public void addArea(Area area, final Model.SuccessListener listener){
-        DatabaseReference myRef = database.getReference("AreaCode").child(String.valueOf(area.getCode()));
+        DatabaseReference myRef = database.getReference("Areas").child(String.valueOf(area.getCode()));
         myRef.setValue(area.toMap());
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {

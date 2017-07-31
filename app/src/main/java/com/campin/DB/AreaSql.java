@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.campin.Utils.Area;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -69,8 +70,7 @@ public class AreaSql {
     }
 
     public static List<Area> getAllAreas(SQLiteDatabase db) {
-        List<Area> areasList = null;
-        String[] arg = new String[1];
+        List<Area> areasList = new LinkedList<>();
         Area area;
 
         Cursor areaCursor = db.query(AREA_TABLE, null, null, null, null, null, null);
@@ -80,9 +80,6 @@ public class AreaSql {
             // Defined indexes
             int codeIndex = areaCursor.getColumnIndex(CODE);
             int descriptionIndex = areaCursor.getColumnIndex(DESCRIPTION);
-
-            // Select argument
-            arg[0] = areaCursor.getString(codeIndex);
 
             do {
                 // Create trip level object

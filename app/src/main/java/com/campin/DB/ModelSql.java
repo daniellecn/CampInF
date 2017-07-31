@@ -26,7 +26,7 @@ public class ModelSql {
     public ModelSql() {
         helper = new Helper(getApplicationContext());
         helper.onUpgrade(getWritableDB(), 7, 7);
-        //helper.onCreate(getReadableDB());
+//        helper.onCreate(getReadableDB());
     }
 
     public SQLiteDatabase getWritableDB() {
@@ -112,6 +112,9 @@ public class ModelSql {
             TripSql.createTable(db);
             //PlannedTripSql.create(db);
             LastUpdateSql.create(db);
+            AreaSql.createTable(db);
+            TripTypeSql.createTable(db);
+            TripLevelSql.createTable(db);
         }
 
         @Override
@@ -119,6 +122,9 @@ public class ModelSql {
             TripSql.dropTable(db);
             //PlannedTripSql.dropTable(db);
             LastUpdateSql.drop(db);
+            AreaSql.dropTable(db);
+            TripTypeSql.dropTable(db);
+            TripLevelSql.dropTable(db);
             onCreate(db);
         }
     }

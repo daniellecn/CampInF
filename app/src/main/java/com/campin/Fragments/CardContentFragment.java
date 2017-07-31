@@ -42,7 +42,9 @@ import com.campin.Activities.LoginActivity;
 import com.campin.Activities.MainActivity;
 import com.campin.DB.Model;
 import com.campin.R;
+import com.campin.Utils.Area;
 import com.campin.Utils.Trip;
+import com.campin.Utils.TripLevel;
 import com.campin.Utils.User;
 
 import java.util.List;
@@ -70,12 +72,6 @@ public class CardContentFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        loadTripListData();
-
-        return recyclerView;
-    }
-
-    private void loadTripListData(){
         Model.instance().getAllTripAsynch(new Model.GetAllTripsListener() {
             @Override
             public void onComplete(List<Trip> tripsList, int currentMaxKey) {
@@ -85,15 +81,15 @@ public class CardContentFragment extends Fragment {
 
             @Override
             public void onCancel() {
-                // Display message
-                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.errorOccure),
-                        Toast.LENGTH_SHORT).show();
+
             }
         });
+
+        return recyclerView;
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;
         public TextView name;
         public TextView description;
@@ -110,7 +106,7 @@ public class CardContentFragment extends Fragment {
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, DetailActivity.class);
-                    intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
+                    intent.putExtra(DetailActivity.EXTRA_POSITION, tripListData.get(getAdapterPosition()).getId());
                     context.startActivity(intent);
                 }
             });
@@ -136,16 +132,16 @@ public class CardContentFragment extends Fragment {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             if (tripListData != null) {
-//                Model.instance().getTripImage(tripListData.get(position), 0, new Model.GetImageListener() {
-//                    @Override
-//                    public void onSuccess(Bitmap image) {
-//                        holder.picture.setImageBitmap(image);
-//                    }
-//
-//                    @Override
-//                    public void onFail() {
-//                    }
-//                });
+                Model.instance().getTripImage(tripListData.get(position), 0, new Model.GetImageListener() {
+                    @Override
+                    public void onSuccess(Bitmap image) {
+                        holder.picture.setImageBitmap(image);
+                    }
+
+                    @Override
+                    public void onFail() {
+                    }
+                });
 
                 holder.name.setText(tripListData.get(position).getName());
                 holder.description.setText(tripListData.get(position).getDetails());

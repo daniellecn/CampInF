@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.campin.Utils.TripType;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -69,7 +70,7 @@ public class TripTypeSql {
     }
 
     public static List<TripType> getAllTripTypes(SQLiteDatabase db) {
-        List<TripType> tripTypesList = null;
+        List<TripType> tripTypesList = new LinkedList<>();
         String[] arg = new String[1];
         TripType tripType;
 

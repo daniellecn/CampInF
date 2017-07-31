@@ -10,6 +10,7 @@ import com.campin.Utils.TripComments;
 import com.campin.Utils.TripLevel;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -72,7 +73,7 @@ public class TripLevelSql {
     }
 
     public static List<TripLevel> getAllTripLevels(SQLiteDatabase db) {
-        List<TripLevel> tripLevelsList = null;
+        List<TripLevel> tripLevelsList = new LinkedList<>();
         String[] arg = new String[1];
         TripLevel tripLevel;
 

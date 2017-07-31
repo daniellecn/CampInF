@@ -1,5 +1,7 @@
 package com.campin.Utils;
 
+import com.google.firebase.database.ServerValue;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,8 +49,8 @@ public class Area {
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
         result.put("code", getCode());
-        result.put("desc", getDescription());
-        result.put("lastUpdated", getLastUpdated());
+        result.put("description", getDescription());
+        result.put("lastUpdated", ServerValue.TIMESTAMP);
         return result;
     }
 }

@@ -42,6 +42,7 @@ public class TripSql {
     // Trip comments Table
     private  static final String TRIP_COMMENTS_TABLE = "TRIP_COMMENTS";
     private static final String COMMENT_ID = "COMMENT_ID";
+    private static final String USER_ID = "USER_ID";
     private static final String COMMENT = "COMMENT";
     private static final String SCORE = "SCORE";
 
@@ -73,6 +74,7 @@ public class TripSql {
         db.execSQL("CREATE TABLE " + TRIP_COMMENTS_TABLE + " (" +
                 TRIP_ID + " NUM ," +
                 COMMENT_ID + " NUM, " +
+                USER_ID + " TEXT, " +
                 COMMENT + " TEXT, " +
                 SCORE + " NUM, PRIMARY KEY ( " +
                 TRIP_ID + ", " + COMMENT_ID + " ) );");
@@ -153,6 +155,7 @@ public class TripSql {
         for (TripComments comment : trip.getComments()){
             values.put(TRIP_ID, trip.getId());
             values.put(COMMENT_ID, comment.get_commentId());
+            values.put(USER_ID, comment.get_userId());
             values.put(COMMENT, comment.get_tripComment());
             values.put(SCORE, comment.get_commentScore());
 
@@ -278,13 +281,14 @@ public class TripSql {
     }
 
     private static List<TripComments> getCommentsOfTripId(SQLiteDatabase db, String[] selectArg){
-        List<TripComments> commentsOfTrip = new ArrayList<TripComments>();
+        List<TripComments> commentsOfTrip = new LinkedList<>();
         Cursor cursor = db.query(TRIP_COMMENTS_TABLE, null, TRIP_ID + " = ?", selectArg, null, null, null);
 
         while (cursor.moveToNext()){
             commentsOfTrip.add(
                     new TripComments(
                             cursor.getInt(cursor.getColumnIndex(COMMENT_ID)),
+                            cursor.getString(cursor.getColumnIndex(USER_ID)),
                             cursor.getString(cursor.getColumnIndex(COMMENT)),
                             cursor.getDouble(cursor.getColumnIndex(SCORE))
                     )

@@ -19,7 +19,7 @@ public class AreaFireBase {
     private static FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     public static void addArea(Area newArea, final Model.SuccessListener listener){
-        DatabaseReference myRef = database.getReference("AreaCode").child(String.valueOf(newArea.getCode()));
+        DatabaseReference myRef = database.getReference("Areas").child(String.valueOf(newArea.getCode()));
         myRef.setValue(newArea.toMap());
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -35,7 +35,7 @@ public class AreaFireBase {
 
     public static void getAreaByCode(int id, final Model.GetAreaListener listener)
     {
-        DatabaseReference myRef = database.getReference("AreaCode").child(String.valueOf(id));
+        DatabaseReference myRef = database.getReference("Areas").child(String.valueOf(id));
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener()
         {
@@ -58,7 +58,7 @@ public class AreaFireBase {
         final int[] maxKey = {-1};
 
         // Get all the desserts from the last update
-        final DatabaseReference myRef = database.getReference("AreaCode");
+        final DatabaseReference myRef = database.getReference("Areas");
         Query query = myRef.orderByChild("lastUpdated").startAt(lastUpdateDate);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {

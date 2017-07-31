@@ -27,7 +27,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
-                android:id="@+id/image"
+                android:id="@+id/det_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:background="@drawable/a"
@@ -64,12 +64,14 @@
                 <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:stretchColumns="*">
                     <TableRow
                         android:layout_width="0dip">
 
                         <LinearLayout
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:paddingTop="7dip">
                             <ImageView
                                 android:layout_width="25dip"
                                 android:layout_height="25dip"
@@ -80,7 +82,6 @@
                                 android:id="@+id/det_where"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/Somewhere"
                                 android:padding="10dip"/>
                         </LinearLayout>
 
@@ -96,12 +97,12 @@
                                 android:id="@+id/det_when"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/Sometime"
                                 android:padding="10dip"/>
                         </LinearLayout>
 
                         <LinearLayout
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:paddingTop="7dip">
                             <ImageView
                                 android:layout_width="25dip"
                                 android:layout_height="25dip"
@@ -112,7 +113,6 @@
                                 android:id="@+id/det_who"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/Somewho"
                                 android:padding="10dip"/>
                         </LinearLayout>
                     </TableRow>
@@ -121,7 +121,7 @@
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:shrinkColumns="*"
                 android:layout_marginTop="@dimen/activity_vertical_margin">
 
@@ -166,74 +166,29 @@
 
                 <TableRow
                     android:id="@+id/det_comments_row"
-                    style="@style/TripRowStyle">
+                    style="@style/TripRowStyle"
+                    android:paddingBottom="20dip">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:orientation="vertical">
 
                         <TextView
                             android:text="@string/trip_comments"
                             style="@style/TitleStyle" />
 
-                        <TextView
-                            android:text=""
-                            style="@style/ContentStyle"
-                            android:id="@+id/det_comments_content"/>
-
-
-                        <RelativeLayout
+                        <ListView
+                            android:id="@+id/det_comments"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/det_comment">
-
-                            <ImageView
-                                android:id="@+id/det_avatar"
-                                android:layout_width="@dimen/avator_size"
-                                android:layout_height="@dimen/avator_size"
-                                android:scaleType="centerCrop"
-                                tools:src="@drawable/a_avator" />
-
-                            <TextView
-                                android:id="@+id/reagent"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_toLeftOf="@+id/det_avatar"
-                                android:text="@string/det_reagent"/>
-
-                            <RatingBar
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:contentDescription="@string/trip_details"
-                                android:numStars="5"
-                                android:stepSize="1.0"
-                                android:rating="4"
-                                android:isIndicator="true"
-                                android:progressTint="@color/rating"
-                                style="@android:style/Widget.Material.Light.RatingBar.Small"
-                                android:layout_alignParentLeft="true"/>
-
-                            <TextView
-                                android:layout_below="@+id/reagent"
-                                android:layout_toLeftOf="@+id/det_avatar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/det_comment"/>
-                        </RelativeLayout>
+                            android:layout_height="match_parent"
+                            android:divider="@null"
+                            android:dividerHeight="0dp"
+                            tools:listitem="@layout/trip_comments_row"/>
 
                     </LinearLayout>
                 </TableRow>
 
             </TableLayout>
-
-            <!--<ListView-->
-                <!--android:id="@+id/det_eqmp_list"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:divider="@null"-->
-                <!--android:dividerHeight="0dp"-->
-                <!--tools:listitem="@layout/trip_equipment_row"/>-->
-
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

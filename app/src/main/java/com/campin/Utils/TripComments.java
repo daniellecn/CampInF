@@ -7,14 +7,16 @@ package com.campin.Utils;
 public class TripComments
 {
     private int _commentId;
+    private String _userId;
     private String _tripComment;
     private Double _commentScore;
 
     public TripComments() {
     }
 
-    public TripComments(int _commentId, String _tripComment, Double _commentScore) {
+    public TripComments(int _commentId, String _userId, String _tripComment, Double _commentScore) {
         this._commentId = _commentId;
+        this._userId = _userId;
         this._tripComment = _tripComment;
         this._commentScore = _commentScore;
     }
@@ -45,5 +47,13 @@ public class TripComments
     public void set_commentScore(Double _commentScore)
     {
         this._commentScore = _commentScore;
+    }
+
+    public String get_userId() {
+        return _userId;
+    }
+
+    public void set_userId(String _userId) {
+        this._userId = _userId;
     }
 }

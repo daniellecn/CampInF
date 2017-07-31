@@ -2,6 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/det_comment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/det_avatar"
+            android:layout_width="@dimen/avator_size"
+            android:layout_height="@dimen/avator_size"
+            android:src="@drawable/a"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/det_reagent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/det_reagent"/>
+        <!--android:layout_toLeftOf="@+id/det_avatar"-->
+
+        <RatingBar
+            android:id="@+id/det_rating"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numStars="5"
+            android:stepSize="1.0"
+            android:isIndicator="true"
+            android:progressTint="@color/rating"
+            style="@android:style/Widget.Material.Light.RatingBar.Small"
+            android:layout_alignParentLeft="true"/>
+            <!--android:layout_toLeftOf="@+id/det_reagent"/>-->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/ContentStyle"
+            android:layout_below="@+id/det_reagent"
+            android:id="@+id/det_comments_content"/>
+        <!--android:layout_toLeftOf="@+id/det_avatar"-->
+    </RelativeLayout>
 
 </LinearLayout>

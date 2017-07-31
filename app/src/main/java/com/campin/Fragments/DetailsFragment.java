@@ -16,13 +16,19 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.campin.Activities.DetailActivity;
+import com.campin.Activities.LoginActivity;
+import com.campin.DB.Model;
 import com.campin.R;
 import com.campin.Utils.CircleTransform;
+import com.campin.Utils.Trip;
+import com.campin.Utils.TripComments;
+import com.campin.Utils.User;
 
 
 /**
@@ -30,37 +36,65 @@ import com.campin.Utils.CircleTransform;
  */
 public class DetailsFragment extends Fragment {
 
-    String[] equipmensList;
-    EquipmenstAdapter eqpmAdapter;
+    Trip trip;
+    CommentAdapter commentAdapter;
 
     public DetailsFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_details, container, false);
+        final View view = inflater.inflate(R.layout.fragment_details, container, false);
 
-        equipmensList = getResources().getStringArray(R.array.trip_equipments_content);
+        // Get position
+        int tripId = getActivity().getIntent().getIntExtra(DetailActivity.EXTRA_POSITION, 0);
+        trip = Model.instance().getTripById(tripId);
 
+        // Set comments
+        commentAdapter = new CommentAdapter();
+        final ListView comments = (ListView) view.findViewById(R.id.det_comments);
+        comments.setAdapter(commentAdapter);
+
+        // Set title of Detail page
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
-        // Set title of Detail page
-        collapsingToolbar.setTitle(getString(R.string.item_title));
+        collapsingToolbar.setTitle(trip.getName());
 
-        // Screen Title
-        int postion = getActivity().getIntent().getIntExtra(DetailActivity.EXTRA_POSITION, 0);
-        Resources resources = getResources();
-        String[] places = resources.getStringArray(R.array.places);
-        collapsingToolbar.setTitle(places[postion % places.length]);
+        // Set image
+        Model.instance().getTripImage(Model.instance().getTripById(trip.getId()), 0, new Model.GetImageListener() {
+            @Override
+            public void onSuccess(Bitmap image) {
+                ImageView detImage = (ImageView) view.findViewById(R.id.det_image);
+                detImage.setImageBitmap(image);
+            }
 
-        // Screen Image
-        TypedArray placePictures = resources.obtainTypedArray(R.array.places_picture);
-        ImageView placePicutre = (ImageView) view.findViewById(R.id.image);
-        placePicutre.setImageDrawable(placePictures.getDrawable(postion % placePictures.length()));
-        placePictures.recycle();
+            @Override
+            public void onFail() {
+                // TODO - message toast
+            }
+        });
+
+        // Set where
+        TextView where = (TextView) view.findViewById(R.id.det_where);
+        where.setText(Model.instance().getAreaByCode(trip.getArea()).getDescription());
+
+        // Set when
+        TextView when = (TextView) view.findViewById(R.id.det_when);
+        String whenText = new String();
+
+        whenText = trip.getSeasons().get(0);
+        for (int i = 1; i < trip.getSeasons().size(); i++){
+            whenText = whenText.concat(", ");
+            whenText = whenText.concat(trip.getSeasons().get(i));
+        }
+        whenText = whenText.concat("\n");
+        when.setText(whenText);
+
+        // Set who
+        TextView who = (TextView) view.findViewById(R.id.det_who);
+        who.setText(trip.getFriendsNum() + " " + getResources().getString(R.string.who));
 
         // Set on details row click listener
         TableRow detailsRow = (TableRow) view.findViewById(R.id.det_details_row);
@@ -70,7 +104,7 @@ public class DetailsFragment extends Fragment {
                 TextView detailsContent = (TextView) view.findViewById(R.id.det_details_content);
 
                 if (detailsContent.getText().equals("")){
-                    detailsContent.setText(getString(R.string.trip_details_content));
+                    detailsContent.setText(trip.getDetails());
                 }
                 else{
                     detailsContent.setText("");
@@ -87,11 +121,16 @@ public class DetailsFragment extends Fragment {
                 String eqpmtString = "";
 
                 if (eqpmtContent.getText().equals("")){
-                    for (int i = 0; i < equipmensList.length; i++)   {
-                        eqpmtString = eqpmtString.concat(equipmensList[i] + "\n");
+                    // Set equipments
+                    TextView equipment = (TextView) view.findViewById(R.id.det_equipment_content);
+                    String equipmentText = new String();
+
+                    for (int i = 0; i < trip.getEquipment().size(); i++){
+                        equipmentText = equipmentText.concat(trip.getEquipment().get(i));
+                        equipmentText = equipmentText.concat("\n");
                     }
 
-                    eqpmtContent.setText(eqpmtString);
+                    equipment.setText(equipmentText);
                 }
                 else{
                     eqpmtContent.setText("");
@@ -99,41 +138,33 @@ public class DetailsFragment extends Fragment {
             }
         });
 
-        final RelativeLayout comment = (RelativeLayout) view.findViewById(R.id.det_comment);
-        comment.setVisibility(View.GONE);
+        comments.setVisibility(View.GONE);
 
         TableRow commentsRow = (TableRow) view.findViewById(R.id.det_comments_row);
         commentsRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (comment.getVisibility() == View.GONE){
-                    comment.setVisibility(View.VISIBLE);
+                if (comments.getVisibility() == View.GONE){
+                    comments.setVisibility(View.VISIBLE);
                 }
                 else{
-                    comment.setVisibility(View.GONE);
+                    comments.setVisibility(View.GONE);
                 }
             }
         });
 
-        ImageView avatar = (ImageView) view.findViewById(R.id.det_avatar);
-//        Bitmap circleTransform = new CircleTransform(getActivity().getApplicationContext()).transform(
-//                getResources().getDrawable(R.drawable.avatar_elza),
-//                getResources().getDimension(R.dimen.avator_size),
-//                getResources().getDimension(R.dimen.avator_size));
-        avatar.setImageBitmap(CircleTransform.circleCrop(BitmapFactory.decodeResource(getResources(), R.drawable.avatar_elza)));
-
         return view;
     }
 
-    class EquipmenstAdapter extends BaseAdapter {
+    class CommentAdapter extends BaseAdapter {
         @Override
         public int getCount() {
-            return equipmensList.length;
+            return trip.getComments().size();
         }
 
         @Override
-        public String getItem(int i) {
-            return equipmensList[i];
+        public TripComments getItem(int i) {
+            return trip.getComments().get(i);
         }
 
         @Override
@@ -145,12 +176,61 @@ public class DetailsFragment extends Fragment {
         public View getView(final int i, View view, ViewGroup viewGroup) {
             if (view == null) {
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
-                view = inflater.inflate(R.layout.trip_equipment_row, null);
+                view = inflater.inflate(R.layout.trip_comments_row, null);
             }
 
-            ((TextView) view.findViewById(R.id.det_equipment_row)).setText(getItem(i));
+            // Set user image
+            ImageView userImage = (ImageView) view.findViewById(R.id.det_avatar);
+
+            userImage.setImageBitmap(CircleTransform.circleCrop(
+                    LoginActivity.getFacebookProfilePicture(trip.getComments().get(i).get_userId())));
+
+            // Set comment content
+            TextView commentContent = (TextView) view.findViewById(R.id.det_comments_content);
+            commentContent.setText(trip.getComments().get(i).get_tripComment());
+
+            // Set Rating bar
+            RatingBar ratingBar = (RatingBar) view.findViewById(R.id.det_rating);
+            ratingBar.setNumStars(5);
+            ratingBar.setRating(calcRating(trip.getComments().get(i).get_commentScore()));
+
+            // Set user name
+            final TextView[] userName = {(TextView) view.findViewById(R.id.det_reagent)};
+            Model.instance().getUserById(trip.getComments().get(i).get_userId(), new Model.GetUserByIdListener() {
+                @Override
+                public void onComplete(User user) {
+                    userName[0].setText(user.getFullName());
+                }
+
+                @Override
+                public void onCancel() {
+                    // TODO: Toast
+                }
+            });
 
             return view;
+        }
+
+        private float calcRating(Double score){
+            float rating = 0;
+
+            if (score <= -0.6){
+                rating = 1;
+            }
+            else if (score > -0.6 && score <= -0.2){
+                rating = 2;
+            }
+            else if (score > -0.2 && score <= 0.2){
+                rating = 3;
+            }
+            else if (score > 0.2 && score <= 0.6){
+                rating = 4;
+            }
+            else if (score > 0.6 && score <= 1){
+                rating = 5;
+            }
+
+            return rating;
         }
     }
 }
