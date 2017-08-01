@@ -84,6 +84,11 @@ public class Model {
         public void onCancel();
     }
 
+    public interface getSuitableTrip{
+        void onComplete(Trip finalTrip);
+        public void onCancel();
+    }
+
     public interface GetAllTripsListener{
         void onComplete(List<Trip> tripsList, int currentMaxKey);
         void onCancel();

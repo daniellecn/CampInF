@@ -78,4 +78,10 @@ class PlannedTripFireBase {
 
         return  trips;
     }
+
+    public static void getSuitableTripAlgo(PlannedTrip trip, final Model.getSuitableTrip listener)
+    {
+        DatabaseReference r = database.getReference("plannedTrips");
+    }
+
 }
