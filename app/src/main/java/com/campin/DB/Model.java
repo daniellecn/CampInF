@@ -104,6 +104,11 @@ public class Model {
         void onCancel();
     }
 
+    public interface GetAllUserListener{
+        void onComplete(List<User> userList);
+        void onCancel();
+    }
+
     public interface GetUserByIdListener{
         void onComplete(User user);
         public void onCancel();
@@ -126,6 +131,11 @@ public class Model {
 
     public interface GetAreaListener{
         void onComplete(Area area);
+        public void onCancel();
+    }
+
+    public interface GetUserListener{
+        void onComplete(User user);
         public void onCancel();
     }
 
@@ -230,7 +240,6 @@ public class Model {
         return (remote.getTripsUserBelongs(listener));
     }
 
-
     public void isUserExist(String userId, Model.SuccessListener listener){
         remote.isUserExist(userId, listener);
     }
@@ -243,12 +252,12 @@ public class Model {
         return local.getBySearch(query);
     }
 
-    public User getUserById(String id, Model.GetUserByIdListener listener){
+    public User getUserById(String id, Model.GetUserListener listener){
         return remote.getUserById(id,listener);
     }
 
-    public void getTripById(String id, Model.GetTripListener listener){
-        remote.getTripById(id, listener);
+    public Trip getTripById(String id){
+        return local.getTripById(id);
     }
 
     public void getTripImage(final Trip trip, int size, final Model.GetImageListener listener){
@@ -292,7 +301,7 @@ public class Model {
                     double recentUpdate = lastUpdateDate;
                     for (Trip trip : tripsList) {
                         // If new trip
-                        if (local.getTripById(trip.getId()) == null) {
+                        if (local.getTripById(String.valueOf(trip.getId())) == null) {
                             TripSql.addTrip(local.getWritableDB(), trip);
                         }
                         //If this update
@@ -325,6 +334,51 @@ public class Model {
                 int a = 3;
             }
         });
+    }
+
+    public void getAllUsersAsynch(final GetAllUserListener listener){
+        // Get last update date
+        final double lastUpdateDate = UserSql.getLastUpdateDate(local.getReadableDB());
+
+        // Get all trips records that where updated since last update date
+        remote.getUserFromDate(lastUpdateDate, new GetAllUserListener() {
+            @Override
+            public void onComplete(List<User> userList) {
+                if (userList != null && userList.size() > 0) {
+
+                    // Update the local db
+                    double recentUpdate = lastUpdateDate;
+                    for (User user : userList) {
+                        // If new trip
+                        if (local.getUserById(user.getUserId()) == null) {
+                            UserSql.addUser(local.getWritableDB(), user);
+                        }
+                        //If this update
+                        else {
+                            // TODO
+                            //TripSql.updateTrip(local.getWritableDB(), trip);
+                        }
+
+                        if (user.getLastUpdated() > recentUpdate) {
+                            recentUpdate = user.getLastUpdated();
+                        }
+                    }
+
+                    // Update the last update date
+                    UserSql.setLastUpdateDate(local.getWritableDB(), recentUpdate);
+                }
+
+                // Return all trips from the updated local db
+                List<User> result = UserSql.getAllUsers(local.getReadableDB());
+                listener.onComplete(result);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+
     }
 
     public void addTripLevel(final TripLevel level, final SuccessListener listener){
@@ -441,6 +495,14 @@ public class Model {
 
     public void addArea(final Area area, final SuccessListener listener){
         remote.addArea(area, listener);
+    }
+
+    public void addUser(final User user, final SuccessListener listener){
+        remote.addUser(user, listener);
+    }
+
+    public User getUserById(String id){
+        return local.getUserById(id);
     }
 
     public Area getAreaByCode(int code){

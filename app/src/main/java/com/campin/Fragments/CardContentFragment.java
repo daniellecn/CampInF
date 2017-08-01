@@ -94,7 +94,7 @@ public class CardContentFragment extends Fragment {
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;
         public TextView name;
         public TextView description;
@@ -111,7 +111,7 @@ public class CardContentFragment extends Fragment {
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, DetailActivity.class);
-                    intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
+                    intent.putExtra(DetailActivity.EXTRA_POSITION, String.valueOf(tripListData.get(getAdapterPosition()).getId()));
                     context.startActivity(intent);
                 }
             });

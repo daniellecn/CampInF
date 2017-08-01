@@ -9,6 +9,7 @@ import com.campin.Utils.PlannedTrip;
 import com.campin.Utils.Trip;
 import com.campin.Utils.TripLevel;
 import com.campin.Utils.TripType;
+import com.campin.Utils.User;
 
 import java.util.List;
 
@@ -53,7 +54,11 @@ public class ModelSql {
         AreaSql.addArea(helper.getWritableDatabase(), area);
     }
 
-    public Trip getTripById(int id){
+    public void addUser(User user){
+        UserSql.addUser(helper.getWritableDatabase(), user);
+    }
+
+    public Trip getTripById(String id){
         return TripSql.getTripByID(helper.getReadableDatabase(), id);
     }
 
@@ -67,6 +72,10 @@ public class ModelSql {
 
     public Area getAreaByCode(int code){
         return AreaSql.getAreaByCode(helper.getReadableDatabase(), code);
+    }
+
+    public User getUserById(String id){
+        return UserSql.getUserByID(helper.getReadableDatabase(), id);
     }
 
     public List<Trip> getAllTrips(){
@@ -83,6 +92,10 @@ public class ModelSql {
 
     public List<Area> getAllArea(){
         return AreaSql.getAllAreas(helper.getReadableDatabase());
+    }
+
+    public List<User> getAllUsers(){
+        return UserSql.getAllUsers(helper.getReadableDatabase());
     }
 
     public void addPlannedTrip(PlannedTrip trip) {
@@ -109,6 +122,7 @@ public class ModelSql {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
+            UserSql.createTable(db);
             TripSql.createTable(db);
             //PlannedTripSql.create(db);
             LastUpdateSql.create(db);
@@ -119,6 +133,7 @@ public class ModelSql {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+            UserSql.dropTable(db);
             TripSql.dropTable(db);
             //PlannedTripSql.dropTable(db);
             LastUpdateSql.drop(db);

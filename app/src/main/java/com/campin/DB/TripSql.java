@@ -25,6 +25,7 @@ public class TripSql {
     private static final String FRIENDS = "FRIENDS";
     private static final String DETAILS = "DETAILS";
     private static final String LEVEL = "LEVEL";
+    private static final String MUST_CAR = "MUST_CAR";
     private static final String IMAGE_URL = "IMAGE_URL";
 
     // Trip seasons Table
@@ -54,6 +55,7 @@ public class TripSql {
                 FRIENDS + " NUM," +
                 DETAILS + " TEXT," +
                 LEVEL + " NUM," +
+                MUST_CAR + " TEXT," +
                 IMAGE_URL + " TEXT );");
 
         db.execSQL("CREATE TABLE " + TRIP_SEASONS_TABLE + " (" +
@@ -167,7 +169,7 @@ public class TripSql {
         }
     }
 
-    public static Trip getTripByID(SQLiteDatabase db, int id) {
+    public static Trip getTripByID(SQLiteDatabase db, String id) {
         // Set the selection parameters
         String[] selectArg = {String.valueOf(id)};
         Trip trip = null;
@@ -186,6 +188,7 @@ public class TripSql {
                     cursor.getInt(cursor.getColumnIndex(FRIENDS)),
                     cursor.getString(cursor.getColumnIndex(DETAILS)),
                     cursor.getInt(cursor.getColumnIndex(LEVEL)),
+                    Boolean.valueOf(cursor.getString(cursor.getColumnIndex(MUST_CAR))),
                     cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
 
             trip.setSeasons(getSeasonsOfTripId(db, selectArg));
@@ -220,6 +223,7 @@ public class TripSql {
             int friendsIndex = tripsCursor.getColumnIndex(FRIENDS);
             int detailsIndex = tripsCursor.getColumnIndex(DETAILS);
             int levelIndex = tripsCursor.getColumnIndex(LEVEL);
+            int mustCarIndex = tripsCursor.getColumnIndex(MUST_CAR);
             int imageUrlIndex = tripsCursor.getColumnIndex(IMAGE_URL);
 
             // Select argument
@@ -238,6 +242,7 @@ public class TripSql {
                         tripsCursor.getInt(friendsIndex),
                         tripsCursor.getString(detailsIndex),
                         tripsCursor.getInt(levelIndex),
+                        Boolean.valueOf(tripsCursor.getString(mustCarIndex)),
                         tripsCursor.getString(imageUrlIndex)
                 );
                 tripsList.add(trip);

@@ -48,8 +48,6 @@ dependencies {
     compile 'com.google.firebase:firebase-ads:11.0.0'
     compile 'com.google.firebase:firebase-appindexing:11.0.0'
     testCompile 'junit:junit:4.12'
-    compile files('libs/jxl-2.6.12.jar')
-    compile files('libs/poi-3.7.jar')
 }
 
 apply plugin: 'com.google.gms.google-services'

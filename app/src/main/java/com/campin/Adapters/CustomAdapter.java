@@ -22,12 +22,14 @@ import com.facebook.login.LoginManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class CustomAdapter extends BaseAdapter {
     ArrayList<String> _names;
     ArrayList<String> _id;
     public ArrayList<String> _friends;
-    public static ArrayList<String> _preferedAreas = new ArrayList<String>();
+    public static List<Integer> _preferedAreas = new LinkedList<>();
     Activity context;
     String value;
 
@@ -121,9 +123,8 @@ public class CustomAdapter extends BaseAdapter {
                     if (User.getInstance().isShowFriends() == true) {
                         _friends.add(holder.txtView.getTag().toString());
                     }
-                    else
-                    {
-                        _preferedAreas.add(holder.txtView.getText().toString());
+                    else {
+                        _preferedAreas.add(Integer.parseInt(holder.txtView.getText().toString()));
                     }
 
                     holder.txtView.setCheckMarkDrawable(R.drawable.checked);

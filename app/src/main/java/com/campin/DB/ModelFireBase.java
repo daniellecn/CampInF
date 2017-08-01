@@ -63,7 +63,7 @@ public class ModelFireBase {
         UserFireBase.isUserExist(userId, listener);
     }
 
-    public User getUserById(String id, final Model.GetUserByIdListener listener) {
+    public User getUserById(String id, final Model.GetUserListener listener) {
        User currUser  = UserFireBase.getUserById(id, listener);
 
         return  currUser;
@@ -137,6 +137,23 @@ public class ModelFireBase {
         });
     }
 
+    public void addUser(User user, final Model.SuccessListener listener){
+        DatabaseReference myRef = database.getReference("users").child(String.valueOf(user.getUserId()));
+        myRef.setValue(user.toMap());
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onResult(true);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onResult(false);
+            }
+        });
+    }
+
     public void getTripById(String id, final Model.GetTripListener listener) {
         TripFireBase.getTripById(id, listener);
     }
@@ -167,6 +184,10 @@ public class ModelFireBase {
 
     public void getAreaFromDate(double lastUpdateDate, final Model.GetAllAreaListener listener){
         AreaFireBase.getAreaFromDate(lastUpdateDate, listener);
+    }
+
+    public void getUserFromDate(double lastUpdateDate, final Model.GetAllUserListener listener){
+        UserFireBase.getUserFromDate(lastUpdateDate, listener);
     }
 
 }
