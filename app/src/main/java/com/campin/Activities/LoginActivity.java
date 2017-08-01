@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final boolean[] isLoggedIn = {false};
         /*** Validation ***/
-        Model.instance().isUserExist(User.getInstance().getUserId(), new Model.SuccessListener() {
+        Model.instance().isUserExist(User.getInstance().getId(), new Model.SuccessListener() {
             @Override
             public void onResult(boolean result) {
                 if (result) {
@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                     User.isSignUp = true;
 
                     // Get the user details.
-                    Model.instance().getUserById(User.getInstance().getUserId(), new Model.GetUserListener()
+                    Model.instance().getUserById(User.getInstance().getId(), new Model.GetUserListener()
                     {
 
                         @Override
@@ -281,10 +281,10 @@ public class LoginActivity extends AppCompatActivity {
                                 urlCover = null;
                             }
 
-                            usr.setUserId(userId);
+                            usr.setId(userId);
                             usr.setBirthday(birthday);
                             usr.setEmail(email);
-                            usr.setFullName(fullName);
+                            usr.setName(fullName);
                             usr.setLocation(location);
                             usr.setUrlCover(urlCover);
 

@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
         _usr = User.getInstance();
 
-        if (_usr.getUserId() == null)
+        if (_usr.getId() == null)
         {
             _usr = (User) getIntent().getSerializableExtra("user");
         }
@@ -321,7 +321,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadNavHeader() {
         // name, website
         // TODO: getting the user data from db.
-        txtName.setText(_usr.getFullName());
+        txtName.setText(_usr.getName());
         txtMail.setText(_usr.getEmail());
 
         // loading header background image
@@ -331,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
                 .into(imgNavHeaderBg);
 
         // Loading profile image
-        Glide.with(this).load(urlProfileImg + _usr.getUserId() + profileEnd)
+        Glide.with(this).load(urlProfileImg + _usr.getId() + profileEnd)
                 .crossFade()
                 .thumbnail(1f)
                 .bitmapTransform(new CircleTransform(this))

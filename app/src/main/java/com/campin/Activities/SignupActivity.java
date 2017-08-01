@@ -27,6 +27,7 @@ public class SignupActivity extends AppCompatActivity {
     String value;
     CustomAdapter customAdapter;
     ArrayList<String> areas = new ArrayList<String>();
+    ArrayList<String> id = new ArrayList<>();
 
     @InjectView(R.id.btn_signup) Button _signupButton;
 
@@ -54,15 +55,19 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        areas.add(0,"צפון");
-        areas.add(1,"דרום");
-        areas.add(2,"מרכז");
-        areas.add(3,"ירושלים");
+        areas.add("צפון");
+        id.add("0");
+        areas.add("דרום");
+        id.add("1");
+        areas.add("מרכז");
+        id.add("2");
+        areas.add("ירושלים");
+        id.add("3");
 
         // initiate a ListView
         ListView listView = (ListView) findViewById(R.id.listView);
         // set the adapter to fill the data in ListView
-        customAdapter = new CustomAdapter(this, areas, null);
+        customAdapter = new CustomAdapter(this, areas, id);
         listView.setAdapter(customAdapter);
 
         // Checking if there are prefered areas.

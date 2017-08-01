@@ -199,7 +199,7 @@ public class DetailsFragment extends Fragment {
             Model.instance().getUserById(trip.getComments().get(i).get_userId(), new Model.GetUserListener() {
                 @Override
                 public void onComplete(User user) {
-                    userName[0].setText(user.getFullName());
+                    userName[0].setText(user.getName());
                 }
 
                 @Override

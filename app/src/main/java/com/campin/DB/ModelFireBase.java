@@ -138,7 +138,7 @@ public class ModelFireBase {
     }
 
     public void addUser(User user, final Model.SuccessListener listener){
-        DatabaseReference myRef = database.getReference("users").child(String.valueOf(user.getUserId()));
+        DatabaseReference myRef = database.getReference("users").child(String.valueOf(user.getId()));
         myRef.setValue(user.toMap());
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {

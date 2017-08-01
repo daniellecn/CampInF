@@ -18,15 +18,15 @@ public class User implements Serializable {
 
     private static User _user = null;
     public static  boolean isSignUp = false;
-    private String userId;
-    private String fullName;
+    private String id;
+    private String name;
     private String email;
     private String birthday;
     private String location;
     private String friends;
     private boolean isCar = false;
-    private List<Integer> preferedAreas;
-    private List<Integer> preferedTypes;
+    private List<Integer> preferedAreas = new ArrayList<>();
+    private List<Integer> preferedTypes = new ArrayList<>();
     private int level;
     private byte[] profileImage;
     private String urlCover;
@@ -48,8 +48,8 @@ public class User implements Serializable {
                 String friends, boolean isCar, List<Integer> preferedAreas, List<Integer> preferedTypes,
                 int level, byte[] profileImage, String urlCover, boolean isShowFriends) {
 
-        this.userId = userId;
-        this.fullName = fullName;
+        this.id = userId;
+        this.name = fullName;
         this.email = email;
         this.birthday = birthday;
         this.location = location;
@@ -69,8 +69,8 @@ public class User implements Serializable {
     public User(String userId, String fullName, String email, String birthday, String location,
                 String friends, boolean isCar, int level, String urlCover,
                 boolean isShowFriends) {
-        this.userId = userId;
-        this.fullName = fullName;
+        this.id = userId;
+        this.name = fullName;
         this.email = email;
         this.birthday = birthday;
         this.location = location;
@@ -90,20 +90,20 @@ public class User implements Serializable {
         User.isSignUp = isSignUp;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getId() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setId(String userId) {
+        this.id = userId;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String fullName) {
+        this.name = fullName;
     }
 
     public String getEmail() {
@@ -204,8 +204,8 @@ public class User implements Serializable {
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("userId", getUserId());
-        result.put("fullName", getFullName());
+        result.put("userId", getId());
+        result.put("fullName", getName());
         result.put("email", getEmail());
         result.put("birthday", getBirthday());
         result.put("email", getEmail());

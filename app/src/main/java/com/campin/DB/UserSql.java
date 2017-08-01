@@ -19,8 +19,8 @@ import java.util.List;
 
 public class UserSql {
     private static final String USERS_TABLE = "USERS";
-    private static final String USER_ID = "USER_ID";
-    private static final String FULL_NAME = "FULL_NAME";
+    private static final String ID = "ID";
+    private static final String NAME = "NAME";
     private static final String EMAIL = "EMAIL";
     private static final String BIRTHDAY = "BIRTHDAY";
     private static final String LOCATION = "LOCATION";
@@ -39,8 +39,8 @@ public class UserSql {
 
     public static void createTable(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + USERS_TABLE + " (" +
-                USER_ID + " NUM PRIMARY KEY," +
-                FULL_NAME + " TEXT," +
+                ID + " NUM PRIMARY KEY," +
+                NAME + " TEXT," +
                 EMAIL + " TEXT," +
                 BIRTHDAY + " TEXT," +
                 LOCATION + " TEXT," +
@@ -51,14 +51,14 @@ public class UserSql {
                 IS_SHOW_FRIENDS + " TEXT );");
 
         db.execSQL("CREATE TABLE " + USER_AREA_TABLE + " (" +
-                USER_ID + " NUM ," +
+                ID + " NUM ," +
                 AREA_CODE + " TEXT, PRIMARY KEY ( " +
-                USER_ID + ", " + AREA_CODE + " ) );");
+                ID + ", " + AREA_CODE + " ) );");
 
         db.execSQL("CREATE TABLE " + USER_TYPE_TABLE + " (" +
-                USER_ID + " NUM ," +
+                ID + " NUM ," +
                 TYPE_CODE + " TEXT, PRIMARY KEY ( " +
-                USER_ID + ", " + TYPE_CODE + " ) );");
+                ID + ", " + TYPE_CODE + " ) );");
     }
 
     public static void dropTable(SQLiteDatabase db) {
@@ -72,8 +72,8 @@ public class UserSql {
         long rowId;
 
         // Set user table values
-        values.put(USER_ID, user.getUserId());
-        values.put(FULL_NAME, user.getFullName());
+        values.put(ID, user.getId());
+        values.put(NAME, user.getName());
         values.put(EMAIL, user.getEmail());
         values.put(BIRTHDAY, user.getBirthday());
         values.put(LOCATION, user.getLocation());
@@ -84,7 +84,7 @@ public class UserSql {
         values.put(IS_SHOW_FRIENDS, user.isShowFriends());
 
         // Add to local db
-        rowId = db.insertWithOnConflict(USERS_TABLE, USER_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
+        rowId = db.insertWithOnConflict(USERS_TABLE, ID, values, SQLiteDatabase.CONFLICT_REPLACE);
         if (rowId <= 0) {
             Log.e("SQLite", "fail to insert into trips");
         }
@@ -93,11 +93,11 @@ public class UserSql {
         values.clear();
 
         for (Integer area : user.getPreferedAreas()) {
-            values.put(USER_ID, user.getUserId());
+            values.put(ID, user.getId());
             values.put(AREA_CODE, area);
 
             // Add to local db
-            rowId = db.insertWithOnConflict(USER_AREA_TABLE, USER_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
+            rowId = db.insertWithOnConflict(USER_AREA_TABLE, ID, values, SQLiteDatabase.CONFLICT_REPLACE);
             if (rowId <= 0) {
                 Log.e("SQLite", "fail to insert into trip seasons");
             }
@@ -107,11 +107,11 @@ public class UserSql {
         values.clear();
 
         for (Integer type : user.getPreferedTypes()) {
-            values.put(USER_ID, user.getUserId());
+            values.put(ID, user.getId());
             values.put(TYPE_CODE, type);
 
             // Add to local db
-            rowId = db.insertWithOnConflict(USER_TYPE_TABLE, USER_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
+            rowId = db.insertWithOnConflict(USER_TYPE_TABLE, ID, values, SQLiteDatabase.CONFLICT_REPLACE);
             if (rowId <= 0) {
                 Log.e("SQLite", "fail to insert into trip seasons");
             }
@@ -123,12 +123,12 @@ public class UserSql {
         String[] selectArg = {String.valueOf(id)};
         User user = null;
 
-        Cursor cursor = db.query(USERS_TABLE, null, USER_ID + " = ?", selectArg, null, null, null);
+        Cursor cursor = db.query(USERS_TABLE, null, ID + " = ?", selectArg, null, null, null);
 
         if (cursor.moveToFirst() == true){
             user = new User(
-                    cursor.getString(cursor.getColumnIndex(USER_ID)),
-                    cursor.getString(cursor.getColumnIndex(FULL_NAME)),
+                    cursor.getString(cursor.getColumnIndex(ID)),
+                    cursor.getString(cursor.getColumnIndex(NAME)),
                     cursor.getString(cursor.getColumnIndex(EMAIL)),
                     cursor.getString(cursor.getColumnIndex(BIRTHDAY)),
                     cursor.getString(cursor.getColumnIndex(LOCATION)),
@@ -165,8 +165,8 @@ public class UserSql {
         // If there is trips
         if (usersCursor.moveToFirst()){
             // Defined indexes
-            int idIndex = usersCursor.getColumnIndex(USER_ID);
-            int nameIndex = usersCursor.getColumnIndex(FULL_NAME);
+            int idIndex = usersCursor.getColumnIndex(ID);
+            int nameIndex = usersCursor.getColumnIndex(NAME);
             int emailIndex = usersCursor.getColumnIndex(EMAIL);
             int birthdayIndex = usersCursor.getColumnIndex(BIRTHDAY);
             int locationIndex = usersCursor.getColumnIndex(LOCATION);
@@ -209,7 +209,7 @@ public class UserSql {
 
     private static List<Integer> getTypesOfUserId(SQLiteDatabase db, String[] selectArg){
         List<Integer> typesOfUser = new ArrayList<Integer>();
-        Cursor cursor = db.query(USER_TYPE_TABLE, null, USER_ID + " = ?", selectArg, null, null, null);
+        Cursor cursor = db.query(USER_TYPE_TABLE, null, ID + " = ?", selectArg, null, null, null);
 
         while (cursor.moveToNext()){
             typesOfUser.add(cursor.getInt((cursor.getColumnIndex(TYPE_CODE))));
@@ -220,7 +220,7 @@ public class UserSql {
 
     private static List<Integer> getAreaOfUserId(SQLiteDatabase db, String[] selectArg){
         List<Integer> areaOfUser = new ArrayList<Integer>();
-        Cursor cursor = db.query(USER_AREA_TABLE, null, USER_ID + " = ?", selectArg, null, null, null);
+        Cursor cursor = db.query(USER_AREA_TABLE, null, ID + " = ?", selectArg, null, null, null);
 
         while (cursor.moveToNext()){
             areaOfUser.add(cursor.getInt((cursor.getColumnIndex(AREA_CODE))));

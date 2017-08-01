@@ -95,6 +95,9 @@ public class CustomAdapter extends BaseAdapter {
         }
         else
         {
+            String id = getIdItem(position);
+            holder.txtView.setTag(id);
+
             if (User.getInstance().getPreferedAreas().contains(name))
             {
                 holder.txtView.setCheckMarkDrawable(R.drawable.checked);
@@ -124,7 +127,7 @@ public class CustomAdapter extends BaseAdapter {
                         _friends.add(holder.txtView.getTag().toString());
                     }
                     else {
-                        _preferedAreas.add(Integer.parseInt(holder.txtView.getText().toString()));
+                        _preferedAreas.add(Integer.parseInt(holder.txtView.getTag().toString()));
                     }
 
                     holder.txtView.setCheckMarkDrawable(R.drawable.checked);

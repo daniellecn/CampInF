@@ -4,6 +4,7 @@ import com.campin.DB.Model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -130,6 +131,118 @@ public class RecommendedTripForUser {
             }
         });
     }
+
+    public static void recommendedTripForUsers(final PlannedTrip trip, final Model.GetAllTripsListener listener)
+    {
+        final List<RecommendedTrip> recommendedTrips = new LinkedList<>();
+        final RecommendedTrip[] recommendedTrip = new RecommendedTrip[1];
+
+        final ArrayList<String> usersId = trip.getFriends();
+        final ArrayList<User> allUsers = new ArrayList<User>();
+
+        for (String id : usersId)
+        {
+            Model.instance().getUserById(id, new Model.GetUserListener() {
+                @Override
+                public void onComplete(User user) {
+
+                    allUsers.add(user);
+
+                    if (allUsers.size() == usersId.size()) {
+
+                        Model.instance().getAllTripAsynch(new Model.GetAllTripsListener() {
+                            @Override
+                            public void onComplete(List<Trip> tripsList, int currentMaxKey) {
+                                for (Trip trip : tripsList){
+                                    double tripScore = 1;
+
+                                    for (User curr : allUsers) {
+                                        /*** Check Area ***/
+                                        if (curr.getPreferedAreas().contains(trip.getArea())) {
+                                            tripScore += AREA_SCORE;
+                                        }
+
+                                        /*** Check Seasons ***/
+                                        // If there is a match between current season and trip seasons
+                                        if (trip.getSeasons().contains
+                                                (getSeasonForCurrentMonth(Calendar.getInstance().get(Calendar.MONTH) + 1))) {
+                                            tripScore += SEASON_SCORE;
+                                        }
+                                        // If the is a match between previous or next month season and trip seasons
+                                        else if ((trip.getSeasons().contains
+                                                (getSeasonForCurrentMonth(Calendar.getInstance().get(Calendar.MONTH) + 2))) ||
+                                                ((trip.getSeasons().
+                                                        contains(getSeasonForCurrentMonth
+                                                                (Calendar.getInstance().get(Calendar.MONTH) - 2))))) {
+                                            tripScore += (SEASON_SCORE / 2);
+                                        }
+
+                                        /*** Check types ***/
+                                        for (int tripType : trip.getTypes()) {
+                                            for (int userType : curr.getPreferedTypes()) {
+                                                if (tripType == userType) {
+                                                    tripScore += TYPE_SCORE;
+                                                }
+                                            }
+                                        }
+
+                                        /*** Check level ***/
+                                        // If there is a match between uses's level and level of trip
+                                        if (trip.getLevel() == curr.getLevel()) {
+                                            tripScore += LEVEL_SCORE;
+                                        }
+                                        // If the user's level is higher than the level of the trip
+                                        else if (trip.getLevel() < curr.getLevel()) {
+                                            tripScore += (LEVEL_SCORE / 2);
+                                        }
+
+                                        /*** Check car ***/
+                                        // If a car is needed for a trip and the user does not have a car
+                                        if ((trip.isMustCar() == true) && (curr.isCar() == false)) {
+                                            tripScore /= CAR_SCORE;
+                                        }
+                                    }
+
+                                    /*** Check comments ***/
+                                    double avgCommentsScore = 0;
+                                    for (TripComments comment : trip.getComments()){
+                                        avgCommentsScore += comment.get_commentScore();
+                                    }
+                                    avgCommentsScore = avgCommentsScore / trip.getComments().size();
+                                    tripScore *= ( avgCommentsScore + 1);
+
+                                    recommendedTrip[0] = new RecommendedTrip(trip, tripScore);
+                                    recommendedTrips.add(recommendedTrip[0]);
+                                }
+
+                                // Sort the recommended trips by score
+                                Collections.sort(recommendedTrips, new Comparator<RecommendedTrip>() {
+                                    @Override
+                                    public int compare(RecommendedTrip recommendedTrip1, RecommendedTrip recommendedTrip2) {
+                                        return Double.compare(recommendedTrip1.getScore(), recommendedTrip2.getScore());
+                                    }
+                                });
+
+                                listener.onComplete(tripsList, 0);
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            });
+
+        }
+    }
+
 
     private static String getSeasonForCurrentMonth(int month){
         String season = "";

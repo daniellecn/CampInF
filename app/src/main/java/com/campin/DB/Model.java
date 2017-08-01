@@ -355,7 +355,7 @@ public class Model {
                     double recentUpdate = lastUpdateDate;
                     for (User user : userList) {
                         // If new trip
-                        if (local.getUserById(user.getUserId()) == null) {
+                        if (local.getUserById(user.getId()) == null) {
                             UserSql.addUser(local.getWritableDB(), user);
                         }
                         //If this update

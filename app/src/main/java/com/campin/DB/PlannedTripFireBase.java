@@ -58,8 +58,8 @@ class PlannedTripFireBase {
                     final PlannedTrip trip = snap.getValue(PlannedTrip.class);
 
                     ArrayList<String> friends = trip.getFriends();
-                    if (friends.contains(User.getInstance().getUserId()) ||
-                            trip.getCreator().equals(User.getInstance().getUserId()))
+                    if (friends.contains(User.getInstance().getId()) ||
+                            trip.getCreator().equals(User.getInstance().getId()))
                     {
                         trips.add(trip);
                     }

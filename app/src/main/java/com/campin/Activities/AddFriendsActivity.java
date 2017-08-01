@@ -16,6 +16,7 @@ import com.campin.DB.Model;
 import com.campin.R;
 import com.campin.Adapters.CustomAdapter;
 import com.campin.Utils.PlannedTrip;
+import com.campin.Utils.RecommendedTripForUser;
 import com.campin.Utils.Trip;
 import com.campin.Utils.User;
 import com.google.firebase.appindexing.Action;
@@ -26,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddFriendsActivity extends AppCompatActivity {
 
@@ -50,7 +52,7 @@ public class AddFriendsActivity extends AppCompatActivity {
         Trip t = new Trip();
 
         newPlannedTrip = new PlannedTrip
-                (t ,User.getInstance().getUserId(),
+                (t ,User.getInstance().getId(),
                         getIntent().getStringExtra("firstDate").toString(),getIntent().getStringExtra("secDate").toString());
         if (getWindow().getDecorView().getLayoutDirection() == View.LAYOUT_DIRECTION_LTR){
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -107,7 +109,7 @@ public class AddFriendsActivity extends AppCompatActivity {
     }
 
     private void showSuccessDialog() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(AddFriendsActivity.this
+        /*final AlertDialog.Builder builder = new AlertDialog.Builder(AddFriendsActivity.this
                 ,R.style.AppTheme_Dark_Dialog);
         AlertDialog dialog;
         builder.setTitle("הטיול ל" + newPlannedTrip.getTrip().getArea() + " נוצר בהצלחה");
@@ -125,7 +127,7 @@ public class AddFriendsActivity extends AppCompatActivity {
 
         dialog = builder.create();
         // display dialog
-        dialog.show();
+        dialog.show();*/
 
         // adding to the db
 
@@ -134,14 +136,27 @@ public class AddFriendsActivity extends AppCompatActivity {
             public void onResult(boolean result) {
                 if (result) {
                     // Display message
-                    Toast.makeText(getApplicationContext(),
+                   /* Toast.makeText(getApplicationContext(),
                             "התעדכן בהצלחה",
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT).show();*/
 
-                    // Return to the list activity
-                    Intent intent = new Intent(AddFriendsActivity.this,
-                            MainActivity.class);
-                    startActivity(intent);
+                    RecommendedTripForUser.recommendedTripForUsers(newPlannedTrip, new Model.GetAllTripsListener() {
+                        @Override
+                        public void onComplete(List<Trip> tripsList, int currentMaxKey) {
+                            // Return to the list activity
+                            Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+                            intent.putExtra
+                                    (DetailActivity.EXTRA_POSITION,
+                                            String.valueOf(tripsList.get(0).getId()));
+                            getApplicationContext().startActivity(intent);
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
+
                 } else {
                     // Display message
                     Toast.makeText(getApplicationContext(),

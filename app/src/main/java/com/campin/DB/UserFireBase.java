@@ -21,7 +21,7 @@ public class UserFireBase {
 
     public static void userLogIn(final User user, final Model.LogInListener listener)
     {
-        DatabaseReference myRef = database.getReference("users").child(String.valueOf(user.getUserId()));
+        DatabaseReference myRef = database.getReference("users").child(String.valueOf(user.getId()));
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -44,7 +44,7 @@ public class UserFireBase {
         });
     }
     public static void userSignUp(User user, final Model.SignUpListener listener) {
-        DatabaseReference myRef = database.getReference("users").child(user.getUserId());
+        DatabaseReference myRef = database.getReference("users").child(user.getId());
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -66,7 +66,7 @@ public class UserFireBase {
     }
 
     public static void addUser(User user) {
-        DatabaseReference myRef = database.getReference("users").child(user.getUserId());
+        DatabaseReference myRef = database.getReference("users").child(user.getId());
         myRef.setValue(user.toMap());
     }
 
