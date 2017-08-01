@@ -16,7 +16,8 @@ import java.util.List;
  * Created by Danielle Cohen on 28/07/2017.
  */
 
-class TripLevelFireBase {
+class TripLevelFireBase
+{
     private static FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     public static void addTripLevel(TripLevel newTripLevel, final Model.SuccessListener listener){

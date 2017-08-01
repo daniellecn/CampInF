@@ -17,6 +17,7 @@
 package com.campin.Activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -58,7 +59,9 @@ import com.campin.Utils.TripType;
 import com.campin.Utils.User;
 import com.facebook.login.LoginManager;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -155,6 +158,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadData(){
+        Model.instance().getAllUsersAsynch(new Model.GetAllUserListener() {
+            @Override
+            public void onComplete(List<User> userList) {
+            }
+
+            @Override
+            public void onCancel() {
+            }
+        });
+
         Model.instance().getAllTripAsynch(new Model.GetAllTripsListener() {
             @Override
             public void onComplete(List<Trip> tripsList, int currentMaxKey) {
@@ -218,11 +231,11 @@ public class MainActivity extends AppCompatActivity {
 
         MenuItem nav_favorite_area = menu.findItem(R.id.prof_fav_area);
 
-        ArrayList<String>    prefferedAreas = _usr.getPreferedAreas();
+        List<Integer> prefferedAreas = _usr.getPreferedAreas();
 
         String prefered = "";
         int count = prefferedAreas.size();
-        for (String area : prefferedAreas)
+        for (Integer area : prefferedAreas)
         {
             prefered += area;
 

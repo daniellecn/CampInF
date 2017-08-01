@@ -25,6 +25,7 @@ public class TripSql {
     private static final String FRIENDS = "FRIENDS";
     private static final String DETAILS = "DETAILS";
     private static final String LEVEL = "LEVEL";
+    private static final String MUST_CAR = "MUST_CAR";
     private static final String IMAGE_URL = "IMAGE_URL";
 
     // Trip seasons Table
@@ -54,6 +55,7 @@ public class TripSql {
                 FRIENDS + " NUM," +
                 DETAILS + " TEXT," +
                 LEVEL + " NUM," +
+                MUST_CAR + " TEXT," +
                 IMAGE_URL + " TEXT );");
 
         db.execSQL("CREATE TABLE " + TRIP_SEASONS_TABLE + " (" +
@@ -115,6 +117,7 @@ public class TripSql {
             values.put(SEASON, season);
 
             // Add to local db
+//            rowId = db.replace(TRIP_SEASONS_TABLE, TRIP_ID, values);
             rowId = db.insertWithOnConflict(TRIP_SEASONS_TABLE, TRIP_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
             if (rowId <= 0) {
                 Log.e("SQLite", "fail to insert into trip seasons");
@@ -167,13 +170,10 @@ public class TripSql {
         }
     }
 
-    public static Trip getTripByID(SQLiteDatabase db, int id) {
+    public static Trip getTripByID(SQLiteDatabase db, String id) {
         // Set the selection parameters
         String[] selectArg = {String.valueOf(id)};
         Trip trip = null;
-        List<String> selectedStringValues = new ArrayList<String>();
-        List<Integer> selectedIntegerdValues = new ArrayList<Integer>();
-        List<TripComments> selectedComments = new ArrayList<TripComments>();
 
         // TRIP
         Cursor cursor = db.query(TRIPS_TABLE, null, TRIP_ID + " = ?", selectArg, null, null, null);
@@ -186,6 +186,7 @@ public class TripSql {
                     cursor.getInt(cursor.getColumnIndex(FRIENDS)),
                     cursor.getString(cursor.getColumnIndex(DETAILS)),
                     cursor.getInt(cursor.getColumnIndex(LEVEL)),
+                    Boolean.valueOf(cursor.getString(cursor.getColumnIndex(MUST_CAR))),
                     cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
 
             trip.setSeasons(getSeasonsOfTripId(db, selectArg));
@@ -220,6 +221,7 @@ public class TripSql {
             int friendsIndex = tripsCursor.getColumnIndex(FRIENDS);
             int detailsIndex = tripsCursor.getColumnIndex(DETAILS);
             int levelIndex = tripsCursor.getColumnIndex(LEVEL);
+            int mustCarIndex = tripsCursor.getColumnIndex(MUST_CAR);
             int imageUrlIndex = tripsCursor.getColumnIndex(IMAGE_URL);
 
             // Select argument
@@ -238,6 +240,7 @@ public class TripSql {
                         tripsCursor.getInt(friendsIndex),
                         tripsCursor.getString(detailsIndex),
                         tripsCursor.getInt(levelIndex),
+                        Boolean.valueOf(tripsCursor.getString(mustCarIndex)),
                         tripsCursor.getString(imageUrlIndex)
                 );
                 tripsList.add(trip);

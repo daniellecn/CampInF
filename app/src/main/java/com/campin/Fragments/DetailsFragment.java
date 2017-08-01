@@ -49,8 +49,8 @@ public class DetailsFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_details, container, false);
 
         // Get position
-        int tripId = getActivity().getIntent().getIntExtra(DetailActivity.EXTRA_POSITION, 0);
-        trip = Model.instance().getTripById(tripId);
+        String tripId = getActivity().getIntent().getStringExtra(DetailActivity.EXTRA_POSITION);
+        trip =  Model.instance().getTripById(tripId);
 
         // Set comments
         commentAdapter = new CommentAdapter();
@@ -63,7 +63,7 @@ public class DetailsFragment extends Fragment {
         collapsingToolbar.setTitle(trip.getName());
 
         // Set image
-        Model.instance().getTripImage(Model.instance().getTripById(trip.getId()), 0, new Model.GetImageListener() {
+        Model.instance().getTripImage(trip, 0, new Model.GetImageListener() {
             @Override
             public void onSuccess(Bitmap image) {
                 ImageView detImage = (ImageView) view.findViewById(R.id.det_image);
@@ -196,7 +196,7 @@ public class DetailsFragment extends Fragment {
 
             // Set user name
             final TextView[] userName = {(TextView) view.findViewById(R.id.det_reagent)};
-            Model.instance().getUserById(trip.getComments().get(i).get_userId(), new Model.GetUserByIdListener() {
+            Model.instance().getUserById(trip.getComments().get(i).get_userId(), new Model.GetUserListener() {
                 @Override
                 public void onComplete(User user) {
                     userName[0].setText(user.getFullName());

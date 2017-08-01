@@ -43,6 +43,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
@@ -121,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                     User.isSignUp = true;
 
                     // Get the user details.
-                    Model.instance().getUserById(User.getInstance().getUserId(), new Model.GetUserByIdListener()
+                    Model.instance().getUserById(User.getInstance().getUserId(), new Model.GetUserListener()
                     {
 
                         @Override
@@ -296,11 +297,9 @@ public class LoginActivity extends AppCompatActivity {
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                         byte[] byteArray = stream.toByteArray();
-                        usr.setByteArray(byteArray);
+                        usr.setProfileImage(byteArray);
 
                         isSignUp();
-
-                        //intent.putExtra("user", usr);
                     }
                 });
         Bundle parameters = new Bundle();

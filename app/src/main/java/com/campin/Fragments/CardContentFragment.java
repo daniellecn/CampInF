@@ -42,6 +42,7 @@ import com.campin.Activities.LoginActivity;
 import com.campin.Activities.MainActivity;
 import com.campin.DB.Model;
 import com.campin.R;
+import com.campin.Utils.RecommendedTripForUser;
 import com.campin.Utils.Trip;
 import com.campin.Utils.User;
 
@@ -77,24 +78,34 @@ public class CardContentFragment extends Fragment {
     }
 
     private void loadTripListData(){
-        Model.instance().getAllTripAsynch(new Model.GetAllTripsListener() {
+        Model.instance().getUserById("10213441713342431", new Model.GetUserListener() {
             @Override
-            public void onComplete(List<Trip> tripsList, int currentMaxKey) {
-                tripListData = tripsList;
-                adapter.notifyDataSetChanged();
+            public void onComplete(User user) {
+                RecommendedTripForUser.recommendedTripForUser(user, new Model.GetAllTripsListener() {
+                    @Override
+                    public void onComplete(List<Trip> tripsList, int currentMaxKey) {
+                        tripListData = tripsList;
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // Display message
+                        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.errorOccure),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
             public void onCancel() {
-                // Display message
-                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.errorOccure),
-                        Toast.LENGTH_SHORT).show();
+
             }
         });
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView picture;
         public TextView name;
         public TextView description;
@@ -111,7 +122,7 @@ public class CardContentFragment extends Fragment {
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, DetailActivity.class);
-                    intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
+                    intent.putExtra(DetailActivity.EXTRA_POSITION, String.valueOf(tripListData.get(getAdapterPosition()).getId()));
                     context.startActivity(intent);
                 }
             });

@@ -1,10 +1,13 @@
 package com.campin.Utils;
 
+import com.google.firebase.database.ServerValue;
+
 import org.json.JSONArray;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,17 +18,20 @@ public class User implements Serializable {
 
     private static User _user = null;
     public static  boolean isSignUp = false;
-    private String email = "";
-    private String birthday = "";
-    private String userId = "";
-    private String fullName = "";
-    private String urlCover = "";
-    private String location = "";
-    private String friends = "";
-    private ArrayList<String> preferedAreas = new ArrayList<String>();
-    private byte[] byteArray;
-    private boolean isShowFriends = false;
+    private String userId;
+    private String fullName;
+    private String email;
+    private String birthday;
+    private String location;
+    private String friends;
     private boolean isCar = false;
+    private List<Integer> preferedAreas;
+    private List<Integer> preferedTypes;
+    private int level;
+    private byte[] profileImage;
+    private String urlCover;
+    private boolean isShowFriends = false;
+    private double lastUpdated;
 
 
     public static User getInstance()
@@ -38,20 +44,50 @@ public class User implements Serializable {
         return  _user;
     }
 
-    public String getEmail() {
-        return email;
-    }
+    public User(String userId, String fullName, String email, String birthday, String location,
+                String friends, boolean isCar, List<Integer> preferedAreas, List<Integer> preferedTypes,
+                int level, byte[] profileImage, String urlCover, boolean isShowFriends) {
 
-    public void setEmail(String email) {
+        this.userId = userId;
+        this.fullName = fullName;
         this.email = email;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
         this.birthday = birthday;
+        this.location = location;
+        this.friends = friends;
+        this.isCar = isCar;
+        this.preferedAreas = preferedAreas;
+        this.preferedTypes = preferedTypes;
+        this.level = level;
+        this.profileImage = profileImage;
+        this.urlCover = urlCover;
+        this.isShowFriends = isShowFriends;
+    }
+
+    public User(){
+    }
+
+    public User(String userId, String fullName, String email, String birthday, String location,
+                String friends, boolean isCar, int level, String urlCover,
+                boolean isShowFriends) {
+        this.userId = userId;
+        this.fullName = fullName;
+        this.email = email;
+        this.birthday = birthday;
+        this.location = location;
+        this.friends = friends;
+        this.isCar = isCar;
+        this.level = level;
+//        this.profileImage = profileImage;
+        this.urlCover = urlCover;
+        this.isShowFriends = isShowFriends;
+    }
+
+    public static boolean isSignUp() {
+        return isSignUp;
+    }
+
+    public static void setIsSignUp(boolean isSignUp) {
+        User.isSignUp = isSignUp;
     }
 
     public String getUserId() {
@@ -70,12 +106,20 @@ public class User implements Serializable {
         this.fullName = fullName;
     }
 
-    public String getUrlCover() {
-        return urlCover;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUrlCover(String urlCover) {
-        this.urlCover = urlCover;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     public String getLocation() {
@@ -94,12 +138,52 @@ public class User implements Serializable {
         this.friends = friends;
     }
 
-    public byte[] getByteArray() {
-        return byteArray;
+    public boolean isCar() {
+        return isCar;
     }
 
-    public void setByteArray(byte[] byteArray) {
-        this.byteArray = byteArray;
+    public void setCar(boolean car) {
+        isCar = car;
+    }
+
+    public List<Integer> getPreferedAreas() {
+        return preferedAreas;
+    }
+
+    public void setPreferedAreas(List<Integer> preferedAreas) {
+        this.preferedAreas = preferedAreas;
+    }
+
+    public List<Integer> getPreferedTypes() {
+        return preferedTypes;
+    }
+
+    public void setPreferedTypes(List<Integer> preferedTypes) {
+        this.preferedTypes = preferedTypes;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public byte[] getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(byte[] profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public String getUrlCover() {
+        return urlCover;
+    }
+
+    public void setUrlCover(String urlCover) {
+        this.urlCover = urlCover;
     }
 
     public boolean isShowFriends() {
@@ -110,28 +194,31 @@ public class User implements Serializable {
         isShowFriends = showFriends;
     }
 
-    public ArrayList<String> getPreferedAreas() {
-        return preferedAreas;
+    public double getLastUpdated() {
+        return lastUpdated;
     }
 
-    public void setPreferedAreas(ArrayList<String> preferedAreas) {
-        this.preferedAreas = preferedAreas;
-    }
-
-    public boolean isCar() {
-        return isCar;
-    }
-
-    public void setCar(boolean car) {
-        isCar = car;
+    public void setLastUpdated(double lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("id", getUserId());
-        result.put("name", getFullName());
+        result.put("userId", getUserId());
+        result.put("fullName", getFullName());
+        result.put("email", getEmail());
+        result.put("birthday", getBirthday());
+        result.put("email", getEmail());
+        result.put("location", getLocation());
+        result.put("friends", getFriends());
         result.put("isCar", isCar());
         result.put("preferedAreas", getPreferedAreas());
+        result.put("preferedTypes", getPreferedTypes());
+//        result.put("profileImage", getProfileImage());
+        result.put("urlCover", getUrlCover());
+        result.put("isShowFriends", isShowFriends());
+        result.put("lastUpdated", ServerValue.TIMESTAMP);
         return result;
     }
 }
+

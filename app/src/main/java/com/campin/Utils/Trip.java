@@ -28,6 +28,7 @@ public class Trip
     private int friendsNum;
     private String details;
     private int level;
+    private boolean mustCar;
     private String imageUrl;
     private double lastUpdated;
 
@@ -36,7 +37,7 @@ public class Trip
 
     public Trip(int id, String name, int area, List<String> seasons, List<Integer> types,
                 List<String> equipment, List<TripComments> comments, int friendsNum, String details,
-                int level, String imageUrl)
+                int level, boolean mustCar, String imageUrl)
     {
         this.id = id;
         this.name = name;
@@ -48,16 +49,18 @@ public class Trip
         this.friendsNum = friendsNum;
         this.details = details;
         this.level = level;
+        this.mustCar = mustCar;
         this.imageUrl = imageUrl;
     }
 
-    public Trip(int id, String name, int area, int friendsNum, String details, int level, String imageUrl) {
+    public Trip(int id, String name, int area, int friendsNum, String details, int level, boolean mustCar, String imageUrl) {
         this.id = id;
         this.name = name;
         this.area = area;
         this.friendsNum = friendsNum;
         this.details = details;
         this.level = level;
+        this.mustCar = mustCar;
         this.imageUrl = imageUrl;
     }
 
@@ -149,6 +152,14 @@ public class Trip
         this.imageUrl = imageUrl;
     }
 
+    public boolean isMustCar() {
+        return mustCar;
+    }
+
+    public void setMustCar(boolean mustCar) {
+        this.mustCar = mustCar;
+    }
+
     public double getLastUpdated() {
         return lastUpdated;
     }
@@ -170,6 +181,7 @@ public class Trip
         result.put("friendsNum", getFriendsNum());
         result.put("details", getDetails());
         result.put("level", getLevel());
+        result.put("mustCar", isMustCar());
         result.put("imageUrl", getImageUrl());
         result.put("lastUpdated", ServerValue.TIMESTAMP);
         return result;

@@ -128,13 +128,9 @@ public class TileContentFragment extends Fragment {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             if (tripListData != null && tripListData.size() > 0 && tripListData.size() > position) {
 
-                Model.instance().getTripById(tripListData.get(position).getId(),new Model.GetTripListener() {
+                tripListData.get(position).setTrip(Model.instance().getTripById(tripListData.get(position).getId()));
 
-                    @Override
-                    public void onComplete(Trip t) {
-                        tripListData.get(position).setTrip(t);
-
-                        Model.instance().getTripImage(tripListData.get(position).getTrip(), 0, new Model.GetImageListener() {
+                Model.instance().getTripImage(tripListData.get(position).getTrip(), 0, new Model.GetImageListener() {
                             @Override
                             public void onSuccess(Bitmap image) {
                                 holder.picture.setImageBitmap(image);
@@ -145,18 +141,7 @@ public class TileContentFragment extends Fragment {
                             public void onFail() {
                             }
                         });
-
-                    }
-
-                    @Override
-                    public void onCancel() {
-                    }
-                });
-
-
-
                     // holder.description.setText(tripListData.get(position).getDetails());
-
             }
 
 
