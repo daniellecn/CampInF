@@ -139,6 +139,7 @@ public class RecommendedTripForUser {
 
         final ArrayList<String> usersId = trip.getFriends();
         final ArrayList<User> allUsers = new ArrayList<User>();
+        usersId.add(User.getInstance().getId());
 
         for (String id : usersId)
         {
@@ -158,49 +159,55 @@ public class RecommendedTripForUser {
 
                                     for (User curr : allUsers) {
                                         /*** Check Area ***/
-                                        if (curr.getPreferedAreas().contains(trip.getArea())) {
-                                            tripScore += AREA_SCORE;
-                                        }
-
-                                        /*** Check Seasons ***/
-                                        // If there is a match between current season and trip seasons
-                                        if (trip.getSeasons().contains
-                                                (getSeasonForCurrentMonth(Calendar.getInstance().get(Calendar.MONTH) + 1))) {
-                                            tripScore += SEASON_SCORE;
-                                        }
-                                        // If the is a match between previous or next month season and trip seasons
-                                        else if ((trip.getSeasons().contains
-                                                (getSeasonForCurrentMonth(Calendar.getInstance().get(Calendar.MONTH) + 2))) ||
-                                                ((trip.getSeasons().
-                                                        contains(getSeasonForCurrentMonth
-                                                                (Calendar.getInstance().get(Calendar.MONTH) - 2))))) {
-                                            tripScore += (SEASON_SCORE / 2);
-                                        }
-
-                                        /*** Check types ***/
-                                        for (int tripType : trip.getTypes()) {
-                                            for (int userType : curr.getPreferedTypes()) {
-                                                if (tripType == userType) {
-                                                    tripScore += TYPE_SCORE;
+                                        if (curr != null) {
+                                            if (curr.getPreferedAreas().size() > 0) {
+                                                if (curr.getPreferedAreas().contains(trip.getArea())) {
+                                                    tripScore += AREA_SCORE;
                                                 }
                                             }
-                                        }
 
-                                        /*** Check level ***/
-                                        // If there is a match between uses's level and level of trip
-                                        if (trip.getLevel() == curr.getLevel()) {
-                                            tripScore += LEVEL_SCORE;
-                                        }
-                                        // If the user's level is higher than the level of the trip
-                                        else if (trip.getLevel() < curr.getLevel()) {
-                                            tripScore += (LEVEL_SCORE / 2);
-                                        }
 
-                                        /*** Check car ***/
-                                        // If a car is needed for a trip and the user does not have a car
-                                        if ((trip.isMustCar() == true) && (curr.isCar() == false)) {
-                                            tripScore /= CAR_SCORE;
+                                            /*** Check types ***/
+                                            for (int tripType : trip.getTypes()) {
+                                                for (int userType : curr.getPreferedTypes()) {
+                                                    if (tripType == userType) {
+                                                        tripScore += TYPE_SCORE;
+                                                    }
+                                                }
+                                            }
+
+                                            /*** Check level ***/
+                                            // If there is a match between uses's level and level of trip
+                                            if (trip.getLevel() == curr.getLevel()) {
+                                                tripScore += LEVEL_SCORE;
+                                            }
+                                            // If the user's level is higher than the level of the trip
+                                            else if (trip.getLevel() < curr.getLevel()) {
+                                                tripScore += (LEVEL_SCORE / 2);
+                                            }
+
+                                            /*** Check car ***/
+                                            // If a car is needed for a trip and the user does not have a car
+                                            if ((trip.isMustCar() == true) && (curr.isCar() == false)) {
+                                                tripScore /= CAR_SCORE;
+                                            }
                                         }
+                                    }
+
+
+                                    /*** Check Seasons ***/
+                                    // If there is a match between current season and trip seasons
+                                    if (trip.getSeasons().contains
+                                            (getSeasonForCurrentMonth(Calendar.getInstance().get(Calendar.MONTH) + 1))) {
+                                        tripScore += SEASON_SCORE;
+                                    }
+                                    // If the is a match between previous or next month season and trip seasons
+                                    else if ((trip.getSeasons().contains
+                                            (getSeasonForCurrentMonth(Calendar.getInstance().get(Calendar.MONTH) + 2))) ||
+                                            ((trip.getSeasons().
+                                                    contains(getSeasonForCurrentMonth
+                                                            (Calendar.getInstance().get(Calendar.MONTH) - 2))))) {
+                                        tripScore += (SEASON_SCORE / 2);
                                     }
 
                                     /*** Check comments ***/
