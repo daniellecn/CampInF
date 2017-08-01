@@ -161,6 +161,7 @@ public class CardContentFragment extends Fragment {
 
                 holder.name.setText(tripListData.get(position).getName());
                 holder.description.setText(tripListData.get(position).getDetails());
+                holder.description.setText(tripListData.get(position).getDetails());
             }
         }
 

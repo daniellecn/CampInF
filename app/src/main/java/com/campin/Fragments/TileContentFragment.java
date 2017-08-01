@@ -102,6 +102,9 @@ public class TileContentFragment extends Fragment {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, DetailActivity.class);
                     intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
+                    intent.putExtra
+                            (DetailActivity.EXTRA_POSITION,
+                                    "0");
                     context.startActivity(intent);
                 }
             });
