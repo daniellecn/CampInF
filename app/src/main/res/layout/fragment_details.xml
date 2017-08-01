@@ -127,39 +127,45 @@
 
                 <TableRow
                     android:id="@+id/det_details_row"
-                    style="@style/TripRowStyle">
+                    style="@style/TripRowStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
-                            android:text="@string/trip_details"
-                            style="@style/TitleStyle" />
+                            style="@style/TitleStyle"
+                            android:text="@string/trip_details" />
 
                         <TextView
-                            android:text=""
+                            android:id="@+id/det_details_content"
                             style="@style/ContentStyle"
-                            android:id="@+id/det_details_content"/>
+                            android:text="" />
                     </LinearLayout>
                 </TableRow>
 
                 <TableRow
                     android:id="@+id/det_equipment_row"
-                    style="@style/TripRowStyle">
+                    style="@style/TripRowStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
-                            android:text="@string/trip_equipment"
-                            style="@style/TitleStyle" />
+                            style="@style/TitleStyle"
+                            android:text="@string/trip_equipment" />
 
                         <TextView
-                            android:text=""
+                            android:id="@+id/det_equipment_content"
                             style="@style/ContentStyle"
-                            android:id="@+id/det_equipment_content"/>
+                            android:text="" />
 
                     </LinearLayout>
                 </TableRow>
@@ -167,23 +173,26 @@
                 <TableRow
                     android:id="@+id/det_comments_row"
                     style="@style/TripRowStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingBottom="20dip">
+
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
-                            android:text="@string/trip_comments"
-                            style="@style/TitleStyle" />
+                            style="@style/TitleStyle"
+                            android:text="@string/trip_comments" />
 
                         <ListView
                             android:id="@+id/det_comments"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="157dp"
                             android:divider="@null"
                             android:dividerHeight="0dp"
-                            tools:listitem="@layout/trip_comments_row"/>
+                            tools:listitem="@layout/trip_comments_row" />
 
                     </LinearLayout>
                 </TableRow>

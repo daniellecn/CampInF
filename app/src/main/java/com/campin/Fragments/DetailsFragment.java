@@ -37,6 +37,7 @@ import com.campin.Utils.User;
 public class DetailsFragment extends Fragment {
 
     Trip trip;
+    ListView comments;
     CommentAdapter commentAdapter;
 
     public DetailsFragment() {
@@ -54,8 +55,9 @@ public class DetailsFragment extends Fragment {
 
         // Set comments
         commentAdapter = new CommentAdapter();
-        final ListView comments = (ListView) view.findViewById(R.id.det_comments);
+        comments = (ListView) view.findViewById(R.id.det_comments);
         comments.setAdapter(commentAdapter);
+
 
         // Set title of Detail page
         CollapsingToolbarLayout collapsingToolbar =
@@ -152,6 +154,7 @@ public class DetailsFragment extends Fragment {
                 }
             }
         });
+
 
         return view;
     }
