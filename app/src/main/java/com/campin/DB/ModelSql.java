@@ -27,7 +27,7 @@ public class ModelSql {
     public ModelSql() {
         helper = new Helper(getApplicationContext());
         helper.onUpgrade(getWritableDB(), 7, 7);
-       //helper.onCreate(getReadableDB());
+       // helper.onCreate(getReadableDB());
     }
 
     public SQLiteDatabase getWritableDB() {

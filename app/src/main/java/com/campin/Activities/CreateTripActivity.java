@@ -5,18 +5,27 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.DataSetObserver;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 
 import android.app.Activity;
@@ -39,11 +48,23 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.campin.DB.AreaSql;
+import com.campin.DB.Model;
+import com.campin.DB.ModelFireBase;
+import com.campin.DB.ModelSql;
 import com.campin.R;
+import com.campin.Utils.Area;
+
+import com.campin.Utils.Trip;
+import com.campin.Utils.TripComments;
+import com.google.firebase.appindexing.Action;
+import com.google.firebase.appindexing.FirebaseUserActions;
+import com.google.firebase.appindexing.builders.Actions;
 
 public class CreateTripActivity extends AppCompatActivity implements OnClickListener {
     private EditText _txtOptDate1;
@@ -122,7 +143,7 @@ public class CreateTripActivity extends AppCompatActivity implements OnClickList
     private void inviteFriends()
     {
         // Adding Floating Action Button to bottom right of main view
-        fab.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Intent intent = new Intent(v.getContext(), AddFriendsActivity.class);
@@ -137,14 +158,33 @@ public class CreateTripActivity extends AppCompatActivity implements OnClickList
 
     private void setArea()
     {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.places, android.R.layout.simple_spinner_item);
 
+
+        List<Area> allAreas = MainActivity.ar;
+        String[] strAreaNames = new String[allAreas.size()];
+
+        int i = 0;
+
+        for(Area area: allAreas)
+        {
+            strAreaNames[i] = area.getDescription();
+
+                    i++;
+        }
+
+        ArrayAdapter  aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, strAreaNames);
+
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
 
         // Apply the adapter to the spinner
-        _spnChooseArea.setAdapter(adapter);
+        _spnChooseArea.setAdapter(aa);
+
     }
 
     private void setDateTimeField()
@@ -190,6 +230,32 @@ public class CreateTripActivity extends AppCompatActivity implements OnClickList
         {
             optDatePickerDialog2.show();
         }
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        return Actions.newView("CreateTrip", "http://[ENTER-YOUR-URL-HERE]");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        FirebaseUserActions.getInstance().start(getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        FirebaseUserActions.getInstance().end(getIndexApiAction());
+        super.onStop();
     }
 
     private class ColorVO {

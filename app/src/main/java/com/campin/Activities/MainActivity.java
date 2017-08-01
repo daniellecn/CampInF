@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgNavHeaderBg, imgProfile;
     private TextView txtName, txtMail;
     private static User _usr;
+    public static List<Area> ar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,7 +185,9 @@ public class MainActivity extends AppCompatActivity {
 
         Model.instance().getAllAreaAsynch(new Model.GetAllAreaListener() {
             @Override
-            public void onComplete(List<Area> areaList, int currentMaxKey) {
+            public void onComplete(List<Area> areaList, int currentMaxKey)
+            {
+                ar = areaList;
                 int a = 2;
             }
 
