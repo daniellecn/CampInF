@@ -94,16 +94,16 @@ public class User implements Serializable {
         return id;
     }
 
-    public void setId(String userId) {
-        this.id = userId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String fullName) {
-        this.name = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -204,8 +204,8 @@ public class User implements Serializable {
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("userId", getId());
-        result.put("fullName", getName());
+        result.put("id", getId());
+        result.put("name", getName());
         result.put("email", getEmail());
         result.put("birthday", getBirthday());
         result.put("email", getEmail());

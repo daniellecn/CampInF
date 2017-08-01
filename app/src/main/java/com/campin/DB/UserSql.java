@@ -209,6 +209,7 @@ public class UserSql {
 
     private static List<Integer> getTypesOfUserId(SQLiteDatabase db, String[] selectArg){
         List<Integer> typesOfUser = new ArrayList<Integer>();
+        selectArg[0] = User.getInstance().getId();
         Cursor cursor = db.query(USER_TYPE_TABLE, null, ID + " = ?", selectArg, null, null, null);
 
         while (cursor.moveToNext()){
@@ -220,6 +221,7 @@ public class UserSql {
 
     private static List<Integer> getAreaOfUserId(SQLiteDatabase db, String[] selectArg){
         List<Integer> areaOfUser = new ArrayList<Integer>();
+        selectArg[0] = User.getInstance().getId();
         Cursor cursor = db.query(USER_AREA_TABLE, null, ID + " = ?", selectArg, null, null, null);
 
         while (cursor.moveToNext()){

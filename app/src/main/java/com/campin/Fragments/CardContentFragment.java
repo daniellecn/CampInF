@@ -78,7 +78,7 @@ public class CardContentFragment extends Fragment {
     }
 
     private void loadTripListData(){
-        Model.instance().getUserById("10213441713342431", new Model.GetUserListener() {
+        Model.instance().getUserById(User.getInstance().getId(), new Model.GetUserListener() {
             @Override
             public void onComplete(User user) {
                 RecommendedTripForUser.recommendedTripForUser(user, new Model.GetAllTripsListener() {
