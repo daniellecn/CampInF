@@ -117,6 +117,7 @@ public class TripSql {
             values.put(SEASON, season);
 
             // Add to local db
+//            rowId = db.replace(TRIP_SEASONS_TABLE, TRIP_ID, values);
             rowId = db.insertWithOnConflict(TRIP_SEASONS_TABLE, TRIP_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
             if (rowId <= 0) {
                 Log.e("SQLite", "fail to insert into trip seasons");
@@ -173,9 +174,6 @@ public class TripSql {
         // Set the selection parameters
         String[] selectArg = {String.valueOf(id)};
         Trip trip = null;
-        List<String> selectedStringValues = new ArrayList<String>();
-        List<Integer> selectedIntegerdValues = new ArrayList<Integer>();
-        List<TripComments> selectedComments = new ArrayList<TripComments>();
 
         // TRIP
         Cursor cursor = db.query(TRIPS_TABLE, null, TRIP_ID + " = ?", selectArg, null, null, null);

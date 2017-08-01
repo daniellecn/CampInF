@@ -42,6 +42,7 @@ import com.campin.Activities.LoginActivity;
 import com.campin.Activities.MainActivity;
 import com.campin.DB.Model;
 import com.campin.R;
+import com.campin.Utils.RecommendedTripForUser;
 import com.campin.Utils.Trip;
 import com.campin.Utils.User;
 
@@ -77,18 +78,28 @@ public class CardContentFragment extends Fragment {
     }
 
     private void loadTripListData(){
-        Model.instance().getAllTripAsynch(new Model.GetAllTripsListener() {
+        Model.instance().getUserById("10213441713342431", new Model.GetUserListener() {
             @Override
-            public void onComplete(List<Trip> tripsList, int currentMaxKey) {
-                tripListData = tripsList;
-                adapter.notifyDataSetChanged();
+            public void onComplete(User user) {
+                RecommendedTripForUser.recommendedTripForUser(user, new Model.GetAllTripsListener() {
+                    @Override
+                    public void onComplete(List<Trip> tripsList, int currentMaxKey) {
+                        tripListData = tripsList;
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // Display message
+                        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.errorOccure),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
             public void onCancel() {
-                // Display message
-                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.errorOccure),
-                        Toast.LENGTH_SHORT).show();
+
             }
         });
     }

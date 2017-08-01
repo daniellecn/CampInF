@@ -158,6 +158,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadData(){
+        Model.instance().getAllUsersAsynch(new Model.GetAllUserListener() {
+            @Override
+            public void onComplete(List<User> userList) {
+            }
+
+            @Override
+            public void onCancel() {
+            }
+        });
+
         Model.instance().getAllTripAsynch(new Model.GetAllTripsListener() {
             @Override
             public void onComplete(List<Trip> tripsList, int currentMaxKey) {
