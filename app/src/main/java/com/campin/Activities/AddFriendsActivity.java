@@ -31,9 +31,11 @@ import java.util.List;
 
 public class AddFriendsActivity extends AppCompatActivity {
 
+    final String FriendsNum = "FriendsNum";
     ArrayList<String> friends_names = new ArrayList<String>();
     ArrayList<String> friends_id = new ArrayList<String>();
     PlannedTrip newPlannedTrip;
+    int friendsNum = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -100,6 +102,7 @@ public class AddFriendsActivity extends AppCompatActivity {
                 JSONObject friend = (JSONObject) jsonFriends.get(i);
                 friends_names.add(friend.getString("name"));
                 friends_id.add(friend.getString("id"));
+                friendsNum++;
             }
         }
         catch (Exception e)
@@ -148,6 +151,7 @@ public class AddFriendsActivity extends AppCompatActivity {
                             intent.putExtra
                                     (DetailActivity.EXTRA_POSITION,
                                             String.valueOf(tripsList.get(0).getId()));
+                            intent.putExtra(DetailActivity.FRIENDS_NUM, friendsNum);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             getApplicationContext().startActivity(intent);
                         }

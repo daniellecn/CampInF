@@ -31,6 +31,7 @@ import com.campin.R;
  */
 public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_POSITION = "position";
+    public static final String FRIENDS_NUM = "friendsnum";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

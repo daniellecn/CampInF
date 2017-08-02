@@ -26,6 +26,7 @@ import com.campin.Activities.LoginActivity;
 import com.campin.DB.Model;
 import com.campin.R;
 import com.campin.Utils.CircleTransform;
+import com.campin.Utils.PlannedTrip;
 import com.campin.Utils.Trip;
 import com.campin.Utils.TripComments;
 import com.campin.Utils.User;
@@ -51,6 +52,10 @@ public class DetailsFragment extends Fragment {
 
         // Get position
         String tripId = getActivity().getIntent().getStringExtra(DetailActivity.EXTRA_POSITION);
+
+        // Get position
+        int friendsNum = getActivity().getIntent().getIntExtra(DetailActivity.FRIENDS_NUM.toString(), 1);
+
         trip =  Model.instance().getTripById(tripId);
 
         // Set comments
@@ -96,7 +101,8 @@ public class DetailsFragment extends Fragment {
 
         // Set who
         TextView who = (TextView) view.findViewById(R.id.det_who);
-        who.setText(trip.getFriendsNum() + " " + getResources().getString(R.string.who));
+
+        who.setText(friendsNum + " " + getResources().getString(R.string.who));
 
         // Set on details row click listener
         TableRow detailsRow = (TableRow) view.findViewById(R.id.det_details_row);
