@@ -15,6 +15,8 @@ import android.widget.CheckedTextView;
 import com.bumptech.glide.util.Util;
 import com.campin.Activities.LoginActivity;
 import com.campin.R;
+import com.campin.Utils.TripLevel;
+import com.campin.Utils.TripType;
 import com.campin.Utils.User;
 import com.campin.Utils.Utils;
 import com.facebook.login.LoginManager;
@@ -28,15 +30,22 @@ import java.util.List;
 public class CustomAdapter extends BaseAdapter {
     ArrayList<String> _names;
     ArrayList<String> _id;
+    List<TripType> _tripTypes;
+    List<TripLevel> _tripLevels;
     public ArrayList<String> _friends;
     public static List<Integer> _preferedAreas = new LinkedList<>();
     Activity context;
     String value;
 
-    public CustomAdapter(Activity context, ArrayList<String> names, ArrayList<String> id) {
+    public CustomAdapter(Activity context, ArrayList<String> names, ArrayList<String> id,
+                         List<TripType> types, List<TripLevel> levels) {
         super();
         this.context = context;
         this._names = new ArrayList<String>();
+        this._tripLevels = new ArrayList<TripLevel>();
+        this._tripLevels = levels;
+        this._tripTypes = new ArrayList<TripType>();
+        this._tripTypes = types;
         this._names = names;
         this._id = new ArrayList<String>();
         this._id = id;
@@ -98,7 +107,7 @@ public class CustomAdapter extends BaseAdapter {
             String id = getIdItem(position);
             holder.txtView.setTag(id);
 
-            if (User.getInstance().getPreferedAreas().contains(name))
+              if (User.getInstance().getPreferedAreas().contains(id))
             {
                 holder.txtView.setCheckMarkDrawable(R.drawable.checked);
                 holder.txtView.setChecked(true);

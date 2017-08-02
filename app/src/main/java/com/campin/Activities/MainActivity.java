@@ -257,8 +257,6 @@ public class MainActivity extends AppCompatActivity {
         nav_age.setTitle(s[1] + "/" + s[0] + "/" + s[2]);
 
 
-
-
         MenuItem nav_car = menu.findItem(R.id.prof_car);
         nav_car.setTitle("לא");
 

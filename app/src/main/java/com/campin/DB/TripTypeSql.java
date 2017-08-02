@@ -36,7 +36,7 @@ public class TripTypeSql {
 
         // Set Trip Types table values
         values.put(CODE, tripType.getCode());
-        values.put(DESCRIPTION, tripType.getDescription());
+        values.put(DESCRIPTION, tripType.getType());
 
         // Add to local db
         rowId = db.insertWithOnConflict(TRIP_TYPE_TABLE, CODE, values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -103,7 +103,7 @@ public class TripTypeSql {
 
         // Set values
         values.put(CODE, Type.getCode());
-        values.put(DESCRIPTION, Type.getDescription());
+        values.put(DESCRIPTION, Type.getType());
 
         String whereClause = CODE + " = ?";
         String[] whereArg = new String[]{String.valueOf(Type.getCode())};

@@ -10,32 +10,32 @@ import java.util.Map;
  */
 
 public class TripType {
-    private int code;
-    private String description;
+    private int Code;
+    private String Type;
     private double lastUpdated;
 
     public TripType() {
     }
 
     public TripType(int code, String description) {
-        this.code = code;
-        this.description = description;
+        this.Code = code;
+        this.Type = description;
     }
 
     public int getCode() {
-        return code;
+        return Code;
     }
 
     public void setCode(int code) {
-        this.code = code;
+        this.Code = code;
     }
 
-    public String getDescription() {
-        return description;
+    public String getType() {
+        return Type;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setType(String description) {
+        this.Type = description;
     }
 
     public double getLastUpdated() {
@@ -48,8 +48,8 @@ public class TripType {
 
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
-        result.put("code", getCode());
-        result.put("desc", getDescription());
+        result.put("Code", getCode());
+        result.put("Type", getType());
         result.put("lastUpdated",  ServerValue.TIMESTAMP);
         return result;
     }

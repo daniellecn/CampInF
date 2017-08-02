@@ -10,32 +10,32 @@ import java.util.Map;
  */
 
 public class TripLevel {
-    private int code;
-    private String description;
+    private int Code;
+    private String Level;
     private double lastUpdated;
 
     public TripLevel() {
     }
 
     public TripLevel(int code, String description) {
-        this.code = code;
-        this.description = description;
+        this.Code = code;
+        this.Level = description;
     }
 
     public int getCode() {
-        return code;
+        return Code;
     }
 
     public void setCode(int code) {
-        this.code = code;
+        this.Code = code;
     }
 
-    public String getDescription() {
-        return description;
+    public String getLevel() {
+        return Level;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setLevel(String description) {
+        this.Level = description;
     }
 
     public double getLastUpdated() {
@@ -48,8 +48,8 @@ public class TripLevel {
 
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
-        result.put("code", getCode());
-        result.put("desc", getDescription());
+        result.put("Code", getCode());
+        result.put("Level", getLevel());
         result.put("lastUpdated",  ServerValue.TIMESTAMP);
         return result;
     }

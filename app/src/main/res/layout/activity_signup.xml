@@ -19,7 +19,7 @@
         layout="@layout/content_signup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
 
 </android.support.design.widget.CoordinatorLayout>

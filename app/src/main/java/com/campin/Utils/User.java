@@ -214,6 +214,7 @@ public class User implements Serializable {
         result.put("isCar", isCar());
         result.put("preferedAreas", getPreferedAreas());
         result.put("preferedTypes", getPreferedTypes());
+        result.put("level", getLevel());
 //        result.put("profileImage", getProfileImage());
         result.put("urlCover", getUrlCover());
         result.put("isShowFriends", isShowFriends());
