@@ -107,7 +107,7 @@ public class CustomAdapter extends BaseAdapter {
             String id = getIdItem(position);
             holder.txtView.setTag(id);
 
-              if (User.getInstance().getPreferedAreas().contains(name))
+              if (User.getInstance().getPreferedAreas().contains(id))
             {
                 holder.txtView.setCheckMarkDrawable(R.drawable.checked);
                 holder.txtView.setChecked(true);
