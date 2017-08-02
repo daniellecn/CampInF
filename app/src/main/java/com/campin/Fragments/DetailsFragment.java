@@ -199,17 +199,20 @@ public class DetailsFragment extends Fragment {
 
             // Set user name
             final TextView[] userName = {(TextView) view.findViewById(R.id.det_reagent)};
-            Model.instance().getUserById(trip.getComments().get(i).get_userId(), new Model.GetUserListener() {
-                @Override
-                public void onComplete(User user) {
-                    userName[0].setText(user.getName());
-                }
 
-                @Override
-                public void onCancel() {
-                    // TODO: Toast
-                }
-            });
+            if (trip.getComments().get(i).get_userId() != null) {
+                Model.instance().getUserById(trip.getComments().get(i).get_userId(), new Model.GetUserListener() {
+                    @Override
+                    public void onComplete(User user) {
+                        userName[0].setText(user.getName());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // TODO: Toast
+                    }
+                });
+            }
 
             return view;
         }

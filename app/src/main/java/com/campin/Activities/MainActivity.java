@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgNavHeaderBg, imgProfile;
     private TextView txtName, txtMail;
     private static User _usr;
+    Menu gMenu;
     public static List<Area> ar;
 
     @Override
@@ -188,6 +189,25 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(List<Area> areaList, int currentMaxKey)
             {
                 ar = areaList;
+                if (gMenu !=null) {
+                    MenuItem nav_favorite_area = gMenu.findItem(R.id.prof_fav_area);
+
+                    List<Integer> prefferedAreas = _usr.getPreferedAreas();
+
+                    String prefered = "";
+                    int count = prefferedAreas.size();
+                    for (Integer area : prefferedAreas) {
+                        if (ar != null) {
+                            prefered += ar.get(area).getDescription();
+
+                            if (count != 1) {
+                                prefered += ", ";
+                            }
+                            count--;
+                        }
+                    }
+                    nav_favorite_area.setTitle(prefered);
+                }
                 int a = 2;
             }
 
@@ -225,33 +245,26 @@ public class MainActivity extends AppCompatActivity {
     private void loadNavigationContent(NavigationView nav) {
         // get menu from navigationView
         Menu menu = nav.getMenu();
+        gMenu = nav.getMenu();
 
         MenuItem nav_area = menu.findItem(R.id.prof_location);
         nav_area.setTitle(_usr.getLocation());
 
         MenuItem nav_age = menu.findItem(R.id.prof_age);
-        nav_age.setTitle(_usr.getBirthday());
 
-        MenuItem nav_favorite_area = menu.findItem(R.id.prof_fav_area);
+        String s[] = _usr.getBirthday().split("/");
+        //String result = s;
+        nav_age.setTitle(s[1] + "/" + s[0] + "/" + s[2]);
 
-        List<Integer> prefferedAreas = _usr.getPreferedAreas();
 
-        String prefered = "";
-        int count = prefferedAreas.size();
-        for (Integer area : prefferedAreas)
-        {
-            prefered += area;
 
-            if (count != 1)
-            {
-               prefered += ", " ;
-            }
-            count --;
-        }
-        nav_favorite_area.setTitle(prefered);
 
         MenuItem nav_car = menu.findItem(R.id.prof_car);
-        nav_car.setTitle("כן");
+        nav_car.setTitle("לא");
+
+        if (_usr.isCar()) {
+            nav_car.setTitle("כן");
+        }
 
 
     }
