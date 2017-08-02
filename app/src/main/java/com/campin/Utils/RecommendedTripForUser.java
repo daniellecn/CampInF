@@ -203,7 +203,7 @@ public class RecommendedTripForUser {
                                 });
 
 //                                Collections.reverse(recommendedTrips);
-                                listener.onComplete(tripsList, 0);
+                                listener.onComplete(recommendedTrips, 0);
                             }
 
                             @Override
