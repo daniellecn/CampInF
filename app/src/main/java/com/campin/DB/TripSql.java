@@ -101,6 +101,7 @@ public class TripSql {
         values.put(FRIENDS, trip.getFriendsNum());
         values.put(DETAILS, trip.getDetails());
         values.put(LEVEL, trip.getLevel());
+        values.put(MUST_CAR, trip.isMustCar());
         values.put(IMAGE_URL, trip.getImageUrl());
 
         // Add to local db
@@ -224,10 +225,10 @@ public class TripSql {
             int mustCarIndex = tripsCursor.getColumnIndex(MUST_CAR);
             int imageUrlIndex = tripsCursor.getColumnIndex(IMAGE_URL);
 
-            // Select argument
-            arg[0] = tripsCursor.getString(idIndex);
-
             do {
+                // Select argument
+                arg[0] = tripsCursor.getString(idIndex);
+
                 // Create trip object
                 trip = new Trip(
                         tripsCursor.getInt(idIndex),
@@ -240,7 +241,7 @@ public class TripSql {
                         tripsCursor.getInt(friendsIndex),
                         tripsCursor.getString(detailsIndex),
                         tripsCursor.getInt(levelIndex),
-                        Boolean.valueOf(tripsCursor.getString(mustCarIndex)),
+                        Boolean.valueOf(tripsCursor.getInt(mustCarIndex) > 0),
                         tripsCursor.getString(imageUrlIndex)
                 );
                 tripsList.add(trip);
@@ -254,9 +255,14 @@ public class TripSql {
         List<String> seasonsOfTrip = new ArrayList<String>();
         Cursor cursor = db.query(TRIP_SEASONS_TABLE, null, TRIP_ID + " = ?", selectArg, null, null, null);
 
-        while (cursor.moveToNext()){
-            seasonsOfTrip.add(cursor.getString((cursor.getColumnIndex(SEASON))));
+        if (cursor.moveToFirst()){
+            do {
+                seasonsOfTrip.add(cursor.getString((cursor.getColumnIndex(SEASON))));
+            }while (cursor.moveToNext());
         }
+//        while (cursor.moveToNext()){
+//            seasonsOfTrip.add(cursor.getString((cursor.getColumnIndex(SEASON))));
+//        }
 
         return seasonsOfTrip;
     }
@@ -265,8 +271,10 @@ public class TripSql {
         List<Integer> typesOfTrip = new ArrayList<Integer>();
         Cursor cursor = db.query(TRIP_TYPES_TABLE, null, TRIP_ID + " = ?", selectArg, null, null, null);
 
-        while (cursor.moveToNext()){
-            typesOfTrip.add(cursor.getInt((cursor.getColumnIndex(TYPE))));
+        if (cursor.moveToFirst()){
+            do {
+                typesOfTrip.add(cursor.getInt((cursor.getColumnIndex(TYPE))));
+            }while (cursor.moveToNext());
         }
 
         return typesOfTrip;
@@ -276,8 +284,10 @@ public class TripSql {
         List<String> equipmentOfTrip = new ArrayList<String>();
         Cursor cursor = db.query(TRIP_EQUIPMENT_TABLE, null, TRIP_ID + " = ?", selectArg, null, null, null);
 
-        while (cursor.moveToNext()){
-            equipmentOfTrip.add(cursor.getString((cursor.getColumnIndex(EQUIPMENT))));
+        if (cursor.moveToFirst()){
+            do {
+                equipmentOfTrip.add(cursor.getString((cursor.getColumnIndex(EQUIPMENT))));
+            }while (cursor.moveToNext());
         }
 
         return equipmentOfTrip;
@@ -287,17 +297,17 @@ public class TripSql {
         List<TripComments> commentsOfTrip = new LinkedList<>();
         Cursor cursor = db.query(TRIP_COMMENTS_TABLE, null, TRIP_ID + " = ?", selectArg, null, null, null);
 
-        while (cursor.moveToNext()){
-            commentsOfTrip.add(
-                    new TripComments(
-                            cursor.getInt(cursor.getColumnIndex(COMMENT_ID)),
-                            cursor.getString(cursor.getColumnIndex(USER_ID)),
-                            cursor.getString(cursor.getColumnIndex(COMMENT)),
-                            cursor.getDouble(cursor.getColumnIndex(SCORE))
-                    )
-            );
+        if (cursor.moveToFirst()){
+            do {
+                commentsOfTrip.add(
+                        new TripComments(
+                                cursor.getInt(cursor.getColumnIndex(COMMENT_ID)),
+                                cursor.getString(cursor.getColumnIndex(USER_ID)),
+                                cursor.getString(cursor.getColumnIndex(COMMENT)),
+                                cursor.getDouble(cursor.getColumnIndex(SCORE))
+                        ));
+            }while (cursor.moveToNext());
         }
-
         return commentsOfTrip;
     }
 

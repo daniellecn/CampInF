@@ -17,43 +17,16 @@ import java.util.List;
  * Created by Danielle Cohen on 01/08/2017.
  */
 
-class RecommendedTrip{
-    private Trip trip;
-    private double score;
-
-    public RecommendedTrip(Trip trip, double score) {
-        this.trip = trip;
-        this.score = score;
-    }
-
-    public Trip getTrip() {
-        return trip;
-    }
-
-    public void setTrip(Trip trip) {
-        this.trip = trip;
-    }
-
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
-    }
-}
-
 public class RecommendedTripForUser {
     private static int AREA_SCORE = 10;
     private static int SEASON_SCORE = 10;
-    private static int TYPE_SCORE = 5;
+    private static int TYPE_SCORE = 10;
     private static int LEVEL_SCORE = 10;
-    private static double CAR_SCORE = 1.2;
+    private static double CAR_SCORE = 1.5;
     private static double COMMENT_SCORE = 2;
 
     public static void recommendedTripForUser(final User user, final Model.GetAllTripsListener listener){
-        final List<RecommendedTrip> recommendedTrips = new LinkedList<>();
-        final RecommendedTrip[] recommendedTrip = new RecommendedTrip[1];
+        final List<Trip> recommendedTrips = new LinkedList<>();
 
         Model.instance().getAllTripAsynch(new Model.GetAllTripsListener() {
             @Override
@@ -110,19 +83,19 @@ public class RecommendedTripForUser {
                     avgCommentsScore = avgCommentsScore / trip.getComments().size();
                     tripScore *= ( avgCommentsScore + 1);
 
-                    recommendedTrip[0] = new RecommendedTrip(trip, tripScore);
-                    recommendedTrips.add(recommendedTrip[0]);
+                    trip.setScore(tripScore);
+                    recommendedTrips.add(trip);
                 }
 
                 // Sort the recommended trips by score
-                Collections.sort(recommendedTrips, new Comparator<RecommendedTrip>() {
+                Collections.sort(recommendedTrips, new Comparator<Trip>() {
                     @Override
-                    public int compare(RecommendedTrip recommendedTrip1, RecommendedTrip recommendedTrip2) {
-                        return Double.compare(recommendedTrip1.getScore(), recommendedTrip2.getScore());
+                    public int compare(Trip recommendedTrip1, Trip recommendedTrip2) {
+                        return Double.compare(recommendedTrip2.getScore(), recommendedTrip1.getScore());
                     }
                 });
-
-                listener.onComplete(tripsList, 0);
+//                Collections.reverse(recommendedTrips);
+                listener.onComplete(recommendedTrips, 0);
             }
 
             @Override
@@ -134,8 +107,7 @@ public class RecommendedTripForUser {
 
     public static void recommendedTripForUsers(final PlannedTrip trip, final Model.GetAllTripsListener listener)
     {
-        final List<RecommendedTrip> recommendedTrips = new LinkedList<>();
-        final RecommendedTrip[] recommendedTrip = new RecommendedTrip[1];
+        final List<Trip> recommendedTrips = new LinkedList<>();
 
         final ArrayList<String> usersId = trip.getFriends();
         final ArrayList<User> allUsers = new ArrayList<User>();
@@ -218,18 +190,19 @@ public class RecommendedTripForUser {
                                     avgCommentsScore = avgCommentsScore / trip.getComments().size();
                                     tripScore *= ( avgCommentsScore + 1);
 
-                                    recommendedTrip[0] = new RecommendedTrip(trip, tripScore);
-                                    recommendedTrips.add(recommendedTrip[0]);
+                                    trip.setScore(tripScore);
+                                    recommendedTrips.add(trip);
                                 }
 
                                 // Sort the recommended trips by score
-                                Collections.sort(recommendedTrips, new Comparator<RecommendedTrip>() {
+                                Collections.sort(recommendedTrips, new Comparator<Trip>() {
                                     @Override
-                                    public int compare(RecommendedTrip recommendedTrip1, RecommendedTrip recommendedTrip2) {
+                                    public int compare(Trip recommendedTrip1, Trip recommendedTrip2) {
                                         return Double.compare(recommendedTrip1.getScore(), recommendedTrip2.getScore());
                                     }
                                 });
 
+//                                Collections.reverse(recommendedTrips);
                                 listener.onComplete(tripsList, 0);
                             }
 

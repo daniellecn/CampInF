@@ -31,6 +31,7 @@ public class Trip
     private boolean mustCar;
     private String imageUrl;
     private double lastUpdated;
+    private double score;
 
     public Trip(){
     }
@@ -168,6 +169,13 @@ public class Trip
         this.lastUpdated = lastUpdated;
     }
 
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();

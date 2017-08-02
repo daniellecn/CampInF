@@ -133,7 +133,7 @@ public class UserSql {
                     cursor.getString(cursor.getColumnIndex(BIRTHDAY)),
                     cursor.getString(cursor.getColumnIndex(LOCATION)),
                     cursor.getString(cursor.getColumnIndex(FRIENDS)),
-                    Boolean.valueOf(cursor.getString(cursor.getColumnIndex(CAR))),
+                    Boolean.valueOf(cursor.getInt(cursor.getColumnIndex(CAR)) > 0),
                     getAreaOfUserId(db, selectArg),
                     getTypesOfUserId(db, selectArg),
                     cursor.getInt(cursor.getColumnIndex(LEVEL)),
