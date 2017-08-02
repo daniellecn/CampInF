@@ -148,6 +148,7 @@ public class AddFriendsActivity extends AppCompatActivity {
                             intent.putExtra
                                     (DetailActivity.EXTRA_POSITION,
                                             String.valueOf(tripsList.get(0).getId()));
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             getApplicationContext().startActivity(intent);
                         }
 
