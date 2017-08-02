@@ -82,6 +82,41 @@ class PlannedTripFireBase {
         return  trips;
     }
 
+    public static ArrayList<PlannedTrip> getTripsUsersBelongs(final List<String> users, final Model.getTripsUserBelongsListener listener) {
+        final int[] maxKey = {-1};
+        final ArrayList<PlannedTrip>  trips = new ArrayList<PlannedTrip>();
+        DatabaseReference r = database.getReference("plannedTrips");
+        r.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+                for (DataSnapshot snap: snapshot.getChildren()) {
+                    final PlannedTrip trip = snap.getValue(PlannedTrip.class);
+                    ArrayList<String> friends = trip.getFriends();
+
+                    for (String friend : friends){
+                        for (String user : users){
+                            if (friend.equals(user)){
+                                trips.add(trip);
+                            }
+                        }
+                    }
+                }
+
+                //Log.d("TAG", dessert.getName() + " - " + dessert.getId());
+
+                listener.onComplete(trips, maxKey[0]);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return  trips;
+    }
+
     public static void getSuitableTripAlgo(PlannedTrip trip, final Model.getSuitableTrip listener)
     {
         DatabaseReference r = database.getReference("plannedTrips");

@@ -194,4 +194,9 @@ public class Trip
         result.put("lastUpdated", ServerValue.TIMESTAMP);
         return result;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (((Trip)obj).getId() == this.getId());
+    }
 }
