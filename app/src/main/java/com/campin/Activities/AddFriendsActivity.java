@@ -35,7 +35,7 @@ public class AddFriendsActivity extends AppCompatActivity {
     ArrayList<String> friends_names = new ArrayList<String>();
     ArrayList<String> friends_id = new ArrayList<String>();
     PlannedTrip newPlannedTrip;
-    int friendsNum = 0;
+    int friendsNum = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,8 +45,8 @@ public class AddFriendsActivity extends AppCompatActivity {
 
         TextView firstDate = (TextView) findViewById(R.id.firstOptionDate);
         firstDate.setText(getIntent().getStringExtra("firstDate"));
-        TextView secDate = (TextView) findViewById(R.id.secOptionDate);
-        secDate.setText(getIntent().getStringExtra("secDate"));
+        //TextView secDate = (TextView) findViewById(R.id.secOptionDate);
+        //secDate.setText(getIntent().getStringExtra("secDate"));
 
         TextView tripHead = (TextView) findViewById(R.id.trip_detail_head);
         tripHead.setText("פרטי הטיול ל" + getIntent().getStringExtra("area"));
@@ -102,7 +102,6 @@ public class AddFriendsActivity extends AppCompatActivity {
                 JSONObject friend = (JSONObject) jsonFriends.get(i);
                 friends_names.add(friend.getString("name"));
                 friends_id.add(friend.getString("id"));
-                friendsNum++;
             }
         }
         catch (Exception e)
@@ -147,6 +146,8 @@ public class AddFriendsActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(List<Trip> tripsList, int currentMaxKey) {
                             // Return to the list activity
+                            friendsNum = newPlannedTrip.getFriends().size();
+
                             Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
                             intent.putExtra
                                     (DetailActivity.EXTRA_POSITION,
@@ -154,6 +155,8 @@ public class AddFriendsActivity extends AppCompatActivity {
                             intent.putExtra(DetailActivity.FRIENDS_NUM, friendsNum);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             getApplicationContext().startActivity(intent);
+
+
                         }
 
                         @Override

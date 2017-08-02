@@ -192,7 +192,7 @@ public class CreateTripActivity extends AppCompatActivity implements OnClickList
     private void setDateTimeField()
     {
         _txtOptDate1.setOnClickListener(this);
-        _txtOptDate2.setOnClickListener(this);
+       // _txtOptDate2.setOnClickListener(this);
 
         Calendar newCalendar = Calendar.getInstance();
 
@@ -208,7 +208,7 @@ public class CreateTripActivity extends AppCompatActivity implements OnClickList
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
-        optDatePickerDialog2 = new DatePickerDialog(this, new OnDateSetListener()
+       optDatePickerDialog2 = new DatePickerDialog(this, new OnDateSetListener()
         {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
@@ -219,6 +219,7 @@ public class CreateTripActivity extends AppCompatActivity implements OnClickList
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
     }
 
     @Override

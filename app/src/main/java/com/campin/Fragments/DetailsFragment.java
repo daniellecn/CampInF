@@ -53,7 +53,7 @@ public class DetailsFragment extends Fragment {
         // Get position
         String tripId = getActivity().getIntent().getStringExtra(DetailActivity.EXTRA_POSITION);
 
-        // Get position
+        // Get friends
         int friendsNum = getActivity().getIntent().getIntExtra(DetailActivity.FRIENDS_NUM.toString(), 1);
 
         trip =  Model.instance().getTripById(tripId);
