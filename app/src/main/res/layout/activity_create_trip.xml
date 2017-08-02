@@ -77,10 +77,11 @@
                     android:layout_width="297dp"
                     android:layout_height="56dp"
                     android:gravity="right"
-                    android:hint="אופציה ראשונה"
+                    android:hint="בחר תאריך"
                     android:inputType="date"
                     android:textAlignment="gravity"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:visibility="visible"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -91,6 +92,7 @@
                 android:layout_marginTop="7dp"
                 android:gravity="right"
                 android:textAlignment="gravity"
+                android:visibility="invisible"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ltxtOptDate1">
 

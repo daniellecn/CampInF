@@ -101,10 +101,13 @@ public class TileContentFragment extends Fragment {
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, DetailActivity.class);
-                    intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
+                    //intent.putExtra(DetailActivity.EXTRA_POSITION, getAdapterPosition());
                     intent.putExtra
                             (DetailActivity.EXTRA_POSITION,
-                                    "0");
+                                   name.getTag().toString());
+                    intent.putExtra
+                            (DetailActivity.FRIENDS_NUM,
+                               Integer.parseInt( picture.getTag().toString()));
                     context.startActivity(intent);
                 }
             });
@@ -137,7 +140,9 @@ public class TileContentFragment extends Fragment {
                             @Override
                             public void onSuccess(Bitmap image) {
                                 holder.picture.setImageBitmap(image);
+                                holder.picture.setTag(tripListData.get(position).getFriends().size());
                                 holder.name.setText(tripListData.get(position).getTrip().getName());
+                                holder.name.setTag(tripListData.get(position).getTrip().getId());
                             }
 
                             @Override
