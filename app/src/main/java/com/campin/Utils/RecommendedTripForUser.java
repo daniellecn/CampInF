@@ -79,7 +79,7 @@ public class RecommendedTripForUser {
 
                             /*** Check car ***/
                             // If a car is needed for a trip and the user does not have a car
-                            if ((trip.isMustCar() == true) && (user.isCar() == false)){
+                            if ((trip.isMustCar() == true) && (user.getIsCar() == false)){
                                 tripScore /= CAR_SCORE;
                             }
 
@@ -181,7 +181,7 @@ public class RecommendedTripForUser {
 
                                                     /*** Check car ***/
                                                     // If a car is needed for a trip and the user does not have a car
-                                                    if ((trip.isMustCar() == true) && (curr.isCar() == false)) {
+                                                    if ((trip.isMustCar() == true) && (curr.getIsCar() == false)) {
                                                         tripScore /= CAR_SCORE;
                                                     }
                                                 }
