@@ -244,6 +244,10 @@ public class Model {
         // Add the dessert to firebase databace
         return (remote.getTripsUserBelongs(listener));
     }
+    public ArrayList<PlannedTrip> getTripsUsersBelongs(final List<String> users, final Model.getTripsUserBelongsListener listener) {
+        // Add the dessert to firebase databace
+        return (PlannedTripFireBase.getTripsUsersBelongs(users, listener));
+    }
 
     public void isUserExist(String userId, Model.SuccessListener listener){
         remote.isUserExist(userId, listener);

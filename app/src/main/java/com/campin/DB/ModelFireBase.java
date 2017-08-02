@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -59,6 +60,11 @@ public class ModelFireBase {
         return (PlannedTripFireBase.getTripsUserBelongs(listener));
     }
 
+
+    public ArrayList<PlannedTrip> getTripsUsersBelongs(final List<String> users, final Model.getTripsUserBelongsListener listener) {
+        // Add the dessert to firebase databace
+        return (PlannedTripFireBase.getTripsUsersBelongs(users, listener));
+    }
 
     public void isUserExist(String userId, Model.SuccessListener listener) {
         UserFireBase.isUserExist(userId, listener);
