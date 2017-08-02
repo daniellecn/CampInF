@@ -24,7 +24,7 @@ class PlannedTripFireBase {
 
     public static void addPlannedTrip(PlannedTrip trip, final Model.SuccessListener listener) {
 
-        trip.setId("0");
+        //trip.setId("0");
        // getTripsUserBelongs(User.getInstance().getUserId(),listener);
         String tripId = database.getReference().child("plannedTrips").push().getKey();
 

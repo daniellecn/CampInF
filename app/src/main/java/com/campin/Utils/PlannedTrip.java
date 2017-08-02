@@ -9,21 +9,21 @@ import java.util.Map;
  */
 
 public class PlannedTrip {
-    private Trip trip;
     private String id = "";
     private String creator = "";
+    private int tripId;
     private ArrayList<String> friends;
     private HashMap<String,String> friendsVoting;
     private boolean isCompleted = false;
     private String firstOption = null;
     private String secOption = null;
 
-    public PlannedTrip (Trip t,String creator, String firstDate, String secDeate)
-    {
-        trip = t;
+    public PlannedTrip(String creator, int tripId, String firstOption, String secOption) {
+
         this.creator = creator;
-        firstOption = firstDate;
-        secOption = secDeate;
+        this.tripId = tripId;
+        this.firstOption = firstOption;
+        this.secOption = secOption;
     }
 
     public PlannedTrip ()
@@ -31,16 +31,7 @@ public class PlannedTrip {
 
     }
 
-    public Trip getTrip() {
-        if (trip != null)
-            return trip;
-        else
-            return  null;
-    }
 
-    public void setTrip(Trip trip) {
-        this.trip = trip;
-    }
 
     public String getCreator() {
         return creator;
@@ -98,10 +89,19 @@ public class PlannedTrip {
         id = tripId;
     }
 
+    public int getTripId() {
+        return tripId;
+    }
+
+    public void setTripId(int tripId) {
+        this.tripId = tripId;
+    }
+
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", getId());
         result.put("creator", getCreator());
+        result.put("tripId", getTripId());
         result.put("firstOption", getFirstOption());
         result.put("secOption", getSecOption());
         result.put("friends", getFriends());

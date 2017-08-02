@@ -135,15 +135,15 @@ public class TileContentFragment extends Fragment {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             if (tripListData != null && tripListData.size() > 0 && tripListData.size() > position) {
 
-                tripListData.get(position).setTrip(Model.instance().getTripById(tripListData.get(position).getId()));
-
-                Model.instance().getTripImage(tripListData.get(position).getTrip(), 0, new Model.GetImageListener() {
+//                tripListData.get(position).setTrip(Model.instance().getTripById(tripListData.get(position).getId()));
+                final Trip trip = Model.instance().getTripById(String.valueOf(tripListData.get(position).getTripId()));
+                Model.instance().getTripImage(trip, 0, new Model.GetImageListener() {
                             @Override
                             public void onSuccess(Bitmap image) {
                                 holder.picture.setImageBitmap(image);
                                 holder.picture.setTag(tripListData.get(position).getFriends().size());
-                                holder.name.setText(tripListData.get(position).getTrip().getName());
-                                holder.name.setTag(tripListData.get(position).getTrip().getId());
+                                holder.name.setText(trip.getName());
+                                holder.name.setTag(trip.getId());
                             }
 
                             @Override

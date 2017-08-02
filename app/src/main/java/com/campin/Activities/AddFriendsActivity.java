@@ -53,8 +53,7 @@ public class AddFriendsActivity extends AppCompatActivity {
 
         Trip t = new Trip();
 
-        newPlannedTrip = new PlannedTrip
-                (t ,User.getInstance().getId(),
+        newPlannedTrip = new PlannedTrip(User.getInstance().getId(), -1,
                         getIntent().getStringExtra("firstDate").toString(),getIntent().getStringExtra("secDate").toString());
         if (getWindow().getDecorView().getLayoutDirection() == View.LAYOUT_DIRECTION_LTR){
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -111,66 +110,45 @@ public class AddFriendsActivity extends AppCompatActivity {
     }
 
     private void showSuccessDialog() {
-        /*final AlertDialog.Builder builder = new AlertDialog.Builder(AddFriendsActivity.this
-                ,R.style.AppTheme_Dark_Dialog);
-        AlertDialog dialog;
-        builder.setTitle("הטיול ל" + newPlannedTrip.getTrip().getArea() + " נוצר בהצלחה");
-        builder.setIcon(R.drawable.checked);
-
-        String positiveText = getString(android.R.string.ok);
-        builder.setPositiveButton(positiveText,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-
-        dialog = builder.create();
-        // display dialog
-        dialog.show();*/
-
         // adding to the db
-
-        Model.instance().addPlannedTrip(newPlannedTrip, new Model.SuccessListener() {
+        RecommendedTripForUser.recommendedTripForUsers(newPlannedTrip, new Model.GetAllTripsListener()
+        {
             @Override
-            public void onResult(boolean result) {
-                if (result) {
-                    // Display message
-                   /* Toast.makeText(getApplicationContext(),
-                            "התעדכן בהצלחה",
-                            Toast.LENGTH_SHORT).show();*/
+            public void onComplete(List<Trip> tripsList, int currentMaxKey)
+            {
 
-                    RecommendedTripForUser.recommendedTripForUsers(newPlannedTrip, new Model.GetAllTripsListener() {
-                        @Override
-                        public void onComplete(List<Trip> tripsList, int currentMaxKey) {
+                newPlannedTrip.setTripId(tripsList.get(0).getId());
+
+                Model.instance().addPlannedTrip(newPlannedTrip, new Model.SuccessListener() {
+                    @Override
+                    public void onResult(boolean result) {
+                        if (result) {
+
                             // Return to the list activity
                             friendsNum = newPlannedTrip.getFriends().size();
 
                             Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
-                            intent.putExtra
-                                    (DetailActivity.EXTRA_POSITION,
-                                            String.valueOf(tripsList.get(0).getId()));
+                            intent.putExtra(DetailActivity.EXTRA_POSITION, String.valueOf(newPlannedTrip.getTripId()));
                             intent.putExtra(DetailActivity.FRIENDS_NUM, friendsNum);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             getApplicationContext().startActivity(intent);
 
 
+
+                        } else {
+                            // Display message
+                            Toast.makeText(getApplicationContext(),
+                                    "התרחשה שגיאה",
+                                    Toast.LENGTH_SHORT).show();
                         }
+                    }
+                });
 
-                        @Override
-                        public void onCancel() {
+            }
 
-                        }
-                    });
+            @Override
+            public void onCancel() {
 
-                } else {
-                    // Display message
-                    Toast.makeText(getApplicationContext(),
-                           "התרחשה שגיאה",
-                            Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
