@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class User implements Serializable {
 
-    private static User _user = null;
+    public static User _user = null;
     public static  boolean isSignUp = false;
     private String id;
     private String name;
@@ -138,11 +138,11 @@ public class User implements Serializable {
         this.friends = friends;
     }
 
-    public boolean isCar() {
+    public boolean getIsCar() {
         return isCar;
     }
 
-    public void setCar(boolean car) {
+    public void setIsCar(boolean car) {
         isCar = car;
     }
 
@@ -211,7 +211,7 @@ public class User implements Serializable {
         result.put("email", getEmail());
         result.put("location", getLocation());
         result.put("friends", getFriends());
-        result.put("isCar", isCar());
+        result.put("isCar", getIsCar());
         result.put("preferedAreas", getPreferedAreas());
         result.put("preferedTypes", getPreferedTypes());
         result.put("level", getLevel());

@@ -126,7 +126,6 @@ public class AddFriendsActivity extends AppCompatActivity {
 
                             // Return to the list activity
                             friendsNum = newPlannedTrip.getFriends().size();
-
                             Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
                             intent.putExtra(DetailActivity.EXTRA_POSITION, String.valueOf(newPlannedTrip.getTripId()));
                             intent.putExtra(DetailActivity.FRIENDS_NUM, friendsNum);

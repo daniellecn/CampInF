@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IntegerRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,7 +16,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import butterknife.ButterKnife;
@@ -49,7 +52,8 @@ public class SignupActivity extends AppCompatActivity {
     ListView levelListView;
     ListView tripTypesllistView;
 
-    @InjectView(R.id.btn_signup) Button _signupButton;
+    @InjectView(R.id.fab_signup)
+    FloatingActionButton _signupButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +78,31 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
                 signup();
             }
+        });
+
+        final Switch onOffSwitch = (Switch)  findViewById(R.id.switch1);
+
+        if (User.getInstance().getIsCar())
+        {
+            onOffSwitch.setChecked(true);
+        }
+
+        onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if(isChecked)
+                {
+                    User.getInstance().setIsCar(true);
+                }
+                else
+                {
+                    User.getInstance().setIsCar(false);
+                }
+
+            }
+
         });
 
 
@@ -279,10 +308,20 @@ public class SignupActivity extends AppCompatActivity {
             }
 
             String name = getItem(i).getType();
-            long id = getItemId(i);
+            int id =  getItem(i).getCode();
             holder.txtView.setText(name);
             holder.txtView.setTag(id);
 
+            if (User.getInstance().getPreferedTypes().contains(id))
+            {
+                holder.txtView.setCheckMarkDrawable(R.drawable.checked);
+                holder.txtView.setChecked(true);
+            }
+            else
+            {
+                holder.txtView.setCheckMarkDrawable(null);
+                holder.txtView.setChecked(false);
+            }
 
             holder.txtView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -294,8 +333,19 @@ public class SignupActivity extends AppCompatActivity {
                         value = "un-Checked";
                         holder.txtView.setCheckMarkDrawable(null);
                         holder.txtView.setChecked(false);
-                        User.getInstance().getPreferedTypes().remove(Integer.parseInt(
-                                holder.txtView.getTag().toString()));
+
+                        int count = 0;
+                        for (Integer i : User.getInstance().getPreferedTypes())
+                        {
+                            if (i ==  holder.txtView.getTag())
+                            {
+                                User.getInstance().getPreferedTypes().remove(count);
+                                break;
+                            }
+
+                            count++;
+                        }
+
 
                     } else {
 
@@ -353,9 +403,20 @@ public class SignupActivity extends AppCompatActivity {
 
 
             String name = getItem(i).getLevel();
-            long id = getItemId(i);
+            int id = getItem(i).getCode();
             holder.txtView.setText(name);
             holder.txtView.setTag(id);
+
+            if (User.getInstance().getLevel() == id)
+            {
+                holder.txtView.setCheckMarkDrawable(R.drawable.checked);
+                holder.txtView.setChecked(true);
+            }
+            else
+            {
+                holder.txtView.setCheckMarkDrawable(null);
+                holder.txtView.setChecked(false);
+            }
 
             holder.txtView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -371,7 +432,6 @@ public class SignupActivity extends AppCompatActivity {
 
                     } else {
 
-                        levelListView.clearChoices();
                         // set cheek mark drawable and set checked property to true
                         value = "Checked";
                         User.getInstance().setLevel(Integer.parseInt(holder.txtView.getTag().toString()));

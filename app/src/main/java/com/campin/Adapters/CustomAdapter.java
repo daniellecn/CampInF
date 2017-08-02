@@ -107,10 +107,15 @@ public class CustomAdapter extends BaseAdapter {
             String id = getIdItem(position);
             holder.txtView.setTag(id);
 
-              if (User.getInstance().getPreferedAreas().contains(id))
+            if (User.getInstance().getPreferedAreas().contains(Integer.parseInt(id)))
             {
                 holder.txtView.setCheckMarkDrawable(R.drawable.checked);
                 holder.txtView.setChecked(true);
+            }
+            else
+            {
+                  holder.txtView.setCheckMarkDrawable(null);
+                  holder.txtView.setChecked(false);
             }
         }
 
@@ -126,7 +131,19 @@ public class CustomAdapter extends BaseAdapter {
                         _friends.remove(holder.txtView.getTag().toString());
                     }
                     else {
-                        _preferedAreas.remove(holder.txtView.getText().toString());
+
+                        int count = 0;
+                        for (Integer i : _preferedAreas)
+                        {
+                            if (i ==  Integer.parseInt(holder.txtView.getTag().toString()))
+                            {
+                                _preferedAreas.remove(count);
+                                break;
+                            }
+
+                            count++;
+                        }
+
                     }
                 } else {
                     // set cheek mark drawable and set checked property to true

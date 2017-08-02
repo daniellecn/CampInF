@@ -59,6 +59,7 @@ public class ModelFireBase {
         return (PlannedTripFireBase.getTripsUserBelongs(listener));
     }
 
+
     public void isUserExist(String userId, Model.SuccessListener listener) {
         UserFireBase.isUserExist(userId, listener);
     }

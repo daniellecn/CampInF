@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onComplete(User user) {
-                            User.getInstance().setPreferedAreas(user.getPreferedAreas());
+                            User._user = user;
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         }

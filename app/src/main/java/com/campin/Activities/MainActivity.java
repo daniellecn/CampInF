@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                     int count = prefferedAreas.size();
                     for (Integer area : prefferedAreas) {
                         if (ar != null) {
-                            prefered += ar.get(area).getDescription();
+                            prefered += ar.get(area - 1).getDescription();
 
                             if (count != 1) {
                                 prefered += ", ";
@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem nav_car = menu.findItem(R.id.prof_car);
         nav_car.setTitle("לא");
 
-        if (_usr.isCar()) {
+        if (_usr.getIsCar()) {
             nav_car.setTitle("כן");
         }
 

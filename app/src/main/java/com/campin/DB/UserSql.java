@@ -78,7 +78,7 @@ public class UserSql {
         values.put(BIRTHDAY, user.getBirthday());
         values.put(LOCATION, user.getLocation());
         values.put(FRIENDS, user.getFriends());
-        values.put(CAR, user.isCar());
+        values.put(CAR, user.getIsCar());
         values.put(LEVEL, user.getLevel());
         values.put(COVER, user.getUrlCover());
         values.put(IS_SHOW_FRIENDS, user.isShowFriends());
