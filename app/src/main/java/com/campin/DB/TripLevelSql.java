@@ -39,7 +39,7 @@ public class TripLevelSql {
 
         // Set Trip levels table values
         values.put(CODE, tripLevel.getCode());
-        values.put(DESCRIPTION, tripLevel.getDescription());
+        values.put(DESCRIPTION, tripLevel.getLevel());
 
         // Add to local db
         rowId = db.insertWithOnConflict(TRIP_LEVEL_TABLE, CODE, values, SQLiteDatabase.CONFLICT_REPLACE);
@@ -106,7 +106,7 @@ public class TripLevelSql {
 
         // Set values
         values.put(CODE, level.getCode());
-        values.put(DESCRIPTION, level.getDescription());
+        values.put(DESCRIPTION, level.getLevel());
 
         String whereClause = CODE + " = ?";
         String[] whereArg = new String[]{String.valueOf(level.getCode())};

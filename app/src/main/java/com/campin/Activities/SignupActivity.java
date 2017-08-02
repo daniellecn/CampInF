@@ -1,5 +1,6 @@
 package com.campin.Activities;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +38,8 @@ public class SignupActivity extends AppCompatActivity {
     CustomAdapter customAdapter;
     typesAdapter typeAdapter;
     levelAdapter levelAdapter;
+    ListView listView;
+    Context ac ;
 
     ArrayList<String> areas = new ArrayList<String>();
     ArrayList<String> id = new ArrayList<>();
@@ -53,6 +56,7 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        //ac = (Activity)getApplicationContext();
         User.getInstance().setShowFriends(false);
         
         if (getWindow().getDecorView().getLayoutDirection() == View.LAYOUT_DIRECTION_LTR){
@@ -77,27 +81,10 @@ public class SignupActivity extends AppCompatActivity {
 
 
         // initiate a ListView
-        ListView listView = (ListView) findViewById(R.id.listView);
+         listView = (ListView) findViewById(R.id.listView);
         // initiate a ListView
         tripTypesllistView = (ListView) findViewById(R.id.typeListView);
         levelListView = (ListView) findViewById(R.id.levelListView);
-
-        typeAdapter = new typesAdapter();
-        levelAdapter = new levelAdapter();
-
-        tripTypesllistView.setAdapter(typeAdapter);
-        levelListView.setAdapter(levelAdapter);
-
-
-        // set the adapter to fill the data in ListView
-        customAdapter = new CustomAdapter(this, areas, id,_types,_levels);
-        listView.setAdapter(customAdapter);
-
-        // Checking if there are prefered areas.
-        if (!User.getInstance().getPreferedAreas().isEmpty())
-        {
-            customAdapter._preferedAreas = User.getInstance().getPreferedAreas();
-        }
 
     }
 
@@ -111,8 +98,18 @@ public class SignupActivity extends AppCompatActivity {
                 {
                     areas.add(a.getDescription());
                     id.add(String.valueOf(a.getCode()));
+
+
                 }
 
+                // set the adapter to fill the data in ListView
+                customAdapter = new CustomAdapter(SignupActivity.this, areas, id,_types,_levels);
+                // Checking if there are prefered areas.
+                if (!User.getInstance().getPreferedAreas().isEmpty())
+                {
+                    customAdapter._preferedAreas = User.getInstance().getPreferedAreas();
+                }
+                listView.setAdapter(customAdapter);
             }
 
             @Override
@@ -125,6 +122,8 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onComplete(List<TripLevel> tripsList, int currentMaxKey) {
                 _levels = tripsList;
+                levelAdapter = new levelAdapter();
+                levelListView.setAdapter(levelAdapter);
             }
 
             @Override
@@ -137,6 +136,9 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onComplete(List<TripType> tripsList, int currentMaxKey) {
                 _types = tripsList;
+
+                typeAdapter = new typesAdapter();
+                tripTypesllistView.setAdapter(typeAdapter);
             }
 
             @Override
@@ -266,15 +268,21 @@ public class SignupActivity extends AppCompatActivity {
             LayoutInflater inflater = getLayoutInflater();
 
             if (convertView == null) {
-                convertView = inflater.inflate(R.layout.check_list, null);
+                convertView = inflater.inflate(R.layout.checklevel, null);
                 holder = new ViewHolder();
 
-                holder.txtView = (CheckedTextView) convertView.findViewById(R.id.simpleCheckedTextView);
+                holder.txtView = (CheckedTextView) convertView.findViewById(R.id.CheckedLevelView);
                 convertView.setTag(holder);
             } else {
 
                 holder = (ViewHolder) convertView.getTag();
             }
+
+            String name = getItem(i).getType();
+            long id = getItemId(i);
+            holder.txtView.setText(name);
+            holder.txtView.setTag(id);
+
 
             holder.txtView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -333,15 +341,21 @@ public class SignupActivity extends AppCompatActivity {
             LayoutInflater inflater = getLayoutInflater();
 
             if (convertView == null) {
-                convertView = inflater.inflate(R.layout.check_list, null);
+                convertView = inflater.inflate(R.layout.check_type, null);
                 holder = new ViewHolder();
 
-                holder.txtView = (CheckedTextView) convertView.findViewById(R.id.simpleCheckedTextView);
+                holder.txtView = (CheckedTextView) convertView.findViewById(R.id.simpleCheckedTypeView);
                 convertView.setTag(holder);
             } else {
 
                 holder = (ViewHolder) convertView.getTag();
             }
+
+
+            String name = getItem(i).getLevel();
+            long id = getItemId(i);
+            holder.txtView.setText(name);
+            holder.txtView.setTag(id);
 
             holder.txtView.setOnClickListener(new View.OnClickListener() {
                 @Override
