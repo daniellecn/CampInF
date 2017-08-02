@@ -58,6 +58,39 @@
             layout="@layout/item_divider"
             android:visibility="visible"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorAccent"
+            android:text="רמת הקושי"
+            android:textStyle="bold"
+            android:textSize="@dimen/article_titles"
+            android:layout_marginBottom="@dimen/md_keylines" />
+
+        <ListView
+            android:id="@+id/levelListView"
+            android:layout_width="fill_parent"
+            android:layout_height="190dp"
+            android:layout_weight="0.44"/>
+        <include
+            layout="@layout/item_divider"
+            android:visibility="visible"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorAccent"
+            android:text="סוג הטיול"
+            android:textStyle="bold"
+            android:textSize="@dimen/article_titles"
+            android:layout_marginBottom="@dimen/md_keylines" />
+
+        <ListView
+            android:id="@+id/typeListView"
+            android:layout_width="fill_parent"
+            android:layout_height="190dp"
+            android:layout_weight="0.44"/>
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_signup"
             android:layout_width="fill_parent"

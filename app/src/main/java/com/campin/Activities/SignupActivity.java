@@ -4,11 +4,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,16 +23,28 @@ import butterknife.InjectView;
 import com.campin.DB.Model;
 import com.campin.R;
 import com.campin.Adapters.CustomAdapter;
+import com.campin.Utils.Area;
+import com.campin.Utils.TripLevel;
+import com.campin.Utils.TripType;
 import com.campin.Utils.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
     String value;
     CustomAdapter customAdapter;
+    typesAdapter typeAdapter;
+    levelAdapter levelAdapter;
+
     ArrayList<String> areas = new ArrayList<String>();
     ArrayList<String> id = new ArrayList<>();
+    List<TripType> _types = new ArrayList<TripType>();
+    List<TripLevel> _levels = new ArrayList<TripLevel>();
+    List<Area> _areas = new ArrayList<Area>();
+    ListView levelListView;
+    ListView tripTypesllistView;
 
     @InjectView(R.id.btn_signup) Button _signupButton;
 
@@ -55,19 +72,25 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        areas.add("צפון");
-        id.add("0");
-        areas.add("דרום");
-        id.add("1");
-        areas.add("מרכז");
-        id.add("2");
-        areas.add("ירושלים");
-        id.add("3");
+
+        loadData();
+
 
         // initiate a ListView
         ListView listView = (ListView) findViewById(R.id.listView);
+        // initiate a ListView
+        tripTypesllistView = (ListView) findViewById(R.id.typeListView);
+        levelListView = (ListView) findViewById(R.id.levelListView);
+
+        typeAdapter = new typesAdapter();
+        levelAdapter = new levelAdapter();
+
+        tripTypesllistView.setAdapter(typeAdapter);
+        levelListView.setAdapter(levelAdapter);
+
+
         // set the adapter to fill the data in ListView
-        customAdapter = new CustomAdapter(this, areas, id);
+        customAdapter = new CustomAdapter(this, areas, id,_types,_levels);
         listView.setAdapter(customAdapter);
 
         // Checking if there are prefered areas.
@@ -76,6 +99,51 @@ public class SignupActivity extends AppCompatActivity {
             customAdapter._preferedAreas = User.getInstance().getPreferedAreas();
         }
 
+    }
+
+    private void loadData()
+    {
+        Model.instance().getAllAreaAsynch(new Model.GetAllAreaListener() {
+            @Override
+            public void onComplete(List<Area> areaList, int currentMaxKey)
+            {
+                for (Area a : areaList)
+                {
+                    areas.add(a.getDescription());
+                    id.add(String.valueOf(a.getCode()));
+                }
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+
+        Model.instance().getAllTripLevelsAsynch(new Model.GetAllTripLevelsListener() {
+            @Override
+            public void onComplete(List<TripLevel> tripsList, int currentMaxKey) {
+                _levels = tripsList;
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+
+        Model.instance().getAllTripTypesAsynch(new Model.GetAllTripTypesListener() {
+            @Override
+            public void onComplete(List<TripType> tripsList, int currentMaxKey) {
+                _types = tripsList;
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
     }
 
     public void signup() {
@@ -168,5 +236,141 @@ public class SignupActivity extends AppCompatActivity {
         }*/
 
         return valid;
+    }
+
+
+    class typesAdapter extends BaseAdapter {
+
+        private class ViewHolder {
+            CheckedTextView txtView;
+        }
+
+        @Override
+        public int getCount() {
+            return _types.size();
+        }
+
+        @Override
+        public TripType getItem(int i) {
+            return _types.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(final int i, View convertView, final ViewGroup viewGroup) {
+            final ViewHolder holder;
+            LayoutInflater inflater = getLayoutInflater();
+
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.check_list, null);
+                holder = new ViewHolder();
+
+                holder.txtView = (CheckedTextView) convertView.findViewById(R.id.simpleCheckedTextView);
+                convertView.setTag(holder);
+            } else {
+
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            holder.txtView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    if (holder.txtView.isChecked()) {
+                        // set cheek mark drawable and set checked property to false
+                        value = "un-Checked";
+                        holder.txtView.setCheckMarkDrawable(null);
+                        holder.txtView.setChecked(false);
+                        User.getInstance().getPreferedTypes().remove(Integer.parseInt(
+                                holder.txtView.getTag().toString()));
+
+                    } else {
+
+                        // set cheek mark drawable and set checked property to true
+                        value = "Checked";
+                        User.getInstance().getPreferedTypes().add(Integer.parseInt(
+                                holder.txtView.getTag().toString()));
+
+                        holder.txtView.setCheckMarkDrawable(R.drawable.checked);
+                        holder.txtView.setChecked(true);
+                    }
+                }
+            });
+
+
+            return convertView;
+        }
+    }
+
+    class levelAdapter extends BaseAdapter {
+
+        private class ViewHolder {
+            CheckedTextView txtView;
+        }
+        @Override
+        public int getCount() {
+            return _levels.size();
+        }
+
+        @Override
+        public TripLevel getItem(int i) {
+            return _levels.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(final int i, View convertView, final ViewGroup viewGroup) {
+            final ViewHolder holder;
+            LayoutInflater inflater = getLayoutInflater();
+
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.check_list, null);
+                holder = new ViewHolder();
+
+                holder.txtView = (CheckedTextView) convertView.findViewById(R.id.simpleCheckedTextView);
+                convertView.setTag(holder);
+            } else {
+
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            holder.txtView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    if (holder.txtView.isChecked()) {
+                        // set cheek mark drawable and set checked property to false
+                        value = "un-Checked";
+                        holder.txtView.setCheckMarkDrawable(null);
+                        holder.txtView.setChecked(false);
+                        User.getInstance().setLevel(1);
+
+                    } else {
+
+                        levelListView.clearChoices();
+                        // set cheek mark drawable and set checked property to true
+                        value = "Checked";
+                        User.getInstance().setLevel(Integer.parseInt(holder.txtView.getTag().toString()));
+
+                        holder.txtView.setCheckMarkDrawable(R.drawable.checked);
+                        holder.txtView.setChecked(true);
+                    }
+                }
+            });
+
+
+
+            return convertView;
+        }
     }
 }

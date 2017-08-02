@@ -70,7 +70,7 @@ public class AddFriendsActivity extends AppCompatActivity {
         setUserFriends();
 
         // set the adapter to fill the data in ListView
-        final CustomAdapter customAdapter = new CustomAdapter(this, friends_names,friends_id);
+        final CustomAdapter customAdapter = new CustomAdapter(this, friends_names,friends_id,null,null);
         listView.setAdapter(customAdapter);
 
         // Adding Floating Action Button to bottom right of main view

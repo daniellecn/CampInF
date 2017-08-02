@@ -159,33 +159,30 @@ public class CreateTripActivity extends AppCompatActivity implements OnClickList
     private void setArea()
     {
 
-        /*final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.places, android.R.layout.simple_spinner_item);*/
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.places, android.R.layout.simple_spinner_item);
+
 
         List<Area> allAreas = MainActivity.ar;
+        String[] strAreaNames = new String[allAreas.size()];
 
-        if (allAreas != null)
+        int i = 0;
+
+        for(Area area: allAreas)
         {
+            strAreaNames[i] = area.getDescription();
 
-            String[] strAreaNames = new String[allAreas.size()];
-
-            int i = 0;
-
-            for (Area area : allAreas) {
-                strAreaNames[i] = area.getDescription();
-
-                i++;
-            }
-
-            ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, strAreaNames);
-
-            // Specify the layout to use when the list of choices appears
-            aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-
-            // Apply the adapter to the spinner
-            _spnChooseArea.setAdapter(aa);
+                    i++;
         }
+
+        ArrayAdapter  aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, strAreaNames);
+
+        // Specify the layout to use when the list of choices appears
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        // Apply the adapter to the spinner
+        _spnChooseArea.setAdapter(aa);
 
     }
 
