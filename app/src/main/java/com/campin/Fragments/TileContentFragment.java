@@ -105,9 +105,10 @@ public class TileContentFragment extends Fragment {
                     intent.putExtra
                             (DetailActivity.EXTRA_POSITION,
                                    name.getTag().toString());
+                    int nFriendsNum = Integer.parseInt( picture.getTag().toString()) + 1;
                     intent.putExtra
                             (DetailActivity.FRIENDS_NUM,
-                               Integer.parseInt( picture.getTag().toString()));
+                                    nFriendsNum);
                     context.startActivity(intent);
                 }
             });
